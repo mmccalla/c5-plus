@@ -51,7 +51,7 @@ class GraphViewerProductionTest(unittest.TestCase):
 
     def test_build_metadata_is_declared(self):
         self.assertRegex(
-            self.html, r'<meta name="application-version" content="5\.3\.0"'
+            self.html, r'<meta name="application-version" content="5\.3\.1"'
         )
         self.assertRegex(
             self.html,
@@ -62,7 +62,9 @@ class GraphViewerProductionTest(unittest.TestCase):
         )
         self.assertIn('id="buildMeta"', self.html)
         self.assertIn("const BUILD", self.html)
-        self.assertIn("5.3.0", self.html)
+        self.assertIn("5.3.1", self.html)
+        self.assertIn("v5.3", self.html)
+        self.assertNotIn("v5.4", self.html)
 
     def test_site_icons_are_present_and_linked(self):
         for icon in ICONS:
@@ -73,10 +75,13 @@ class GraphViewerProductionTest(unittest.TestCase):
         self.assertIn("favicon.ico", self.html)
         self.assertIn("apple-touch-icon.png", self.html)
 
-    def test_legacy_viewer_path_redirects_to_index(self):
-        legacy = LEGACY_HTML.read_text(encoding="utf-8")
-        self.assertIn('url=./"', legacy)
-        self.assertNotIn("const BUILD", legacy)
+    def test_legacy_viewer_path_is_removed(self):
+        self.assertFalse(LEGACY_HTML.exists())
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        workflow = PAGES_WORKFLOW.read_text(encoding="utf-8")
+        self.assertNotIn(LEGACY_HTML.name, readme)
+        self.assertNotIn(LEGACY_HTML.name, workflow)
+        self.assertNotIn(LEGACY_HTML.name, self.html)
 
     def test_no_local_python_server(self):
         self.assertFalse((ROOT / "serve_graph.py").exists())
@@ -85,6 +90,26 @@ class GraphViewerProductionTest(unittest.TestCase):
         self.assertNotIn("serve_graph", readme)
         self.assertIn("https://mmccalla.github.io/c5-plus/", self.html)
         self.assertIn("https://mmccalla.github.io/c5-plus/", readme)
+
+    def test_question_traversals_are_wired_as_directed_queries(self):
+        for button_id in (
+            "qDepends",
+            "qDependsOn",
+            "qImpactQ",
+            "qOwns",
+            "qPolicies",
+            "qCapValue",
+            "qAppData",
+            "qTeams",
+        ):
+            self.assertIn(f'id="{button_id}"', self.html)
+        self.assertIn("inbound", self.html)
+        self.assertIn("inverseMap", self.html)
+        self.assertIn("Declared inverses", self.html)
+        self.assertIn("owned by", self.html)
+        self.assertIn("enforced by", self.html)
+        self.assertIn("depended on by", self.html)
+        self.assertIn('new Set(["Behavioural","Causal"])', self.html)
 
     def test_pages_workflow_publishes_static_viewer(self):
         workflow = PAGES_WORKFLOW.read_text(encoding="utf-8")

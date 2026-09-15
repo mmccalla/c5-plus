@@ -29,7 +29,6 @@ jobs:
         run: |
           mkdir -p _site/vendor
           cp index.html _site/index.html
-          cp c5_enterprise_architecture_knowledge_graph_v5_3_arrows_legend.html _site/
           cp c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json _site/
           cp vendor/d3.v7.min.js _site/vendor/d3.v7.min.js
           cp favicon.ico favicon.svg apple-touch-icon.png apple-touch-icon-precomposed.png _site/
