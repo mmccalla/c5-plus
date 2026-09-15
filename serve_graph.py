@@ -5,7 +5,6 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-HTML = "c5_enterprise_architecture_knowledge_graph_v5_3_arrows_legend.html"
 PORT = 8765
 
 
@@ -17,7 +16,7 @@ class Handler(SimpleHTTPRequestHandler):
 def main() -> None:
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     print(f"Serving {ROOT}")
-    print(f"Open http://127.0.0.1:{PORT}/{HTML}")
+    print(f"Open http://127.0.0.1:{PORT}/")
     server.serve_forever()
 
 
