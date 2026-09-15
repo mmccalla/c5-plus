@@ -6329,6 +6329,97 @@
       "transitiveCandidate": false,
       "inverseCandidate": false,
       "inverseOf": "can affect"
+    },
+    {
+      "source": "ml model",
+      "target": "model training pipeline",
+      "label": "produced by",
+      "relationshipClass": "flow",
+      "relationshipFamily": "Behavioural",
+      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "produces"
+    },
+    {
+      "source": "model training pipeline",
+      "target": "data product",
+      "label": "fed by",
+      "relationshipClass": "flow",
+      "relationshipFamily": "Behavioural",
+      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "feeds"
+    },
+    {
+      "source": "data product",
+      "target": "data lineage",
+      "label": "has lineage",
+      "relationshipClass": "flow",
+      "relationshipFamily": "Behavioural",
+      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false
+    },
+    {
+      "source": "data object",
+      "target": "data lineage",
+      "label": "traced by",
+      "relationshipClass": "flow",
+      "relationshipFamily": "Behavioural",
+      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "traces"
+    },
+    {
+      "source": "slo",
+      "target": "outcome",
+      "label": "can affect",
+      "relationshipClass": "feedback",
+      "relationshipFamily": "Causal",
+      "relationshipSemantics": "Relationships that express cause, consequence, influence, degradation, improvement, mitigation, failure propagation or risk propagation.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false
+    },
+    {
+      "source": "slo",
+      "target": "kpi",
+      "label": "can affect",
+      "relationshipClass": "feedback",
+      "relationshipFamily": "Causal",
+      "relationshipSemantics": "Relationships that express cause, consequence, influence, degradation, improvement, mitigation, failure propagation or risk propagation.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false
+    },
+    {
+      "source": "slo",
+      "target": "application service",
+      "label": "can affect",
+      "relationshipClass": "feedback",
+      "relationshipFamily": "Causal",
+      "relationshipSemantics": "Relationships that express cause, consequence, influence, degradation, improvement, mitigation, failure propagation or risk propagation.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false
+    },
+    {
+      "source": "data object",
+      "target": "data retention and archiving",
+      "label": "governed by",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false
     }
   ],
   "relationshipOntology": {
@@ -6365,7 +6456,11 @@
         "manages",
         "requires",
         "depended on by",
-        "used by"
+        "used by",
+        "fed by",
+        "produced by",
+        "has lineage",
+        "traced by"
       ],
       "enables": [
         "Data-flow analysis",
@@ -6503,12 +6598,15 @@
     "uses": "used by",
     "has": "part of",
     "consumes": "depended on by",
-    "can affect": "can be affected by"
+    "can affect": "can be affected by",
+    "feeds": "fed by",
+    "produces": "produced by",
+    "traces": "traced by"
   },
   "projection": {
-    "version": "5.3.1",
+    "version": "5.3.3",
     "series": "v5.3",
     "built": "2026-09-15",
-    "description": "Concept projection with declared inverses so question English matches a directed traversal from the seed."
+    "description": "Concept projection with declared inverses and tight demo hops for feeds, lineage, SLO impact and retention."
   }
 }

@@ -1,6 +1,6 @@
 # C5 Enterprise Architecture Knowledge Graph
 
-Interactive **v5.3** viewer for a directed enterprise-architecture concept graph (226 concepts, 430 relationships). Use it to inspect structure, behaviour, causality, time, governance and semantics, and to walk directed paths between concepts.
+Interactive **v5.3** viewer for a directed enterprise-architecture concept graph (226 concepts, 438 relationships). Bidirectional pairs bow apart so the two arrows do not stack. Use it to inspect structure, behaviour, causality, time, governance and semantics, and to walk directed paths between concepts.
 
 ## Use the graph
 

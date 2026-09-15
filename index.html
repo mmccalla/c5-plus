@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Enterprise Architecture Knowledge Graph v5.3</title>
-<meta name="application-version" content="5.3.2">
+<meta name="application-version" content="5.3.3">
 <meta name="graph-source" content="c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json">
 <meta name="build-date" content="2026-09-15">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -36,7 +36,7 @@ small{color:var(--muted)}
 .legend-row{display:flex;flex-wrap:wrap;gap:7px 13px;font-size:11px}.sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;border:1px solid #0002}.lsw{display:inline-block;width:18px;height:3px;margin-right:5px;vertical-align:2px}
 .hint{position:absolute;top:108px;left:14px;background:#ffffffc8;color:#374151;font-size:11px;padding:3px 6px;border-radius:4px;z-index:3}
 .node circle{stroke:white;stroke-width:1.3px}.node text{font-size:10px;paint-order:stroke;stroke:white;stroke-width:3px;stroke-linejoin:round}
-.link{stroke-opacity:.65}.edge-label{font-size:8.5px;fill:#374151;pointer-events:none;opacity:.88;paint-order:stroke;stroke:white;stroke-width:2px}
+.link{stroke-opacity:.65;fill:none}.edge-label{font-size:8.5px;fill:#374151;pointer-events:none;opacity:.88;paint-order:stroke;stroke:white;stroke-width:2px}
 .tooltip{position:absolute;visibility:hidden;z-index:20;background:#111827ee;color:white;border-radius:6px;padding:7px 9px;font-size:11px;max-width:400px;pointer-events:none}
 .toolbar{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:8px;text-align:center}.stat b{display:block;color:#2563eb}
 .mini{height:140px;background:#f8fafc;border:1px solid var(--line);border-radius:6px;overflow:hidden}.relrow{justify-content:space-between}.count{color:#6b7280}
@@ -46,16 +46,16 @@ small{color:var(--muted)}
 </style>
 </head>
 <body>
-<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.2</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
+<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.3</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
 <div class="layout">
 <aside class="panel side">
-<div class="section"><h2>1. Focus & views</h2><h3>View</h3><select id="viewSelect"></select><h3>Focus node</h3><select id="focusSelect"></select><div class="toolbar"><button class="small depth active" data-depth="1">1-hop</button><button class="small depth" data-depth="2">2-hop</button><button class="small depth" data-depth="3">3-hop</button><button class="small depth" data-depth="full">Full graph</button></div><h3>Labels</h3><label><input type="checkbox" id="nodeLabels" checked> Node labels</label><label><input type="checkbox" id="edgeLabels"> Edge labels</label></div>
+<div class="section"><h2>1. Focus & views</h2><h3>View</h3><select id="viewSelect"></select><h3>Focus node</h3><select id="focusSelect"></select><div class="toolbar"><button class="small depth active" data-depth="1">1-hop</button><button class="small depth" data-depth="2">2-hop</button><button class="small depth" data-depth="3">3-hop</button><button class="small depth" data-depth="full">Full graph</button></div><h3>Labels</h3><label><input type="checkbox" id="nodeLabels" checked> Node labels</label><label><input type="checkbox" id="edgeLabels" checked> Edge labels</label></div>
 <div class="section"><h2>2. Relationship ontology</h2><label><input type="checkbox" id="selectAllFamilies" checked> Select all families</label><div id="familyChecks"></div></div>
 <div class="section"><h2>3. Relationship classes</h2><label><input type="checkbox" id="selectAll" checked> Select all classes</label><div id="relChecks"></div></div>
 <div class="section"><h2>4. Filters</h2><h3>Domain</h3><select id="domainFilter"><option value="all">All domains</option></select><h3>Node type</h3><select id="typeFilter"><option value="all">All types</option></select><h3>Text search</h3><input type="text" id="textFilter" placeholder="e.g. data product, policy…"></div>
 <div class="section"><h2>5. Overview</h2><div class="mini"><svg id="miniGraph" width="100%" height="100%"></svg></div><div class="stats" style="margin-top:8px"><div class="stat"><b id="sn"></b><small>Nodes</small></div><div class="stat"><b id="se"></b><small>Edges</small></div><div class="stat"><b id="sd"></b><small>Domains</small></div><div class="stat"><b id="sc"></b><small>Cycles</small></div></div></div>
 </aside>
-<main class="graph-wrap"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Arrows are source → target. Question traversals are directed; inverses (owned by, enforced by, used by, depended on by) are first-class edges.</div><div id="graph"></div><div id="tooltip" class="tooltip"></div></main>
+<main class="graph-wrap"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Arrows are source → target. Where two nodes have both directions (business capability ↔ value stream stage), the arrows bow apart so they do not stack.</div><div id="graph"></div><div id="tooltip" class="tooltip"></div></main>
 <aside class="panel side">
 <div class="section"><h2>Path tools</h2><h3>Source</h3><select id="pathSource"></select><h3>Target</h3><select id="pathTarget"></select><div class="toolbar"><button class="small" id="shortest">Shortest path</button><button class="small" id="impact">Impact path</button><button class="small" id="semanticPath">Semantic path</button><button class="small" id="causalPath">Causal path</button><button class="small" id="temporalPath">Temporal path</button><button class="small" id="clearPath">Clear</button></div>
 <h3>Question traversals</h3>
@@ -78,7 +78,7 @@ small{color:var(--muted)}
 <script src="vendor/d3.v7.min.js"></script>
 <script>
 const BUILD={
-  version:"5.3.2",
+  version:"5.3.3",
   label:"v5.3",
   title:"Enterprise Architecture Knowledge Graph",
   source:"c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json",
@@ -123,53 +123,71 @@ function createCanvas(){
   defs.append("marker")
     .attr("id","arrowhead")
     .attr("viewBox","0 -5 10 10")
-    .attr("refX",18)
+    .attr("refX",8)
     .attr("refY",0)
-    .attr("markerWidth",6)
-    .attr("markerHeight",6)
+    .attr("markerWidth",8)
+    .attr("markerHeight",8)
     .attr("orient","auto")
-    .attr("markerUnits","strokeWidth")
+    .attr("markerUnits","userSpaceOnUse")
     .append("path")
     .attr("d","M0,-5L10,0L0,5")
     .attr("fill","#6b7280");
   defs.append("marker")
     .attr("id","arrowhead-highlight")
     .attr("viewBox","0 -5 10 10")
-    .attr("refX",18)
+    .attr("refX",8)
     .attr("refY",0)
-    .attr("markerWidth",7)
-    .attr("markerHeight",7)
+    .attr("markerWidth",9)
+    .attr("markerHeight",9)
     .attr("orient","auto")
-    .attr("markerUnits","strokeWidth")
+    .attr("markerUnits","userSpaceOnUse")
     .append("path")
     .attr("d","M0,-5L10,0L0,5")
     .attr("fill","#111827");
   layer=svg.append("g"); linkLayer=layer.append("g"); labelLayer=layer.append("g"); nodeLayer=layer.append("g");
   zoom=d3.zoom().scaleExtent([.08,5]).on("zoom",ev=>layer.attr("transform",ev.transform)); svg.call(zoom);
-  sim=d3.forceSimulation().force("link",d3.forceLink().id(d=>d.id).distance(95).strength(.48)).force("charge",d3.forceManyBody().strength(-220)).force("center",d3.forceCenter(width/2,height/2)).force("collision",d3.forceCollide().radius(26));
+  sim=d3.forceSimulation().force("link",d3.forceLink().id(d=>d.id).distance(d=>d._paired?170:95).strength(.48)).force("charge",d3.forceManyBody().strength(-220)).force("center",d3.forceCenter(width/2,height/2)).force("collision",d3.forceCollide().radius(26));
 }
 function baseLinks(){let out=originalData.links.filter(e=>selectedClasses.has(e.relationshipClass)&&selectedFamilies.has(e.relationshipFamily)); if(views[currentView]) out=out.filter(views[currentView]); return out}
 function focusSet(links){if(depth==="full")return null; const adj=new Map(); links.forEach(e=>{const s=sourceId(e),t=targetId(e); if(!adj.has(s))adj.set(s,new Set()); if(!adj.has(t))adj.set(t,new Set()); adj.get(s).add(t); adj.get(t).add(s)}); let seen=new Set([focus]), front=new Set([focus]); for(let i=0;i<Number(depth);i++){let nxt=new Set(); front.forEach(n=>(adj.get(n)||[]).forEach(m=>{if(!seen.has(m)){seen.add(m);nxt.add(m)}})); front=nxt} return seen}
 function filtered(){let links=baseLinks(), fs=focusSet(links); if(fs) links=links.filter(e=>fs.has(sourceId(e))&&fs.has(targetId(e))); let incident=new Set(); links.forEach(e=>{incident.add(sourceId(e));incident.add(targetId(e))}); let nodes=originalData.nodes.filter(n=>incident.has(n.id)); const dom=document.getElementById("domainFilter").value, typ=document.getElementById("typeFilter").value, text=(document.getElementById("textFilter").value||document.getElementById("globalSearch").value||"").toLowerCase().trim(); if(dom!=="all")nodes=nodes.filter(n=>n.domain===dom); if(typ!=="all")nodes=nodes.filter(n=>n.type===typ); if(text)nodes=nodes.filter(n=>n.id.toLowerCase().includes(text)||n.domain.toLowerCase().includes(text)||n.type.toLowerCase().includes(text)); const ns=new Set(nodes.map(n=>n.id)); links=links.filter(e=>ns.has(sourceId(e))&&ns.has(targetId(e))); return{nodes:nodes.map(n=>({...n})),links:links.map(e=>({...e,source:sourceId(e),target:targetId(e)}))}}
+function markOppositeLanes(links){
+  const dirs=new Set(links.map(e=>sourceId(e)+"\0"+targetId(e)));
+  links.forEach(e=>{
+    const s=sourceId(e), t=targetId(e);
+    e._paired=dirs.has(t+"\0"+s);
+    e._sign=s<t?1:-1;
+  });
+}
+function linkGeometry(d){
+  const x1=d.source.x, y1=d.source.y, x2=d.target.x, y2=d.target.y;
+  if(!Number.isFinite(x1)||!Number.isFinite(y1)||!Number.isFinite(x2)||!Number.isFinite(y2)){
+    return{path:"M0,0L0,0",lx:0,ly:0};
+  }
+  const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy)||1;
+  const ux=dx/len, uy=dy/len;
+  const flip=sourceId(d)<targetId(d)?1:-1;
+  const nx=-uy*flip, ny=ux*flip;
+  const sr=highlightedNodes.has(d.source.id)?16:12;
+  const tr=highlightedNodes.has(d.target.id)?18:16;
+  const paired=!!d._paired, sign=d._sign||1;
+  const lane=paired?sign*12:0;
+  const sx=x1+ux*sr+nx*lane, sy=y1+uy*sr+ny*lane;
+  const ex=x2-ux*tr+nx*lane, ey=y2-uy*tr+ny*lane;
+  if(!paired) return{path:`M${sx},${sy}L${ex},${ey}`,lx:(sx+ex)/2,ly:(sy+ey)/2};
+  const bow=Math.max(28, Math.min(46, len*0.18))*sign;
+  const qx=(sx+ex)/2+nx*bow, qy=(sy+ey)/2+ny*bow;
+  return{path:`M${sx},${sy}Q${qx},${qy} ${ex},${ey}`,lx:.25*sx+.5*qx+.25*ex,ly:.25*sy+.5*qy+.25*ey};
+}
 function render(){const data=filtered(); document.getElementById("sn").textContent=data.nodes.length; document.getElementById("se").textContent=data.links.length; document.getElementById("sd").textContent=new Set(data.nodes.map(n=>n.domain)).size; document.getElementById("sc").textContent=hasCycle(data.links)?"Yes":"No";
-const link=linkLayer.selectAll("line").data(data.links,d=>edgeKey(d)); link.exit().remove(); const linkSel=link.enter().append("line").attr("class","link").merge(link).attr("stroke",d=>highlightedEdges.has(edgeKey(d))?"#111827":familyColours[d.relationshipFamily]).attr("stroke-width",d=>highlightedEdges.has(edgeKey(d))?4:(d.relationshipFamily==="Causal"?1.9:1.2)).attr("stroke-dasharray",d=>d.relationshipFamily==="Causal"?"6,4":(d.relationshipFamily==="Governance"||d.relationshipFamily==="Temporal"?"2,3":null)).attr("marker-end",d=>highlightedEdges.has(edgeKey(d))?"url(#arrowhead-highlight)":"url(#arrowhead)").on("mousemove",(ev,d)=>{tooltip.style.visibility="visible";tooltip.innerHTML=`<b>${sourceId(d)}</b> → <b>${targetId(d)}</b><br>${d.label}<br><small>${d.relationshipFamily} / ${d.relationshipClass}</small>`;tooltip.style.top=(ev.clientY+10)+"px";tooltip.style.left=(ev.clientX+10)+"px"}).on("mouseout",()=>tooltip.style.visibility="hidden");
+markOppositeLanes(data.links);
+linkLayer.selectAll("line").remove();
+const link=linkLayer.selectAll("path.link").data(data.links,d=>edgeKey(d)); link.exit().remove(); const linkSel=link.enter().append("path").attr("class","link").merge(link).attr("fill","none").attr("stroke",d=>highlightedEdges.has(edgeKey(d))?"#111827":familyColours[d.relationshipFamily]).attr("stroke-width",d=>highlightedEdges.has(edgeKey(d))?4:(d._paired?2.4:(d.relationshipFamily==="Causal"?1.9:1.2))).attr("stroke-dasharray",d=>d.relationshipFamily==="Causal"?"6,4":(d.relationshipFamily==="Governance"||d.relationshipFamily==="Temporal"?"2,3":null)).attr("stroke-dashoffset",d=>d._paired&&d._sign<0?3:0).attr("marker-end",d=>highlightedEdges.has(edgeKey(d))?"url(#arrowhead-highlight)":"url(#arrowhead)").on("mousemove",(ev,d)=>{tooltip.style.visibility="visible";tooltip.innerHTML=`<b>${sourceId(d)}</b> → <b>${targetId(d)}</b><br>${d.label}<br><small>${d.relationshipFamily} / ${d.relationshipClass}</small>`;tooltip.style.top=(ev.clientY+10)+"px";tooltip.style.left=(ev.clientX+10)+"px"}).on("mouseout",()=>tooltip.style.visibility="hidden");
 const labels=labelLayer.selectAll("text").data(data.links,d=>edgeKey(d)); labels.exit().remove(); const labSel=labels.enter().append("text").attr("class","edge-label").merge(labels).text(d=>d.label).style("display",document.getElementById("edgeLabels").checked?"block":"none");
 const node=nodeLayer.selectAll("g").data(data.nodes,d=>d.id); node.exit().remove(); const nodeEnter=node.enter().append("g").attr("class","node").call(d3.drag().on("start",dragstarted).on("drag",dragged).on("end",dragended)).on("click",(ev,d)=>{ev.stopPropagation();focus=d.id;document.getElementById("focusSelect").value=d.id;showNode(d); if(depth==="full") highlightNode(d.id, linkSel); else render()}).on("dblclick",(ev,d)=>{d.fx=null;d.fy=null}); nodeEnter.append("circle"); nodeEnter.append("text").attr("x",10).attr("y",3);
 const nodeSel=nodeEnter.merge(node); nodeSel.select("circle").attr("r",d=>highlightedNodes.has(d.id)?10:(d.id===focus?9:7)).attr("fill",d=>domainColours[d.domain]||domainColours.other).attr("stroke",d=>highlightedNodes.has(d.id)?"#111827":"white").attr("stroke-width",d=>highlightedNodes.has(d.id)?3:1.3); nodeSel.select("text").text(d=>d.id).style("display",document.getElementById("nodeLabels").checked?"block":"none");
-sim.nodes(data.nodes).on("tick",()=>{linkSel
-  .attr("x1",d=>d.source.x)
-  .attr("y1",d=>d.source.y)
-  .attr("x2",d=>{
-    const dx=d.target.x-d.source.x, dy=d.target.y-d.source.y, len=Math.sqrt(dx*dx+dy*dy)||1;
-    const r=highlightedNodes.has(d.target.id)?13:11;
-    return d.target.x-(dx/len)*r;
-  })
-  .attr("y2",d=>{
-    const dx=d.target.x-d.source.x, dy=d.target.y-d.source.y, len=Math.sqrt(dx*dx+dy*dy)||1;
-    const r=highlightedNodes.has(d.target.id)?13:11;
-    return d.target.y-(dy/len)*r;
-  });
-labSel.attr("x",d=>(d.source.x+d.target.x)/2).attr("y",d=>(d.source.y+d.target.y)/2); nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`)}); sim.force("link").links(data.links); sim.alpha(1).restart(); renderMini(data)}
+sim.nodes(data.nodes).on("tick",()=>{linkSel.attr("d",d=>linkGeometry(d).path);
+labSel.attr("x",d=>linkGeometry(d).lx).attr("y",d=>linkGeometry(d).ly); nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`)}); sim.force("link").links(data.links); sim.alpha(1).restart(); renderMini(data)}
 function showNode(n){const rels=originalData.links.filter(e=>sourceId(e)===n.id||targetId(e)===n.id), grouped={}; rels.forEach(e=>(grouped[e.relationshipFamily]??=[]).push(e)); let out=`<h3 style="font-size:16px;color:${domainColours[n.domain]||"#111"}">${n.id}</h3><span class="badge">${n.domain}</span><span class="badge">${n.type}</span><p><small>${n.description}</small></p><small>Degree: ${rels.length}</small>`; Object.keys(grouped).sort().forEach(f=>{out+=`<details open><summary style="color:${familyColours[f]}">${f} (${grouped[f].length})</summary>`; grouped[f].slice(0,12).forEach(e=>{let incoming=targetId(e)===n.id; out+=`<div class="item">${incoming?"←":"→"} <b>${incoming?sourceId(e):targetId(e)}</b><br><small>${e.label} / ${e.relationshipClass}</small></div>`}); out+="</details>"}); document.getElementById("nodeDetails").innerHTML=out}
 function highlightNode(id,linkSel){const neigh=new Set([id]); originalData.links.forEach(e=>{if(sourceId(e)===id)neigh.add(targetId(e)); if(targetId(e)===id)neigh.add(sourceId(e))}); nodeLayer.selectAll("g").style("opacity",d=>neigh.has(d.id)?1:.15); linkSel.style("opacity",d=>sourceId(d)===id||targetId(d)===id?1:.08)}
 function hasCycle(edges){const adj=new Map(), indeg=new Map(), ns=new Set(); edges.forEach(e=>{const s=sourceId(e),t=targetId(e); ns.add(s);ns.add(t); if(!adj.has(s))adj.set(s,[]);adj.get(s).push(t);indeg.set(t,(indeg.get(t)||0)+1);if(!indeg.has(s))indeg.set(s,0)});let q=[...ns].filter(n=>(indeg.get(n)||0)===0),seen=0;while(q.length){let u=q.shift();seen++;(adj.get(u)||[]).forEach(v=>{indeg.set(v,indeg.get(v)-1);if(indeg.get(v)===0)q.push(v)})}return seen!==ns.size}
@@ -229,7 +247,7 @@ function showEdgeSet(title,seed,edges){
 function showPath(path,title){if(!path){document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>No path found under current filters.</small>`;return} highlightedEdges=new Set(path.edges.map(edgeKey)); highlightedNodes=new Set(path.nodes); document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>${path.nodes.length-1} hops</small>`+path.nodes.map((n,i)=>`<div class="item"><b>${n}</b>${i<path.edges.length?`<br><small>--${path.edges[i].label} / ${path.edges[i].relationshipFamily}→</small>`:""}</div>`).join(""); depth="full"; document.querySelectorAll(".depth").forEach(b=>b.classList.toggle("active",b.dataset.depth==="full")); render()}
 function dragstarted(ev,d){if(!ev.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y} function dragged(ev,d){d.fx=ev.x;d.fy=ev.y} function dragended(ev,d){if(!ev.active)sim.alphaTarget(0)}
 function init(){const nodeIds=originalData.nodes.map(n=>n.id).sort(); const relCounts={}, famCounts={}; originalData.links.forEach(e=>{relCounts[e.relationshipClass]=(relCounts[e.relationshipClass]||0)+1;famCounts[e.relationshipFamily]=(famCounts[e.relationshipFamily]||0)+1});
-Object.keys(views).forEach(v=>viewSelect.add(new Option(v,v))); viewSelect.onchange=()=>{currentView=viewSelect.value;render()}; nodeIds.forEach(id=>{focusSelect.add(new Option(id,id));pathSource.add(new Option(id,id));pathTarget.add(new Option(id,id))}); focusSelect.value=focus; pathSource.value="business capability"; pathTarget.value="data product"; focusSelect.onchange=()=>{focus=focusSelect.value;render()};
+Object.keys(views).forEach(v=>viewSelect.add(new Option(v,v))); viewSelect.onchange=()=>{currentView=viewSelect.value;render()}; nodeIds.forEach(id=>{focusSelect.add(new Option(id,id));pathSource.add(new Option(id,id));pathTarget.add(new Option(id,id))}); focusSelect.value=focus; pathSource.value="business capability"; pathTarget.value="value stream stage"; focusSelect.onchange=()=>{focus=focusSelect.value;render()};
 document.querySelectorAll(".depth").forEach(b=>b.onclick=()=>{depth=b.dataset.depth;document.querySelectorAll(".depth").forEach(x=>x.classList.toggle("active",x===b));render()}); nodeLabels.onchange=render; edgeLabels.onchange=render;
 const fc=document.getElementById("familyChecks"); Object.keys(ontology).forEach(f=>{let row=document.createElement("label");row.className="relrow";row.innerHTML=`<span><input type="checkbox" class="fam" value="${f}" checked> <span class="lsw" style="background:${familyColours[f]}"></span>${f}</span><span class="count">${famCounts[f]||0}</span>`;fc.appendChild(row)}); fc.onchange=()=>{selectedFamilies=new Set([...document.querySelectorAll(".fam:checked")].map(x=>x.value));render()}; selectAllFamilies.onchange=e=>{document.querySelectorAll(".fam").forEach(x=>x.checked=e.target.checked);selectedFamilies=new Set([...document.querySelectorAll(".fam:checked")].map(x=>x.value));render()};
 Object.keys(relColours).forEach(r=>{let row=document.createElement("label");row.className="relrow";row.innerHTML=`<span><input type="checkbox" class="rel" value="${r}" checked> <span class="lsw" style="background:${relColours[r]}"></span>${r}</span><span class="count">${relCounts[r]||0}</span>`;relChecks.appendChild(row)}); relChecks.onchange=()=>{selectedClasses=new Set([...document.querySelectorAll(".rel:checked")].map(x=>x.value));render()}; selectAll.onchange=e=>{document.querySelectorAll(".rel").forEach(x=>x.checked=e.target.checked);selectedClasses=new Set([...document.querySelectorAll(".rel:checked")].map(x=>x.value));render()};
