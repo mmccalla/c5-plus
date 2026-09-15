@@ -108,7 +108,7 @@ function showLoadError(err){
   const box=document.createElement("div");
   box.className="load-error";
   const fileProtocol=location.protocol==="file:";
-  box.innerHTML=`<b>Could not load the graph</b><p>${err.message}</p><small>${fileProtocol?"This page cannot read local JSON over file://. Run <code>python3 serve_graph.py</code> and open the printed URL.":"Check that the JSON file sits beside this HTML page."}</small>`;
+  box.innerHTML=`<b>Could not load the graph</b><p>${err.message}</p><small>${fileProtocol?"Open <a href=\"https://mmccalla.github.io/c5-plus/\">https://mmccalla.github.io/c5-plus/</a> — this page is meant to be viewed from that link, not as a local file.":"Check that the JSON file sits beside this HTML page."}</small>`;
   wrap.appendChild(box);
 }
 function createCanvas(){

@@ -78,6 +78,14 @@ class GraphViewerProductionTest(unittest.TestCase):
         self.assertIn('url=./"', legacy)
         self.assertNotIn("const BUILD", legacy)
 
+    def test_no_local_python_server(self):
+        self.assertFalse((ROOT / "serve_graph.py").exists())
+        self.assertNotIn("serve_graph", self.html)
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertNotIn("serve_graph", readme)
+        self.assertIn("https://mmccalla.github.io/c5-plus/", self.html)
+        self.assertIn("https://mmccalla.github.io/c5-plus/", readme)
+
     def test_pages_workflow_publishes_static_viewer(self):
         workflow = PAGES_WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("Deploy graph to GitHub Pages", workflow)
