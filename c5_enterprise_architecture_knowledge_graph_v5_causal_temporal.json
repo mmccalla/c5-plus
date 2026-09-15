@@ -6137,6 +6137,198 @@
       "directed": true,
       "transitiveCandidate": true,
       "inverseCandidate": true
+    },
+    {
+      "source": "bounded context",
+      "target": "stream-aligned team",
+      "label": "owned by",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "owns"
+    },
+    {
+      "source": "software system",
+      "target": "stream-aligned team",
+      "label": "owned by",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "owns"
+    },
+    {
+      "source": "node",
+      "target": "platform team",
+      "label": "owned by",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "owns"
+    },
+    {
+      "source": "component",
+      "target": "complicated-subsystem team",
+      "label": "owned by",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "owns"
+    },
+    {
+      "source": "okr",
+      "target": "product team",
+      "label": "accountable steward",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "accountable for"
+    },
+    {
+      "source": "data product",
+      "target": "stream-aligned team",
+      "label": "owned by",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "owns"
+    },
+    {
+      "source": "application service",
+      "target": "stream-aligned team",
+      "label": "owned by",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "owns"
+    },
+    {
+      "source": "data product",
+      "target": "data stewardship",
+      "label": "accountable steward",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "accountable for"
+    },
+    {
+      "source": "policy",
+      "target": "control",
+      "label": "enforced by",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "enforces"
+    },
+    {
+      "source": "data security policy",
+      "target": "data security",
+      "label": "enforced by",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "enforces"
+    },
+    {
+      "source": "data access policies",
+      "target": "data security",
+      "label": "enforced by",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "enforces"
+    },
+    {
+      "source": "data quality rules for cloud",
+      "target": "data quality management",
+      "label": "enforced by",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "enforces"
+    },
+    {
+      "source": "business capability",
+      "target": "value stream stage",
+      "label": "used by",
+      "relationshipClass": "dependency",
+      "relationshipFamily": "Behavioural",
+      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "uses"
+    },
+    {
+      "source": "value stream stage",
+      "target": "value stream",
+      "label": "part of",
+      "relationshipClass": "decomposition",
+      "relationshipFamily": "Structural",
+      "relationshipSemantics": "Part-whole, classification, containment and decomposition relationships. Used for hierarchical navigation and ontology-style inheritance or composition reasoning.",
+      "directed": true,
+      "transitiveCandidate": true,
+      "inverseCandidate": false,
+      "inverseOf": "has"
+    },
+    {
+      "source": "data product",
+      "target": "application component",
+      "label": "depended on by",
+      "relationshipClass": "dependency",
+      "relationshipFamily": "Behavioural",
+      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "consumes"
+    },
+    {
+      "source": "data product",
+      "target": "application change",
+      "label": "can be affected by",
+      "relationshipClass": "feedback",
+      "relationshipFamily": "Causal",
+      "relationshipSemantics": "Relationships that express cause, consequence, influence, degradation, improvement, mitigation, failure propagation or risk propagation.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": false,
+      "inverseOf": "can affect"
     }
   ],
   "relationshipOntology": {
@@ -6148,7 +6340,8 @@
         "has",
         "includes",
         "is type of",
-        "type"
+        "type",
+        "part of"
       ],
       "enables": [
         "Hierarchical navigation",
@@ -6170,7 +6363,9 @@
         "produces",
         "feeds",
         "manages",
-        "requires"
+        "requires",
+        "depended on by",
+        "used by"
       ],
       "enables": [
         "Data-flow analysis",
@@ -6196,7 +6391,8 @@
         "breaches",
         "detects",
         "raises",
-        "resolves"
+        "resolves",
+        "can be affected by"
       ],
       "enables": [
         "Root-cause analysis",
@@ -6246,7 +6442,10 @@
         "accountable for",
         "mandates",
         "enforces",
-        "assesses"
+        "assesses",
+        "owned by",
+        "accountable steward",
+        "enforced by"
       ],
       "enables": [
         "Compliance",
@@ -6296,5 +6495,20 @@
       "What lifecycle activities follow this incident?",
       "What sequence leads from discovery to deployment and monitoring?"
     ]
+  },
+  "inverseMap": {
+    "owns": "owned by",
+    "accountable for": "accountable steward",
+    "enforces": "enforced by",
+    "uses": "used by",
+    "has": "part of",
+    "consumes": "depended on by",
+    "can affect": "can be affected by"
+  },
+  "projection": {
+    "version": "5.3.1",
+    "series": "v5.3",
+    "built": "2026-09-15",
+    "description": "Concept projection with declared inverses so question English matches a directed traversal from the seed."
   }
 }

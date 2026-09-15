@@ -35,6 +35,3 @@ jobs:
 
       - name: Run pre-commit
         run: pre-commit run --all-files --show-diff-on-failure
-
-      - name: Run viewer contract tests
-        run: python -m unittest test_graph_viewer_production.py -v

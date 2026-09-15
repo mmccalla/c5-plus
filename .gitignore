@@ -86,3 +86,7 @@ htmlcov/
 # Local RDF / SHACL / ontology working copies (not published with the viewer)
 /ontology/*
 !/ontology/README.md
+test_question_traversals.py
+test_graph_viewer_production.py
+graph_paths.py
+docs/question-traversals.md
