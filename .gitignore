@@ -82,3 +82,7 @@ htmlcov/
 # Local server / OS noise
 *.log
 .python-version
+
+# Local RDF / SHACL / ontology working copies (not published with the viewer)
+/ontology/*
+!/ontology/README.md

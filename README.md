@@ -17,6 +17,7 @@ Same pattern as the [Data Landscape knowledge model](https://mmccalla.github.io/
 | `vendor/d3.v7.min.js` | Local D3 v7 |
 | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` | Site icons |
 | `test_graph_viewer_production.py` | Viewer packaging tests |
+| `ontology/` | Local Turtle, SHACL and Neo4j working copies (gitignored) |
 
 Edit the JSON and refresh the published page after it deploys. Export buttons write `c5-enterprise-architecture-knowledge-graph-v5.3.{json,graphml,svg}`.
 
