@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Enterprise Architecture Knowledge Graph v5.3</title>
-<meta name="application-version" content="5.3.1">
+<meta name="application-version" content="5.3.2">
 <meta name="graph-source" content="c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json">
 <meta name="build-date" content="2026-09-15">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -46,7 +46,7 @@ small{color:var(--muted)}
 </style>
 </head>
 <body>
-<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.1</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
+<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.2</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
 <div class="layout">
 <aside class="panel side">
 <div class="section"><h2>1. Focus & views</h2><h3>View</h3><select id="viewSelect"></select><h3>Focus node</h3><select id="focusSelect"></select><div class="toolbar"><button class="small depth active" data-depth="1">1-hop</button><button class="small depth" data-depth="2">2-hop</button><button class="small depth" data-depth="3">3-hop</button><button class="small depth" data-depth="full">Full graph</button></div><h3>Labels</h3><label><input type="checkbox" id="nodeLabels" checked> Node labels</label><label><input type="checkbox" id="edgeLabels"> Edge labels</label></div>
@@ -60,7 +60,7 @@ small{color:var(--muted)}
 <div class="section"><h2>Path tools</h2><h3>Source</h3><select id="pathSource"></select><h3>Target</h3><select id="pathTarget"></select><div class="toolbar"><button class="small" id="shortest">Shortest path</button><button class="small" id="impact">Impact path</button><button class="small" id="semanticPath">Semantic path</button><button class="small" id="causalPath">Causal path</button><button class="small" id="temporalPath">Temporal path</button><button class="small" id="clearPath">Clear</button></div>
 <h3>Question traversals</h3>
 <small>Directed from the seed. Inverses are first-class edges (owned by, enforced by, used by, depended on by). “What depends on this?” is inbound Behavioural/Causal (or outbound via those inverses). “What does this depend on?” is outbound from the source.</small>
-<div class="toolbar"><button class="small" id="qDepends">Depends on this</button><button class="small" id="qDependsOn">This depends on</button><button class="small" id="qImpactQ">Change impact</button><button class="small" id="qOwns">Who owns this</button><button class="small" id="qPolicies">Policies / controls</button><button class="small" id="qCapValue">Capability → outcome</button><button class="small" id="qAppData">App → data object</button><button class="small" id="qTeams">Teams involved</button></div>
+<div class="toolbar"><button class="small" id="qDepends">Depends on this</button><button class="small" id="qDependsOn">This depends on</button><button class="small" id="qImpactQ">Change impact</button><button class="small" id="qOwns">Who owns this</button><button class="small" id="qPolicies">Policies / controls</button><button class="small" id="qTeams">Teams involved</button></div>
 <div id="pathResult" class="pathbox"><small>Select source and target nodes.</small></div></div>
 <div class="section"><h2>Node details</h2><div id="nodeDetails"><small>Click a node to inspect metadata and relationships.</small></div></div>
 <div class="section">
@@ -78,7 +78,7 @@ small{color:var(--muted)}
 <script src="vendor/d3.v7.min.js"></script>
 <script>
 const BUILD={
-  version:"5.3.1",
+  version:"5.3.2",
   label:"v5.3",
   title:"Enterprise Architecture Knowledge Graph",
   source:"c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json",
@@ -273,8 +273,6 @@ qPolicies.onclick=()=>{
   const src=pathSource.value, links=projectionLinks();
   showPath(findPathVia(src,"policy","control",true,null,links)||findPathVia(src,"data policy","control",true,null,links)||findDirectedHit(src,n=>n==="data policy"||n==="policy",null,false,links),"Which policies apply?");
 };
-qCapValue.onclick=()=>showPath(findPathVia("business capability","value stream","outcome",true,null,projectionLinks()),"Capability → value stream → outcome");
-qAppData.onclick=()=>showPath(findPathVia("application component","data product","data object",true,new Set(["Behavioural"]),projectionLinks()),"Application → data product → data object");
 qTeams.onclick=()=>showPath(findDirectedHit(pathSource.value,n=>n.includes("team"),new Set(["Governance"]),false,projectionLinks()),"Which teams must be involved?");
 resetView.onclick=()=>svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity); downloadJson.onclick=()=>download("c5-enterprise-architecture-knowledge-graph-v5.3.json",JSON.stringify(originalData,null,2),"application/json"); downloadGraphml.onclick=()=>download("c5-enterprise-architecture-knowledge-graph-v5.3.graphml",toGraphML(originalData),"application/xml"); exportSvg.onclick=()=>{const c=svg.node().cloneNode(true);c.setAttribute("xmlns","http://www.w3.org/2000/svg");download("c5-enterprise-architecture-knowledge-graph-v5.3.svg",new XMLSerializer().serializeToString(c),"image/svg+xml")};
 render()}
