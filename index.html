@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <title>Enterprise Architecture Knowledge Graph v5.3</title>
-<meta name="application-version" content="5.3.3">
+<meta name="application-version" content="5.3.4">
 <meta name="graph-source" content="c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json">
-<meta name="build-date" content="2026-09-15">
+<meta name="build-date" content="2026-09-16">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -46,7 +46,7 @@ small{color:var(--muted)}
 </style>
 </head>
 <body>
-<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.3</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
+<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.4</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
 <div class="layout">
 <aside class="panel side">
 <div class="section"><h2>1. Focus & views</h2><h3>View</h3><select id="viewSelect"></select><h3>Focus node</h3><select id="focusSelect"></select><div class="toolbar"><button class="small depth active" data-depth="1">1-hop</button><button class="small depth" data-depth="2">2-hop</button><button class="small depth" data-depth="3">3-hop</button><button class="small depth" data-depth="full">Full graph</button></div><h3>Labels</h3><label><input type="checkbox" id="nodeLabels" checked> Node labels</label><label><input type="checkbox" id="edgeLabels" checked> Edge labels</label></div>
@@ -55,11 +55,11 @@ small{color:var(--muted)}
 <div class="section"><h2>4. Filters</h2><h3>Domain</h3><select id="domainFilter"><option value="all">All domains</option></select><h3>Node type</h3><select id="typeFilter"><option value="all">All types</option></select><h3>Text search</h3><input type="text" id="textFilter" placeholder="e.g. data product, policy…"></div>
 <div class="section"><h2>5. Overview</h2><div class="mini"><svg id="miniGraph" width="100%" height="100%"></svg></div><div class="stats" style="margin-top:8px"><div class="stat"><b id="sn"></b><small>Nodes</small></div><div class="stat"><b id="se"></b><small>Edges</small></div><div class="stat"><b id="sd"></b><small>Domains</small></div><div class="stat"><b id="sc"></b><small>Cycles</small></div></div></div>
 </aside>
-<main class="graph-wrap"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Arrows are source → target. Where two nodes have both directions (business capability ↔ value stream stage), the arrows bow apart so they do not stack.</div><div id="graph"></div><div id="tooltip" class="tooltip"></div></main>
+<main class="graph-wrap"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Path and question buttons isolate the matching path. Arrows are source → target. Where two nodes have both directions (business capability ↔ value stream stage), the arrows bow apart so they do not stack.</div><div id="graph"></div><div id="tooltip" class="tooltip"></div></main>
 <aside class="panel side">
 <div class="section"><h2>Path tools</h2><h3>Source</h3><select id="pathSource"></select><h3>Target</h3><select id="pathTarget"></select><div class="toolbar"><button class="small" id="shortest">Shortest path</button><button class="small" id="impact">Impact path</button><button class="small" id="semanticPath">Semantic path</button><button class="small" id="causalPath">Causal path</button><button class="small" id="temporalPath">Temporal path</button><button class="small" id="clearPath">Clear</button></div>
 <h3>Question traversals</h3>
-<small>Directed from the seed. Inverses are first-class edges (owned by, enforced by, used by, depended on by). “What depends on this?” is inbound Behavioural/Causal (or outbound via those inverses). “What does this depend on?” is outbound from the source.</small>
+<small>Each question is a 1-hop label-closed walk from the seed (click a node to set it). Dependency and impact do not share labels. Ownership is <code>owned by</code> / steward, not <code>performed by</code>. Policies are inbound <code>governs</code> / outbound <code>governed by</code>, not any path that eventually says “policy”.</small>
 <div class="toolbar"><button class="small" id="qDepends">Depends on this</button><button class="small" id="qDependsOn">This depends on</button><button class="small" id="qImpactQ">Change impact</button><button class="small" id="qOwns">Who owns this</button><button class="small" id="qPolicies">Policies / controls</button><button class="small" id="qTeams">Teams involved</button></div>
 <div id="pathResult" class="pathbox"><small>Select source and target nodes.</small></div></div>
 <div class="section"><h2>Node details</h2><div id="nodeDetails"><small>Click a node to inspect metadata and relationships.</small></div></div>
@@ -78,17 +78,18 @@ small{color:var(--muted)}
 <script src="vendor/d3.v7.min.js"></script>
 <script>
 const BUILD={
-  version:"5.3.3",
+  version:"5.3.4",
   label:"v5.3",
   title:"Enterprise Architecture Knowledge Graph",
   source:"c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json",
-  built:"2026-09-15"
+  built:"2026-09-16"
 };
 const domainColours={"business":"#a855f7","value-product":"#f59e0b","information-data":"#06b6d4","application":"#3b82f6","platform-infra":"#8b5cf6","ddd":"#65a30d","operations-sre":"#22c55e","team-topologies":"#16a34a","product":"#f59e0b","measurement":"#1d4ed8","security":"#0ea5e9","governance-risk":"#9333ea","finops":"#ec4899","data-management":"#6366f1","mlops":"#7c3aed","people-actors":"#10b981","other":"#9ca3af"};
 const relColours={"decomposition":"#8b5cf6","realisation":"#2563eb","dependency":"#f97316","flow":"#06b6d4","governance":"#f59e0b","ownership":"#16a34a","measurement":"#ec4899","feedback":"#ef4444","association":"#6b7280"};
 const views={"Knowledge Graph":null,"Structural / ontology":e=>e.relationshipFamily==="Structural","Behavioural / dependency":e=>e.relationshipFamily==="Behavioural","Causal / impact":e=>e.relationshipFamily==="Causal","Temporal / lifecycle":e=>e.relationshipFamily==="Temporal","Governance / compliance":e=>e.relationshipFamily==="Governance","Semantic / GraphRAG":e=>e.relationshipFamily==="Semantic","OWL candidate":e=>["Structural","Semantic","Governance"].includes(e.relationshipFamily)};
 let originalData, ontology, familyColours, selectedClasses, selectedFamilies;
 let currentView="Knowledge Graph", focus="business capability", depth=1, highlightedEdges=new Set(), highlightedNodes=new Set();
+let restrictToHighlight=false, depthBeforePath=1;
 let svg, layer, linkLayer, labelLayer, nodeLayer, zoom, sim, width, height;
 const tooltip=document.getElementById("tooltip");
 function sourceId(e){return typeof e.source==="string"?e.source:e.source.id} function targetId(e){return typeof e.target==="string"?e.target:e.target.id} function edgeKey(e){return `${sourceId(e)}|${targetId(e)}|${e.label}`}
@@ -150,7 +151,26 @@ function createCanvas(){
 }
 function baseLinks(){let out=originalData.links.filter(e=>selectedClasses.has(e.relationshipClass)&&selectedFamilies.has(e.relationshipFamily)); if(views[currentView]) out=out.filter(views[currentView]); return out}
 function focusSet(links){if(depth==="full")return null; const adj=new Map(); links.forEach(e=>{const s=sourceId(e),t=targetId(e); if(!adj.has(s))adj.set(s,new Set()); if(!adj.has(t))adj.set(t,new Set()); adj.get(s).add(t); adj.get(t).add(s)}); let seen=new Set([focus]), front=new Set([focus]); for(let i=0;i<Number(depth);i++){let nxt=new Set(); front.forEach(n=>(adj.get(n)||[]).forEach(m=>{if(!seen.has(m)){seen.add(m);nxt.add(m)}})); front=nxt} return seen}
-function filtered(){let links=baseLinks(), fs=focusSet(links); if(fs) links=links.filter(e=>fs.has(sourceId(e))&&fs.has(targetId(e))); let incident=new Set(); links.forEach(e=>{incident.add(sourceId(e));incident.add(targetId(e))}); let nodes=originalData.nodes.filter(n=>incident.has(n.id)); const dom=document.getElementById("domainFilter").value, typ=document.getElementById("typeFilter").value, text=(document.getElementById("textFilter").value||document.getElementById("globalSearch").value||"").toLowerCase().trim(); if(dom!=="all")nodes=nodes.filter(n=>n.domain===dom); if(typ!=="all")nodes=nodes.filter(n=>n.type===typ); if(text)nodes=nodes.filter(n=>n.id.toLowerCase().includes(text)||n.domain.toLowerCase().includes(text)||n.type.toLowerCase().includes(text)); const ns=new Set(nodes.map(n=>n.id)); links=links.filter(e=>ns.has(sourceId(e))&&ns.has(targetId(e))); return{nodes:nodes.map(n=>({...n})),links:links.map(e=>({...e,source:sourceId(e),target:targetId(e)}))}}
+function filtered(){
+  let links=baseLinks(), nodes;
+  if(restrictToHighlight && highlightedNodes.size){
+    links=links.filter(e=>highlightedEdges.has(edgeKey(e)));
+    nodes=originalData.nodes.filter(n=>highlightedNodes.has(n.id));
+  }else{
+    const fs=focusSet(links);
+    if(fs) links=links.filter(e=>fs.has(sourceId(e))&&fs.has(targetId(e)));
+    const incident=new Set();
+    links.forEach(e=>{incident.add(sourceId(e));incident.add(targetId(e))});
+    nodes=originalData.nodes.filter(n=>incident.has(n.id));
+  }
+  const dom=document.getElementById("domainFilter").value, typ=document.getElementById("typeFilter").value, text=(document.getElementById("textFilter").value||document.getElementById("globalSearch").value||"").toLowerCase().trim();
+  if(dom!=="all")nodes=nodes.filter(n=>n.domain===dom);
+  if(typ!=="all")nodes=nodes.filter(n=>n.type===typ);
+  if(text)nodes=nodes.filter(n=>n.id.toLowerCase().includes(text)||n.domain.toLowerCase().includes(text)||n.type.toLowerCase().includes(text));
+  const ns=new Set(nodes.map(n=>n.id));
+  links=links.filter(e=>ns.has(sourceId(e))&&ns.has(targetId(e)));
+  return{nodes:nodes.map(n=>({...n})),links:links.map(e=>({...e,source:sourceId(e),target:targetId(e)}))}
+}
 function markOppositeLanes(links){
   const dirs=new Set(links.map(e=>sourceId(e)+"\0"+targetId(e)));
   links.forEach(e=>{
@@ -184,7 +204,7 @@ markOppositeLanes(data.links);
 linkLayer.selectAll("line").remove();
 const link=linkLayer.selectAll("path.link").data(data.links,d=>edgeKey(d)); link.exit().remove(); const linkSel=link.enter().append("path").attr("class","link").merge(link).attr("fill","none").attr("stroke",d=>highlightedEdges.has(edgeKey(d))?"#111827":familyColours[d.relationshipFamily]).attr("stroke-width",d=>highlightedEdges.has(edgeKey(d))?4:(d._paired?2.4:(d.relationshipFamily==="Causal"?1.9:1.2))).attr("stroke-dasharray",d=>d.relationshipFamily==="Causal"?"6,4":(d.relationshipFamily==="Governance"||d.relationshipFamily==="Temporal"?"2,3":null)).attr("stroke-dashoffset",d=>d._paired&&d._sign<0?3:0).attr("marker-end",d=>highlightedEdges.has(edgeKey(d))?"url(#arrowhead-highlight)":"url(#arrowhead)").on("mousemove",(ev,d)=>{tooltip.style.visibility="visible";tooltip.innerHTML=`<b>${sourceId(d)}</b> → <b>${targetId(d)}</b><br>${d.label}<br><small>${d.relationshipFamily} / ${d.relationshipClass}</small>`;tooltip.style.top=(ev.clientY+10)+"px";tooltip.style.left=(ev.clientX+10)+"px"}).on("mouseout",()=>tooltip.style.visibility="hidden");
 const labels=labelLayer.selectAll("text").data(data.links,d=>edgeKey(d)); labels.exit().remove(); const labSel=labels.enter().append("text").attr("class","edge-label").merge(labels).text(d=>d.label).style("display",document.getElementById("edgeLabels").checked?"block":"none");
-const node=nodeLayer.selectAll("g").data(data.nodes,d=>d.id); node.exit().remove(); const nodeEnter=node.enter().append("g").attr("class","node").call(d3.drag().on("start",dragstarted).on("drag",dragged).on("end",dragended)).on("click",(ev,d)=>{ev.stopPropagation();focus=d.id;document.getElementById("focusSelect").value=d.id;showNode(d); if(depth==="full") highlightNode(d.id, linkSel); else render()}).on("dblclick",(ev,d)=>{d.fx=null;d.fy=null}); nodeEnter.append("circle"); nodeEnter.append("text").attr("x",10).attr("y",3);
+const node=nodeLayer.selectAll("g").data(data.nodes,d=>d.id); node.exit().remove(); const nodeEnter=node.enter().append("g").attr("class","node").call(d3.drag().on("start",dragstarted).on("drag",dragged).on("end",dragended)).on("click",(ev,d)=>{ev.stopPropagation();focus=d.id;document.getElementById("focusSelect").value=d.id;document.getElementById("pathSource").value=d.id;showNode(d); restrictToHighlight=false; if(depth==="full") highlightNode(d.id, linkSel); else render()}).on("dblclick",(ev,d)=>{d.fx=null;d.fy=null}); nodeEnter.append("circle"); nodeEnter.append("text").attr("x",10).attr("y",3);
 const nodeSel=nodeEnter.merge(node); nodeSel.select("circle").attr("r",d=>highlightedNodes.has(d.id)?10:(d.id===focus?9:7)).attr("fill",d=>domainColours[d.domain]||domainColours.other).attr("stroke",d=>highlightedNodes.has(d.id)?"#111827":"white").attr("stroke-width",d=>highlightedNodes.has(d.id)?3:1.3); nodeSel.select("text").text(d=>d.id).style("display",document.getElementById("nodeLabels").checked?"block":"none");
 sim.nodes(data.nodes).on("tick",()=>{linkSel.attr("d",d=>linkGeometry(d).path);
 labSel.attr("x",d=>linkGeometry(d).lx).attr("y",d=>linkGeometry(d).ly); nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`)}); sim.force("link").links(data.links); sim.alpha(1).restart(); renderMini(data)}
@@ -192,7 +212,29 @@ function showNode(n){const rels=originalData.links.filter(e=>sourceId(e)===n.id|
 function highlightNode(id,linkSel){const neigh=new Set([id]); originalData.links.forEach(e=>{if(sourceId(e)===id)neigh.add(targetId(e)); if(targetId(e)===id)neigh.add(sourceId(e))}); nodeLayer.selectAll("g").style("opacity",d=>neigh.has(d.id)?1:.15); linkSel.style("opacity",d=>sourceId(d)===id||targetId(d)===id?1:.08)}
 function hasCycle(edges){const adj=new Map(), indeg=new Map(), ns=new Set(); edges.forEach(e=>{const s=sourceId(e),t=targetId(e); ns.add(s);ns.add(t); if(!adj.has(s))adj.set(s,[]);adj.get(s).push(t);indeg.set(t,(indeg.get(t)||0)+1);if(!indeg.has(s))indeg.set(s,0)});let q=[...ns].filter(n=>(indeg.get(n)||0)===0),seen=0;while(q.length){let u=q.shift();seen++;(adj.get(u)||[]).forEach(v=>{indeg.set(v,indeg.get(v)-1);if(indeg.get(v)===0)q.push(v)})}return seen!==ns.size}
 function projectionLinks(){return originalData.links}
-function inverseLabels(){return new Set(Object.values(originalData.inverseMap||{}))}
+const Q={
+  depPrimary:new Set(["uses","requires","consumes","calls"]),
+  depInverse:new Set(["used by","depended on by"]),
+  impactOut:new Set(["can affect","can cause","causes","affects","degrades","breaches","increases","amplifies","can be affected by"]),
+  ownerOut:new Set(["owned by","accountable steward"]),
+  ownerIn:new Set(["owns","accountable for"]),
+  policyOut:new Set(["governed by","restricted by","constrained by"]),
+  policyIn:new Set(["governs","applied to"]),
+  policyToControl:new Set(["enforced by"]),
+  teamOut:new Set(["owned by","accountable steward","informs","performed by"]),
+  teamIn:new Set(["owns","accountable for","performs"])
+};
+function labelledQuestionEdges(src,inbound,outbound){
+  const seen=new Set(), out=[];
+  projectionLinks().forEach(e=>{
+    const s=sourceId(e), t=targetId(e), match=(t===src&&inbound.has(e.label))||(s===src&&outbound.has(e.label));
+    if(!match) return;
+    const k=s+"|"+t+"|"+e.label;
+    if(seen.has(k)) return;
+    seen.add(k); out.push(e);
+  });
+  return out;
+}
 function findPath(src,tgt,directed=false,families=null,inbound=false,linkset=null){
   const ls=(linkset||baseLinks()).filter(e=>!families||families.has(e.relationshipFamily)), adj=new Map();
   ls.forEach(e=>{
@@ -211,44 +253,54 @@ function findPath(src,tgt,directed=false,families=null,inbound=false,linkset=nul
   const pn=[],pes=[]; let c=tgt; while(c!==null){pn.push(c); let e=pe.get(c); if(e)pes.push(e); c=prev.get(c)}
   return{nodes:pn.reverse(),edges:pes.reverse()}
 }
-function findPathVia(src,via,tgt,directed,families,linkset){
-  const a=findPath(src,via,directed,families,false,linkset);
-  const b=findPath(via,tgt,directed,families,false,linkset);
-  if(!a||!b)return null;
-  return{nodes:a.nodes.concat(b.nodes.slice(1)),edges:a.edges.concat(b.edges)};
+function enterPathView(){
+  if(!restrictToHighlight) depthBeforePath=depth;
+  restrictToHighlight=true;
 }
-function findDirectedHit(src,pred,families,inbound=false,linkset=null){
-  const ls=(linkset||projectionLinks()).filter(e=>!families||families.has(e.relationshipFamily));
-  const adj=new Map();
-  ls.forEach(e=>{
-    const s=sourceId(e),t=targetId(e);
-    const a=inbound?t:s, b=inbound?s:t;
-    if(!adj.has(a))adj.set(a,[]);
-    adj.get(a).push({node:b,edge:e});
-  });
-  const q=[src], prev=new Map([[src,null]]), pe=new Map();
-  while(q.length){
-    let u=q.shift();
-    if(u!==src && pred(u)){
-      const pn=[],pes=[]; let c=u;
-      while(c!==null){pn.push(c); let e=pe.get(c); if(e)pes.push(e); c=prev.get(c)}
-      return{nodes:pn.reverse(),edges:pes.reverse()};
-    }
-    (adj.get(u)||[]).forEach(({node,edge})=>{if(!prev.has(node)){prev.set(node,u);pe.set(node,edge);q.push(node)}});
-  }
-  return null;
+function exitPathView(){
+  if(!restrictToHighlight) return;
+  restrictToHighlight=false;
+  depth=depthBeforePath;
+  document.querySelectorAll(".depth").forEach(b=>b.classList.toggle("active",String(b.dataset.depth)===String(depth)));
 }
 function showEdgeSet(title,seed,edges){
   if(!edges.length){showPath(null,title);return}
-  const nodes=[seed];
-  edges.forEach(e=>{const other=sourceId(e)===seed?targetId(e):sourceId(e); if(!nodes.includes(other))nodes.push(other)});
-  showPath({nodes,edges},title);
+  const nodes=[seed], items=[];
+  edges.forEach(e=>{
+    const s=sourceId(e), t=targetId(e);
+    [s,t].forEach(n=>{if(!nodes.includes(n)) nodes.push(n)});
+    if(s===seed||t===seed){
+      const incoming=t===seed;
+      items.push(`<div class="item">${incoming?"←":"→"} <b>${incoming?s:t}</b><br><small>${e.label} / ${e.relationshipFamily}</small></div>`);
+    }else{
+      items.push(`<div class="item"><b>${s}</b> --${e.label}→ <b>${t}</b><br><small>${e.relationshipFamily}</small></div>`);
+    }
+  });
+  highlightedEdges=new Set(edges.map(edgeKey));
+  highlightedNodes=new Set(nodes);
+  document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>${edges.length} relationship${edges.length===1?"":"s"} from ${seed}</small>`+items.join("");
+  enterPathView();
+  render();
 }
-function showPath(path,title){if(!path){document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>No path found under current filters.</small>`;return} highlightedEdges=new Set(path.edges.map(edgeKey)); highlightedNodes=new Set(path.nodes); document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>${path.nodes.length-1} hops</small>`+path.nodes.map((n,i)=>`<div class="item"><b>${n}</b>${i<path.edges.length?`<br><small>--${path.edges[i].label} / ${path.edges[i].relationshipFamily}→</small>`:""}</div>`).join(""); depth="full"; document.querySelectorAll(".depth").forEach(b=>b.classList.toggle("active",b.dataset.depth==="full")); render()}
+function showPath(path,title){
+  if(!path){
+    highlightedEdges=new Set();
+    highlightedNodes=new Set();
+    document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>No path found under current filters.</small>`;
+    exitPathView();
+    render();
+    return;
+  }
+  highlightedEdges=new Set(path.edges.map(edgeKey));
+  highlightedNodes=new Set(path.nodes);
+  document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>${path.nodes.length-1} hops</small>`+path.nodes.map((n,i)=>`<div class="item"><b>${n}</b>${i<path.edges.length?`<br><small>--${path.edges[i].label} / ${path.edges[i].relationshipFamily}→</small>`:""}</div>`).join("");
+  enterPathView();
+  render();
+}
 function dragstarted(ev,d){if(!ev.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y} function dragged(ev,d){d.fx=ev.x;d.fy=ev.y} function dragended(ev,d){if(!ev.active)sim.alphaTarget(0)}
 function init(){const nodeIds=originalData.nodes.map(n=>n.id).sort(); const relCounts={}, famCounts={}; originalData.links.forEach(e=>{relCounts[e.relationshipClass]=(relCounts[e.relationshipClass]||0)+1;famCounts[e.relationshipFamily]=(famCounts[e.relationshipFamily]||0)+1});
 Object.keys(views).forEach(v=>viewSelect.add(new Option(v,v))); viewSelect.onchange=()=>{currentView=viewSelect.value;render()}; nodeIds.forEach(id=>{focusSelect.add(new Option(id,id));pathSource.add(new Option(id,id));pathTarget.add(new Option(id,id))}); focusSelect.value=focus; pathSource.value="business capability"; pathTarget.value="value stream stage"; focusSelect.onchange=()=>{focus=focusSelect.value;render()};
-document.querySelectorAll(".depth").forEach(b=>b.onclick=()=>{depth=b.dataset.depth;document.querySelectorAll(".depth").forEach(x=>x.classList.toggle("active",x===b));render()}); nodeLabels.onchange=render; edgeLabels.onchange=render;
+document.querySelectorAll(".depth").forEach(b=>b.onclick=()=>{depth=b.dataset.depth;restrictToHighlight=false;document.querySelectorAll(".depth").forEach(x=>x.classList.toggle("active",x===b));render()}); nodeLabels.onchange=render; edgeLabels.onchange=render;
 const fc=document.getElementById("familyChecks"); Object.keys(ontology).forEach(f=>{let row=document.createElement("label");row.className="relrow";row.innerHTML=`<span><input type="checkbox" class="fam" value="${f}" checked> <span class="lsw" style="background:${familyColours[f]}"></span>${f}</span><span class="count">${famCounts[f]||0}</span>`;fc.appendChild(row)}); fc.onchange=()=>{selectedFamilies=new Set([...document.querySelectorAll(".fam:checked")].map(x=>x.value));render()}; selectAllFamilies.onchange=e=>{document.querySelectorAll(".fam").forEach(x=>x.checked=e.target.checked);selectedFamilies=new Set([...document.querySelectorAll(".fam:checked")].map(x=>x.value));render()};
 Object.keys(relColours).forEach(r=>{let row=document.createElement("label");row.className="relrow";row.innerHTML=`<span><input type="checkbox" class="rel" value="${r}" checked> <span class="lsw" style="background:${relColours[r]}"></span>${r}</span><span class="count">${relCounts[r]||0}</span>`;relChecks.appendChild(row)}); relChecks.onchange=()=>{selectedClasses=new Set([...document.querySelectorAll(".rel:checked")].map(x=>x.value));render()}; selectAll.onchange=e=>{document.querySelectorAll(".rel").forEach(x=>x.checked=e.target.checked);selectedClasses=new Set([...document.querySelectorAll(".rel:checked")].map(x=>x.value));render()};
 [...new Set(originalData.nodes.map(n=>n.domain))].sort().forEach(d=>domainFilter.add(new Option(d,d))); domainFilter.onchange=render; [...new Set(originalData.nodes.map(n=>n.type))].sort().forEach(t=>typeFilter.add(new Option(t,t))); typeFilter.onchange=render; textFilter.oninput=render; globalSearch.oninput=render;
@@ -270,28 +322,38 @@ impact.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,true,new 
 semanticPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,false,new Set(["Semantic","Structural","Governance"])),"Semantic path");
 causalPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,true,new Set(["Causal","Behavioural","Governance"])),"Causal path");
 temporalPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,true,new Set(["Temporal"])),"Temporal path");
-clearPath.onclick=()=>{highlightedEdges=new Set();highlightedNodes=new Set();pathResult.innerHTML="<small>Select source and target nodes.</small>";render()};
+clearPath.onclick=()=>{highlightedEdges=new Set();highlightedNodes=new Set();pathResult.innerHTML="<small>Select source and target nodes.</small>";exitPathView();render()};
 qDepends.onclick=()=>{
-  const src=pathSource.value, fam=new Set(["Behavioural","Causal"]), inv=inverseLabels();
-  const edges=projectionLinks().filter(e=>{
-    const inbound=targetId(e)===src && fam.has(e.relationshipFamily);
-    const outbound=sourceId(e)===src && (e.label==="depended on by"||e.label==="can be affected by"||(inv.has(e.label)&&fam.has(e.relationshipFamily)));
-    return inbound||outbound;
-  });
-  showEdgeSet("What depends on this?",src,edges);
+  const src=pathSource.value;
+  showEdgeSet("What depends on this?",src,labelledQuestionEdges(src,Q.depPrimary,Q.depInverse));
 };
 qDependsOn.onclick=()=>{
-  const src=pathSource.value, fam=new Set(["Behavioural","Causal"]);
-  const edges=projectionLinks().filter(e=>sourceId(e)===src && fam.has(e.relationshipFamily) && !inverseLabels().has(e.label));
-  showEdgeSet("What does this depend on?",src,edges);
+  const src=pathSource.value;
+  showEdgeSet("What does this depend on?",src,labelledQuestionEdges(src,new Set(),Q.depPrimary));
 };
-qImpactQ.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,true,new Set(["Behavioural","Causal"]),false,projectionLinks()),"What will this change impact?");
-qOwns.onclick=()=>showPath(findDirectedHit(pathSource.value,n=>n.includes("team")||n.includes("steward"),new Set(["Governance"]),false,projectionLinks()),"Who owns this?");
+qImpactQ.onclick=()=>{
+  const src=pathSource.value;
+  showEdgeSet("What will this change impact?",src,labelledQuestionEdges(src,new Set(),Q.impactOut));
+};
+qOwns.onclick=()=>{
+  const src=pathSource.value;
+  showEdgeSet("Who owns this?",src,labelledQuestionEdges(src,Q.ownerIn,Q.ownerOut));
+};
 qPolicies.onclick=()=>{
-  const src=pathSource.value, links=projectionLinks();
-  showPath(findPathVia(src,"policy","control",true,null,links)||findPathVia(src,"data policy","control",true,null,links)||findDirectedHit(src,n=>n==="data policy"||n==="policy",null,false,links),"Which policies apply?");
+  const src=pathSource.value;
+  const direct=labelledQuestionEdges(src,Q.policyIn,Q.policyOut);
+  const obligations=new Set(direct.map(e=>sourceId(e)===src?targetId(e):sourceId(e)));
+  const extra=projectionLinks().filter(e=>obligations.has(sourceId(e))&&Q.policyToControl.has(e.label));
+  showEdgeSet("Which policies apply?",src,direct.concat(extra));
 };
-qTeams.onclick=()=>showPath(findDirectedHit(pathSource.value,n=>n.includes("team"),new Set(["Governance"]),false,projectionLinks()),"Which teams must be involved?");
+qTeams.onclick=()=>{
+  const src=pathSource.value;
+  const edges=labelledQuestionEdges(src,Q.teamIn,Q.teamOut).filter(e=>{
+    const other=sourceId(e)===src?targetId(e):sourceId(e);
+    return other.includes("team");
+  });
+  showEdgeSet("Which teams must be involved?",src,edges);
+};
 resetView.onclick=()=>svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity); downloadJson.onclick=()=>download("c5-enterprise-architecture-knowledge-graph-v5.3.json",JSON.stringify(originalData,null,2),"application/json"); downloadGraphml.onclick=()=>download("c5-enterprise-architecture-knowledge-graph-v5.3.graphml",toGraphML(originalData),"application/xml"); exportSvg.onclick=()=>{const c=svg.node().cloneNode(true);c.setAttribute("xmlns","http://www.w3.org/2000/svg");download("c5-enterprise-architecture-knowledge-graph-v5.3.svg",new XMLSerializer().serializeToString(c),"image/svg+xml")};
 render()}
 function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}

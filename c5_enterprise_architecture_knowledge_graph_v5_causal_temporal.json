@@ -2919,9 +2919,9 @@
       "source": "entitlement",
       "target": "rbac",
       "label": "enforced by",
-      "relationshipClass": "dependency",
-      "relationshipFamily": "Behavioural",
-      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": true
@@ -2930,9 +2930,9 @@
       "source": "entitlement",
       "target": "abac",
       "label": "enforced by",
-      "relationshipClass": "dependency",
-      "relationshipFamily": "Behavioural",
-      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": true
@@ -2963,9 +2963,9 @@
       "source": "data product",
       "target": "entitlement",
       "label": "restricted by",
-      "relationshipClass": "dependency",
-      "relationshipFamily": "Behavioural",
-      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": true
@@ -2974,9 +2974,9 @@
       "source": "data object",
       "target": "entitlement",
       "label": "restricted by",
-      "relationshipClass": "dependency",
-      "relationshipFamily": "Behavioural",
-      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": true
@@ -3656,9 +3656,9 @@
       "source": "products and services",
       "target": "policy",
       "label": "constrained by",
-      "relationshipClass": "dependency",
-      "relationshipFamily": "Behavioural",
-      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": true
@@ -6420,6 +6420,17 @@
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": false
+    },
+    {
+      "source": "incident",
+      "target": "sre",
+      "label": "assigned to",
+      "relationshipClass": "ownership",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": true
     }
   ],
   "relationshipOntology": {
@@ -6540,7 +6551,11 @@
         "assesses",
         "owned by",
         "accountable steward",
-        "enforced by"
+        "enforced by",
+        "governs",
+        "applied to",
+        "restricted by",
+        "constrained by"
       ],
       "enables": [
         "Compliance",
@@ -6604,9 +6619,9 @@
     "traces": "traced by"
   },
   "projection": {
-    "version": "5.3.3",
+    "version": "5.3.4",
     "series": "v5.3",
-    "built": "2026-09-15",
+    "built": "2026-09-16",
     "description": "Concept projection with declared inverses and tight demo hops for feeds, lineage, SLO impact and retention."
   }
 }
