@@ -96,3 +96,4 @@ test_question_mece.py
 test_question_strategy.py
 test_question_frameworks.py
 test_viewer_relationship_classes.py
+test_change_and_maps_to.py
