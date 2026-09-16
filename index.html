@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Enterprise Architecture Knowledge Graph v5.3</title>
-<meta name="application-version" content="5.3.5">
+<meta name="application-version" content="5.3.6">
 <meta name="graph-source" content="c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json">
 <meta name="build-date" content="2026-09-16">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -46,7 +46,7 @@ small{color:var(--muted)}
 </style>
 </head>
 <body>
-<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.5</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
+<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.6</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
 <div class="layout">
 <aside class="panel side">
 <div class="section"><h2>1. Focus & views</h2><h3>View</h3><select id="viewSelect"></select><h3>Focus node</h3><select id="focusSelect"></select><div class="toolbar"><button class="small depth active" data-depth="1">1-hop</button><button class="small depth" data-depth="2">2-hop</button><button class="small depth" data-depth="3">3-hop</button><button class="small depth" data-depth="full">Full graph</button></div><h3>Labels</h3><label><input type="checkbox" id="nodeLabels" checked> Node labels</label><label><input type="checkbox" id="edgeLabels" checked> Edge labels</label></div>
@@ -55,12 +55,9 @@ small{color:var(--muted)}
 <div class="section"><h2>4. Filters</h2><h3>Domain</h3><select id="domainFilter"><option value="all">All domains</option></select><h3>Node type</h3><select id="typeFilter"><option value="all">All types</option></select><h3>Text search</h3><input type="text" id="textFilter" placeholder="e.g. data product, policy…"></div>
 <div class="section"><h2>5. Overview</h2><div class="mini"><svg id="miniGraph" width="100%" height="100%"></svg></div><div class="stats" style="margin-top:8px"><div class="stat"><b id="sn"></b><small>Nodes</small></div><div class="stat"><b id="se"></b><small>Edges</small></div><div class="stat"><b id="sd"></b><small>Domains</small></div><div class="stat"><b id="sc"></b><small>Cycles</small></div></div></div>
 </aside>
-<main class="graph-wrap"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Path and question buttons isolate the matching path. Arrows are source → target. Where two nodes have both directions (business capability ↔ value stream stage), the arrows bow apart so they do not stack.</div><div id="graph"></div><div id="tooltip" class="tooltip"></div></main>
+<main class="graph-wrap"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Path buttons isolate the matching path. Arrows are source → target. Where two nodes have both directions (business capability ↔ value stream stage), the arrows bow apart so they do not stack.</div><div id="graph"></div><div id="tooltip" class="tooltip"></div></main>
 <aside class="panel side">
 <div class="section"><h2>Path tools</h2><h3>Source</h3><select id="pathSource"></select><h3>Target</h3><select id="pathTarget"></select><div class="toolbar"><button class="small" id="shortest">Shortest path</button><button class="small" id="impact">Impact path</button><button class="small" id="semanticPath">Semantic path</button><button class="small" id="causalPath">Causal path</button><button class="small" id="temporalPath">Temporal path</button><button class="small" id="clearPath">Clear</button></div>
-<h3>Question traversals</h3>
-<small>Each question is a 1-hop label-closed walk from the seed (click a node to set it). Dependency and impact do not share labels. Ownership is <code>owned by</code> / steward, not <code>performed by</code>. Policies are inbound <code>governs</code> / outbound <code>governed by</code>, not any path that eventually says “policy”.</small>
-<div class="toolbar"><button class="small" id="qDepends">Depends on this</button><button class="small" id="qDependsOn">This depends on</button><button class="small" id="qImpactQ">Change impact</button><button class="small" id="qOwns">Who owns this</button><button class="small" id="qPolicies">Policies / controls</button><button class="small" id="qTeams">Teams involved</button></div>
 <div id="pathResult" class="pathbox"><small>Select source and target nodes.</small></div></div>
 <div class="section"><h2>Node details</h2><div id="nodeDetails"><small>Click a node to inspect metadata and relationships.</small></div></div>
 <div class="section">
@@ -78,7 +75,7 @@ small{color:var(--muted)}
 <script src="vendor/d3.v7.min.js"></script>
 <script>
 const BUILD={
-  version:"5.3.5",
+  version:"5.3.6",
   label:"v5.3",
   title:"Enterprise Architecture Knowledge Graph",
   source:"c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json",
@@ -211,30 +208,6 @@ labSel.attr("x",d=>linkGeometry(d).lx).attr("y",d=>linkGeometry(d).ly); nodeSel.
 function showNode(n){const rels=originalData.links.filter(e=>sourceId(e)===n.id||targetId(e)===n.id), grouped={}; rels.forEach(e=>(grouped[e.relationshipFamily]??=[]).push(e)); let out=`<h3 style="font-size:16px;color:${domainColours[n.domain]||"#111"}">${n.id}</h3><span class="badge">${n.domain}</span><span class="badge">${n.type}</span><p><small>${n.description}</small></p><small>Degree: ${rels.length}</small>`; Object.keys(grouped).sort().forEach(f=>{out+=`<details open><summary style="color:${familyColours[f]}">${f} (${grouped[f].length})</summary>`; grouped[f].slice(0,12).forEach(e=>{let incoming=targetId(e)===n.id; out+=`<div class="item">${incoming?"←":"→"} <b>${incoming?sourceId(e):targetId(e)}</b><br><small>${e.label} / ${e.relationshipClass}</small></div>`}); out+="</details>"}); document.getElementById("nodeDetails").innerHTML=out}
 function highlightNode(id,linkSel){const neigh=new Set([id]); originalData.links.forEach(e=>{if(sourceId(e)===id)neigh.add(targetId(e)); if(targetId(e)===id)neigh.add(sourceId(e))}); nodeLayer.selectAll("g").style("opacity",d=>neigh.has(d.id)?1:.15); linkSel.style("opacity",d=>sourceId(d)===id||targetId(d)===id?1:.08)}
 function hasCycle(edges){const adj=new Map(), indeg=new Map(), ns=new Set(); edges.forEach(e=>{const s=sourceId(e),t=targetId(e); ns.add(s);ns.add(t); if(!adj.has(s))adj.set(s,[]);adj.get(s).push(t);indeg.set(t,(indeg.get(t)||0)+1);if(!indeg.has(s))indeg.set(s,0)});let q=[...ns].filter(n=>(indeg.get(n)||0)===0),seen=0;while(q.length){let u=q.shift();seen++;(adj.get(u)||[]).forEach(v=>{indeg.set(v,indeg.get(v)-1);if(indeg.get(v)===0)q.push(v)})}return seen!==ns.size}
-function projectionLinks(){return originalData.links}
-const Q={
-  depPrimary:new Set(["uses","requires","consumes","calls"]),
-  depInverse:new Set(["used by","depended on by"]),
-  impactOut:new Set(["can affect","can cause","causes","affects","degrades","breaches","increases","amplifies","can be affected by"]),
-  ownerOut:new Set(["owned by","accountable steward"]),
-  ownerIn:new Set(["owns","accountable for"]),
-  policyOut:new Set(["governed by","restricted by","constrained by"]),
-  policyIn:new Set(["governs","applied to"]),
-  policyToControl:new Set(["enforced by"]),
-  teamOut:new Set(["owned by","accountable steward","informs","performed by"]),
-  teamIn:new Set(["owns","accountable for","performs"])
-};
-function labelledQuestionEdges(src,inbound,outbound){
-  const seen=new Set(), out=[];
-  projectionLinks().forEach(e=>{
-    const s=sourceId(e), t=targetId(e), match=(t===src&&inbound.has(e.label))||(s===src&&outbound.has(e.label));
-    if(!match) return;
-    const k=s+"|"+t+"|"+e.label;
-    if(seen.has(k)) return;
-    seen.add(k); out.push(e);
-  });
-  return out;
-}
 function findPath(src,tgt,directed=false,families=null,inbound=false,linkset=null){
   const ls=(linkset||baseLinks()).filter(e=>!families||families.has(e.relationshipFamily)), adj=new Map();
   ls.forEach(e=>{
@@ -262,25 +235,6 @@ function exitPathView(){
   restrictToHighlight=false;
   depth=depthBeforePath;
   document.querySelectorAll(".depth").forEach(b=>b.classList.toggle("active",String(b.dataset.depth)===String(depth)));
-}
-function showEdgeSet(title,seed,edges){
-  if(!edges.length){showPath(null,title);return}
-  const nodes=[seed], items=[];
-  edges.forEach(e=>{
-    const s=sourceId(e), t=targetId(e);
-    [s,t].forEach(n=>{if(!nodes.includes(n)) nodes.push(n)});
-    if(s===seed||t===seed){
-      const incoming=t===seed;
-      items.push(`<div class="item">${incoming?"←":"→"} <b>${incoming?s:t}</b><br><small>${e.label} / ${e.relationshipFamily}</small></div>`);
-    }else{
-      items.push(`<div class="item"><b>${s}</b> --${e.label}→ <b>${t}</b><br><small>${e.relationshipFamily}</small></div>`);
-    }
-  });
-  highlightedEdges=new Set(edges.map(edgeKey));
-  highlightedNodes=new Set(nodes);
-  document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>${edges.length} relationship${edges.length===1?"":"s"} from ${seed}</small>`+items.join("");
-  enterPathView();
-  render();
 }
 function showPath(path,title){
   if(!path){
@@ -315,7 +269,7 @@ if(rightRelLegendEl){
   Object.keys(relColours).forEach(r=>{rightRelLegendEl.innerHTML+=`<span><span class="lsw" style="background:${relColours[r]}"></span>${r}</span>`});
 }
 const invMap=originalData.inverseMap||{};
-const invCard=Object.keys(invMap).length?`<div class="onto-card"><b>Declared inverses</b><br><small>Primary edges stay in place. Question English walks the inverse from the seed.</small><div class="onto-grid">${Object.entries(invMap).map(([a,b])=>`<span>${a} → ${b}</span>`).join("")}</div></div>`:"";
+const invCard=Object.keys(invMap).length?`<div class="onto-card"><b>Declared inverses</b><br><small>Primary edges stay in place. Declared inverses name the opposite direction.</small><div class="onto-grid">${Object.entries(invMap).map(([a,b])=>`<span>${a} → ${b}</span>`).join("")}</div></div>`:"";
 ontologyPanel.innerHTML=invCard+Object.entries(ontology).map(([k,v])=>`<div class="onto-card"><b style="color:${v.colour}">${k}</b><br><small>${v.description}</small><div class="onto-grid"><span>Directed: ${v.directed}</span><span>Transitive?: ${v.transitiveCandidate}</span><span>Inverse?: ${v.inverseCandidate}</span><span>Edges: ${famCounts[k]||0}</span></div><small><b>Examples:</b> ${(v.examples||[]).join(", ")}</small><br><small><b>Enables:</b> ${v.enables.join(", ")}</small></div>`).join("");
 shortest.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,false,null),"Shortest path");
 impact.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,true,new Set(["Behavioural","Causal"])),"Impact path");
@@ -323,37 +277,6 @@ semanticPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,fal
 causalPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,true,new Set(["Causal","Behavioural","Governance"])),"Causal path");
 temporalPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,true,new Set(["Temporal"])),"Temporal path");
 clearPath.onclick=()=>{highlightedEdges=new Set();highlightedNodes=new Set();pathResult.innerHTML="<small>Select source and target nodes.</small>";exitPathView();render()};
-qDepends.onclick=()=>{
-  const src=pathSource.value;
-  showEdgeSet("What depends on this?",src,labelledQuestionEdges(src,Q.depPrimary,Q.depInverse));
-};
-qDependsOn.onclick=()=>{
-  const src=pathSource.value;
-  showEdgeSet("What does this depend on?",src,labelledQuestionEdges(src,new Set(),Q.depPrimary));
-};
-qImpactQ.onclick=()=>{
-  const src=pathSource.value;
-  showEdgeSet("What will this change impact?",src,labelledQuestionEdges(src,new Set(),Q.impactOut));
-};
-qOwns.onclick=()=>{
-  const src=pathSource.value;
-  showEdgeSet("Who owns this?",src,labelledQuestionEdges(src,Q.ownerIn,Q.ownerOut));
-};
-qPolicies.onclick=()=>{
-  const src=pathSource.value;
-  const direct=labelledQuestionEdges(src,Q.policyIn,Q.policyOut);
-  const obligations=new Set(direct.map(e=>sourceId(e)===src?targetId(e):sourceId(e)));
-  const extra=projectionLinks().filter(e=>obligations.has(sourceId(e))&&Q.policyToControl.has(e.label));
-  showEdgeSet("Which policies apply?",src,direct.concat(extra));
-};
-qTeams.onclick=()=>{
-  const src=pathSource.value;
-  const edges=labelledQuestionEdges(src,Q.teamIn,Q.teamOut).filter(e=>{
-    const other=sourceId(e)===src?targetId(e):sourceId(e);
-    return other.includes("team");
-  });
-  showEdgeSet("Which teams must be involved?",src,edges);
-};
 resetView.onclick=()=>svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity); downloadJson.onclick=()=>download("c5-enterprise-architecture-knowledge-graph-v5.3.json",JSON.stringify(originalData,null,2),"application/json"); downloadGraphml.onclick=()=>download("c5-enterprise-architecture-knowledge-graph-v5.3.graphml",toGraphML(originalData),"application/xml"); exportSvg.onclick=()=>{const c=svg.node().cloneNode(true);c.setAttribute("xmlns","http://www.w3.org/2000/svg");download("c5-enterprise-architecture-knowledge-graph-v5.3.svg",new XMLSerializer().serializeToString(c),"image/svg+xml")};
 render()}
 function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}

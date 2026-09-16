@@ -12,7 +12,7 @@ On the site you can:
 
 - Focus a concept and expand 1–3 hops or the full graph
 - Filter by relationship family, class, domain and type
-- Run directed path queries (impact, ownership, policy, teams)
+- Run directed path queries (shortest, impact, semantic, causal, temporal)
 - Export `c5-enterprise-architecture-knowledge-graph-v5.3.{json,graphml,svg}`
 
 ## Repository
