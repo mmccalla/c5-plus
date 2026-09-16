@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Enterprise Architecture Knowledge Graph v5.3</title>
-<meta name="application-version" content="5.3.7">
+<meta name="application-version" content="5.3.8">
 <meta name="graph-source" content="c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json">
 <meta name="build-date" content="2026-09-16">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -46,7 +46,7 @@ small{color:var(--muted)}
 </style>
 </head>
 <body>
-<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.7</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
+<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.8</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
 <div class="layout">
 <aside class="panel side">
 <div class="section"><h2>1. Focus & views</h2><h3>View</h3><select id="viewSelect"></select><h3>Focus node</h3><select id="focusSelect"></select><div class="toolbar"><button class="small depth active" data-depth="1">1-hop</button><button class="small depth" data-depth="2">2-hop</button><button class="small depth" data-depth="3">3-hop</button><button class="small depth" data-depth="full">Full graph</button></div><h3>Labels</h3><label><input type="checkbox" id="nodeLabels" checked> Node labels</label><label><input type="checkbox" id="edgeLabels" checked> Edge labels</label></div>
@@ -75,13 +75,13 @@ small{color:var(--muted)}
 <script src="vendor/d3.v7.min.js"></script>
 <script>
 const BUILD={
-  version:"5.3.7",
+  version:"5.3.8",
   label:"v5.3",
   title:"Enterprise Architecture Knowledge Graph",
   source:"c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json",
   built:"2026-09-16"
 };
-const domainColours={"business":"#a855f7","value-product":"#f59e0b","information-data":"#06b6d4","application":"#3b82f6","platform-infra":"#8b5cf6","ddd":"#65a30d","operations-sre":"#22c55e","team-topologies":"#16a34a","product":"#f59e0b","measurement":"#1d4ed8","security":"#0ea5e9","governance-risk":"#9333ea","finops":"#ec4899","data-management":"#6366f1","mlops":"#7c3aed","people-actors":"#10b981","other":"#9ca3af"};
+const domainColours={"business":"#a855f7","value-product":"#f59e0b","information-data":"#06b6d4","application":"#3b82f6","platform-infra":"#8b5cf6","ddd":"#65a30d","operations-sre":"#22c55e","team-topologies":"#16a34a","product":"#f59e0b","measurement":"#1d4ed8","security":"#0ea5e9","governance-risk":"#9333ea","finops":"#ec4899","data-management":"#6366f1","mlops":"#7c3aed","people-actors":"#10b981"};
 const relColours={"decomposition":"#8b5cf6","realisation":"#2563eb","dependency":"#f97316","flow":"#06b6d4","governance":"#f59e0b","ownership":"#16a34a","measurement":"#ec4899","feedback":"#ef4444","lifecycle":"#0ea5e9","association":"#6b7280"};
 const views={"Knowledge Graph":null,"Structural / ontology":e=>e.relationshipFamily==="Structural","Behavioural / dependency":e=>e.relationshipFamily==="Behavioural","Causal / impact":e=>e.relationshipFamily==="Causal","Temporal / lifecycle":e=>e.relationshipFamily==="Temporal","Governance / compliance":e=>e.relationshipFamily==="Governance","Semantic / GraphRAG":e=>e.relationshipFamily==="Semantic","OWL candidate":e=>["Structural","Semantic","Governance"].includes(e.relationshipFamily)};
 let originalData, ontology, familyColours, selectedClasses, selectedFamilies;
@@ -202,7 +202,7 @@ linkLayer.selectAll("line").remove();
 const link=linkLayer.selectAll("path.link").data(data.links,d=>edgeKey(d)); link.exit().remove(); const linkSel=link.enter().append("path").attr("class","link").merge(link).attr("fill","none").attr("stroke",d=>highlightedEdges.has(edgeKey(d))?"#111827":familyColours[d.relationshipFamily]).attr("stroke-width",d=>highlightedEdges.has(edgeKey(d))?4:(d._paired?2.4:(d.relationshipFamily==="Causal"?1.9:1.2))).attr("stroke-dasharray",d=>d.relationshipFamily==="Causal"?"6,4":(d.relationshipFamily==="Governance"||d.relationshipFamily==="Temporal"?"2,3":null)).attr("stroke-dashoffset",d=>d._paired&&d._sign<0?3:0).attr("marker-end",d=>highlightedEdges.has(edgeKey(d))?"url(#arrowhead-highlight)":"url(#arrowhead)").on("mousemove",(ev,d)=>{tooltip.style.visibility="visible";tooltip.innerHTML=`<b>${sourceId(d)}</b> → <b>${targetId(d)}</b><br>${d.label}<br><small>${d.relationshipFamily} / ${d.relationshipClass}</small>`;tooltip.style.top=(ev.clientY+10)+"px";tooltip.style.left=(ev.clientX+10)+"px"}).on("mouseout",()=>tooltip.style.visibility="hidden");
 const labels=labelLayer.selectAll("text").data(data.links,d=>edgeKey(d)); labels.exit().remove(); const labSel=labels.enter().append("text").attr("class","edge-label").merge(labels).text(d=>d.label).style("display",document.getElementById("edgeLabels").checked?"block":"none");
 const node=nodeLayer.selectAll("g").data(data.nodes,d=>d.id); node.exit().remove(); const nodeEnter=node.enter().append("g").attr("class","node").call(d3.drag().on("start",dragstarted).on("drag",dragged).on("end",dragended)).on("click",(ev,d)=>{ev.stopPropagation();focus=d.id;document.getElementById("focusSelect").value=d.id;document.getElementById("pathSource").value=d.id;showNode(d); restrictToHighlight=false; if(depth==="full") highlightNode(d.id, linkSel); else render()}).on("dblclick",(ev,d)=>{d.fx=null;d.fy=null}); nodeEnter.append("circle"); nodeEnter.append("text").attr("x",10).attr("y",3);
-const nodeSel=nodeEnter.merge(node); nodeSel.select("circle").attr("r",d=>highlightedNodes.has(d.id)?10:(d.id===focus?9:7)).attr("fill",d=>domainColours[d.domain]||domainColours.other).attr("stroke",d=>highlightedNodes.has(d.id)?"#111827":"white").attr("stroke-width",d=>highlightedNodes.has(d.id)?3:1.3); nodeSel.select("text").text(d=>d.id).style("display",document.getElementById("nodeLabels").checked?"block":"none");
+const nodeSel=nodeEnter.merge(node); nodeSel.select("circle").attr("r",d=>highlightedNodes.has(d.id)?10:(d.id===focus?9:7)).attr("fill",d=>domainColours[d.domain]||"#9ca3af").attr("stroke",d=>highlightedNodes.has(d.id)?"#111827":"white").attr("stroke-width",d=>highlightedNodes.has(d.id)?3:1.3); nodeSel.select("text").text(d=>d.id).style("display",document.getElementById("nodeLabels").checked?"block":"none");
 sim.nodes(data.nodes).on("tick",()=>{linkSel.attr("d",d=>linkGeometry(d).path);
 labSel.attr("x",d=>linkGeometry(d).lx).attr("y",d=>linkGeometry(d).ly); nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`)}); sim.force("link").links(data.links); sim.alpha(1).restart(); renderMini(data)}
 function showNode(n){const rels=originalData.links.filter(e=>sourceId(e)===n.id||targetId(e)===n.id), grouped={}; rels.forEach(e=>(grouped[e.relationshipFamily]??=[]).push(e)); let out=`<h3 style="font-size:16px;color:${domainColours[n.domain]||"#111"}">${n.id}</h3><span class="badge">${n.domain}</span><span class="badge">${n.type}</span><p><small>${n.description}</small></p><small>Degree: ${rels.length}</small>`; Object.keys(grouped).sort().forEach(f=>{out+=`<details open><summary style="color:${familyColours[f]}">${f} (${grouped[f].length})</summary>`; grouped[f].slice(0,12).forEach(e=>{let incoming=targetId(e)===n.id; out+=`<div class="item">${incoming?"←":"→"} <b>${incoming?sourceId(e):targetId(e)}</b><br><small>${e.label} / ${e.relationshipClass}</small></div>`}); out+="</details>"}); document.getElementById("nodeDetails").innerHTML=out}

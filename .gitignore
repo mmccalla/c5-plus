@@ -97,3 +97,10 @@ test_question_strategy.py
 test_question_frameworks.py
 test_viewer_relationship_classes.py
 test_change_and_maps_to.py
+test_value_product_edges.py
+test_domain_colony_edges.py
+test_information_data_isolate_edges.py
+test_platform_infra_isolate_edges.py
+test_product_isolate_edges.py
+test_security_isolate_edges.py
+test_team_topologies_edges.py
