@@ -91,3 +91,8 @@ test_graph_viewer_production.py
 graph_paths.py
 docs/question-traversals.md
 question_set.md
+test_question_coverage.py
+test_question_mece.py
+test_question_strategy.py
+test_question_frameworks.py
+test_question_ui_buttons.py
