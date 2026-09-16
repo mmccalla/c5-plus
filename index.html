@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Enterprise Architecture Knowledge Graph v5.3</title>
-<meta name="application-version" content="5.3.4">
+<meta name="application-version" content="5.3.5">
 <meta name="graph-source" content="c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json">
 <meta name="build-date" content="2026-09-16">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -46,7 +46,7 @@ small{color:var(--muted)}
 </style>
 </head>
 <body>
-<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.4</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
+<header><h1>Enterprise Architecture Knowledge Graph v5.3</h1><span id="buildMeta" class="build-meta">5.3.5</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
 <div class="layout">
 <aside class="panel side">
 <div class="section"><h2>1. Focus & views</h2><h3>View</h3><select id="viewSelect"></select><h3>Focus node</h3><select id="focusSelect"></select><div class="toolbar"><button class="small depth active" data-depth="1">1-hop</button><button class="small depth" data-depth="2">2-hop</button><button class="small depth" data-depth="3">3-hop</button><button class="small depth" data-depth="full">Full graph</button></div><h3>Labels</h3><label><input type="checkbox" id="nodeLabels" checked> Node labels</label><label><input type="checkbox" id="edgeLabels" checked> Edge labels</label></div>
@@ -78,14 +78,14 @@ small{color:var(--muted)}
 <script src="vendor/d3.v7.min.js"></script>
 <script>
 const BUILD={
-  version:"5.3.4",
+  version:"5.3.5",
   label:"v5.3",
   title:"Enterprise Architecture Knowledge Graph",
   source:"c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json",
   built:"2026-09-16"
 };
 const domainColours={"business":"#a855f7","value-product":"#f59e0b","information-data":"#06b6d4","application":"#3b82f6","platform-infra":"#8b5cf6","ddd":"#65a30d","operations-sre":"#22c55e","team-topologies":"#16a34a","product":"#f59e0b","measurement":"#1d4ed8","security":"#0ea5e9","governance-risk":"#9333ea","finops":"#ec4899","data-management":"#6366f1","mlops":"#7c3aed","people-actors":"#10b981","other":"#9ca3af"};
-const relColours={"decomposition":"#8b5cf6","realisation":"#2563eb","dependency":"#f97316","flow":"#06b6d4","governance":"#f59e0b","ownership":"#16a34a","measurement":"#ec4899","feedback":"#ef4444","association":"#6b7280"};
+const relColours={"decomposition":"#8b5cf6","realisation":"#2563eb","dependency":"#f97316","flow":"#06b6d4","governance":"#f59e0b","ownership":"#16a34a","measurement":"#ec4899","feedback":"#ef4444","lifecycle":"#0ea5e9","association":"#6b7280"};
 const views={"Knowledge Graph":null,"Structural / ontology":e=>e.relationshipFamily==="Structural","Behavioural / dependency":e=>e.relationshipFamily==="Behavioural","Causal / impact":e=>e.relationshipFamily==="Causal","Temporal / lifecycle":e=>e.relationshipFamily==="Temporal","Governance / compliance":e=>e.relationshipFamily==="Governance","Semantic / GraphRAG":e=>e.relationshipFamily==="Semantic","OWL candidate":e=>["Structural","Semantic","Governance"].includes(e.relationshipFamily)};
 let originalData, ontology, familyColours, selectedClasses, selectedFamilies;
 let currentView="Knowledge Graph", focus="business capability", depth=1, highlightedEdges=new Set(), highlightedNodes=new Set();
