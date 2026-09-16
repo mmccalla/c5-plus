@@ -2446,9 +2446,9 @@
       "source": "value object",
       "target": "data object",
       "label": "maps to",
-      "relationshipClass": "flow",
-      "relationshipFamily": "Behavioural",
-      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "relationshipClass": "association",
+      "relationshipFamily": "Semantic",
+      "relationshipSemantics": "Meaning, equivalence, derivation, representation, realisation and conceptual alignment relationships.",
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": true
@@ -2622,9 +2622,9 @@
       "source": "product team",
       "target": "stream-aligned team",
       "label": "maps to",
-      "relationshipClass": "flow",
-      "relationshipFamily": "Behavioural",
-      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "relationshipClass": "association",
+      "relationshipFamily": "Semantic",
+      "relationshipSemantics": "Meaning, equivalence, derivation, representation, realisation and conceptual alignment relationships.",
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": true
@@ -3579,9 +3579,9 @@
       "source": "customer jobs",
       "target": "value stream stage",
       "label": "maps to",
-      "relationshipClass": "flow",
-      "relationshipFamily": "Behavioural",
-      "relationshipSemantics": "Operational interactions, functional use, production, consumption and runtime dependency relationships.",
+      "relationshipClass": "association",
+      "relationshipFamily": "Semantic",
+      "relationshipSemantics": "Meaning, equivalence, derivation, representation, realisation and conceptual alignment relationships.",
       "directed": true,
       "transitiveCandidate": false,
       "inverseCandidate": true
@@ -5897,6 +5897,61 @@
       "inverseCandidate": true
     },
     {
+      "source": "change request",
+      "target": "change",
+      "label": "is type of",
+      "relationshipClass": "decomposition",
+      "relationshipFamily": "Structural",
+      "relationshipSemantics": "Part-whole, classification, containment and decomposition relationships. Used for hierarchical navigation and ontology-style inheritance or composition reasoning.",
+      "directed": true,
+      "transitiveCandidate": true,
+      "inverseCandidate": true
+    },
+    {
+      "source": "application change",
+      "target": "change",
+      "label": "is type of",
+      "relationshipClass": "decomposition",
+      "relationshipFamily": "Structural",
+      "relationshipSemantics": "Part-whole, classification, containment and decomposition relationships. Used for hierarchical navigation and ontology-style inheritance or composition reasoning.",
+      "directed": true,
+      "transitiveCandidate": true,
+      "inverseCandidate": true
+    },
+    {
+      "source": "change request",
+      "target": "change",
+      "label": "implements",
+      "relationshipClass": "realisation",
+      "relationshipFamily": "Semantic",
+      "relationshipSemantics": "Meaning, equivalence, derivation, representation, realisation and conceptual alignment relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": true
+    },
+    {
+      "source": "approval",
+      "target": "change",
+      "label": "approves",
+      "relationshipClass": "governance",
+      "relationshipFamily": "Governance",
+      "relationshipSemantics": "Policy, accountability, ownership, standard, control and audit relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": true
+    },
+    {
+      "source": "deployment",
+      "target": "change",
+      "label": "implements",
+      "relationshipClass": "realisation",
+      "relationshipFamily": "Semantic",
+      "relationshipSemantics": "Meaning, equivalence, derivation, representation, realisation and conceptual alignment relationships.",
+      "directed": true,
+      "transitiveCandidate": false,
+      "inverseCandidate": true
+    },
+    {
       "source": "release",
       "target": "postmortem",
       "label": "can precede",
@@ -6619,7 +6674,7 @@
     "traces": "traced by"
   },
   "projection": {
-    "version": "5.3.4",
+    "version": "5.3.7",
     "series": "v5.3",
     "built": "2026-09-16",
     "description": "Concept projection with declared inverses and tight demo hops for feeds, lineage, SLO impact and retention."
