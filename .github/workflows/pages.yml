@@ -28,6 +28,8 @@ jobs:
       - name: Stage standalone graph
         run: |
           mkdir -p _site/vendor
+          mkdir -p _site/docs
+          cp docs/question-traversals.md _site/docs/question-traversals.md
           cp index.html _site/index.html
           cp c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json _site/
           cp vendor/d3.v7.min.js _site/vendor/d3.v7.min.js
