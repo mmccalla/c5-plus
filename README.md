@@ -1,19 +1,26 @@
-# C5 Enterprise Architecture Knowledge Graph
+# Which data does this application depend on?
 
-Interactive **v5.3** viewer for a directed enterprise-architecture concept graph (226 concepts, 438 relationships). Bidirectional pairs bow apart so the two arrows do not stack. Use it to inspect structure, behaviour, causality, time, governance and semantics, and to walk directed paths between concepts.
+Enterprise and data architects still answer impact, ownership and data-scope questions with slide stacks.
+This repo projects those questions as directed traversals over a shared concept model.
+It is for EA and data-architecture decisions: impact, productisation, and joining applications to data without a modelling-ticket backlog.
 
-## Use the graph
+**Live graph:** https://mmccalla.github.io/c5-plus/
 
-Open the published site: [https://mmccalla.github.io/c5-plus/](https://mmccalla.github.io/c5-plus/)
+**Finding:** From an application component you can reach the data product it consumes and the data object underneath — one directed path instead of three slide layers.
 
-The page is standalone. You do not need a local server or extra services. It follows the same pattern as the [Data Landscape knowledge model](https://mmccalla.github.io/data-landscape-knowledge-model/).
+Core questions this model is built to answer:
 
-On the site you can:
+1. What depends on this?
+2. What will this change impact?
+3. Who owns this?
+4. Which policies apply?
+5. Which customer outcomes are affected?
+6. What data is involved?
+7. Which teams must be involved?
 
-- Focus a concept and expand 1–3 hops or the full graph
-- Filter by relationship family, class, domain and type
-- Run directed path queries (shortest, impact, semantic, causal, temporal)
-- Export `c5-enterprise-architecture-knowledge-graph-v5.3.{json,graphml,svg}`
+This is a concept projection (metamodel), not a populated client estate, and no graph database is required to inspect it.
+
+How the questions walk (directed patterns, including inverses): [docs/question-traversals.md](docs/question-traversals.md)
 
 ## Repository
 
