@@ -32,6 +32,7 @@ These are the files GitHub serves and deploys. Local scratch files are not liste
 | [c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json](c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json) | Graph source |
 | [vendor/d3.v7.min.js](vendor/d3.v7.min.js) | Vendored D3 v7 |
 | [favicon.svg](favicon.svg), [favicon.ico](favicon.ico), [apple-touch-icon.png](apple-touch-icon.png) | Site icons |
+| [docs/question-traversals.md](docs/question-traversals.md) | directed question patterns |
 | [ontology/README.md](ontology/README.md) | Note on local ontology working copies (gitignored; not published) |
 | [requirements-dev.txt](requirements-dev.txt) | Dev dependency: pre-commit |
 | [.github/workflows/ci.yml](.github/workflows/ci.yml) | Pre-commit on `main` and pull requests |
