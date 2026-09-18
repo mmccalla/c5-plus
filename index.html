@@ -30,7 +30,15 @@ h2{font-size:13px;margin:0 0 10px}h3{font-size:12px;margin:10px 0 6px;color:#374
 label{font-size:12px;display:flex;align-items:center;gap:6px;margin:5px 0}
 select,input[type=text]{width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;font-size:12px;background:white}
 small{color:var(--muted)}
-.graph-wrap{position:relative;background:white;border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 4px #0002;overflow:hidden}
+.graph-wrap{position:relative;display:flex;flex-direction:column;background:white;border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 4px #0002;overflow:hidden}
+.learn-flow{flex:none;position:relative;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:8px 10px;font-size:12px}
+.learn-flow[hidden]{display:none}
+.learn-purpose{margin:0 0 6px}
+.learn-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.learn-finding{margin-top:8px;background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:8px}
+.learn-finding p{margin:0 0 4px}
+.learn-error{margin-top:8px;color:#9a3412;background:#fff7ed;border:1px solid #fdba74;border-radius:6px;padding:8px}
+.graph-stage{position:relative;flex:1;min-height:0}
 #graph{width:100%;height:100%}
 .legend{position:absolute;top:10px;left:10px;right:10px;background:#fffffff0;border:1px solid var(--line);border-radius:8px;padding:8px 10px;z-index:3;box-shadow:0 1px 4px #0002}
 .legend-row{display:flex;flex-wrap:wrap;gap:7px 13px;font-size:11px}.sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;border:1px solid #0002}.lsw{display:inline-block;width:18px;height:3px;margin-right:5px;vertical-align:2px}
@@ -55,7 +63,7 @@ small{color:var(--muted)}
 <div class="section"><h2>4. Relationship classes</h2><label><input type="checkbox" id="selectAll" checked> Select all classes</label><div id="relChecks"></div></div>
 <div class="section"><h2>5. Overview</h2><div class="mini"><svg id="miniGraph" width="100%" height="100%"></svg></div><div class="stats" style="margin-top:8px"><div class="stat"><b id="sn"></b><small>Nodes</small></div><div class="stat"><b id="se"></b><small>Edges</small></div><div class="stat"><b id="sd"></b><small>Domains</small></div><div class="stat"><b id="sc"></b><small>Cycles</small></div></div></div>
 </aside>
-<main class="graph-wrap"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Path buttons isolate the matching path. Arrows are source → target. Where two nodes have both directions (business capability ↔ value stream stage), the arrows bow apart so they do not stack.</div><div id="graph"></div><div id="tooltip" class="tooltip"></div></main>
+<main class="graph-wrap"><div id="learnFlow" class="learn-flow"><p class="learn-purpose">Ask EA and data-architecture questions as directed paths on one shared concept model — not three slide layers joined in the meeting.</p><div class="learn-actions"><button type="button" class="primary small" id="tryQ6">Try Q6: Which data does this application depend on?</button><button type="button" class="small" id="dismissLearn">Dismiss</button></div><div id="learnFinding" class="learn-finding" hidden><p>In the projection, an application component links along one directed path to the data product it consumes and the data object underneath — rather than treating those as three disconnected slide layers.</p><small>Concept projection (metamodel), not a populated client estate. No graph database required to inspect it.</small></div><div id="learnError" class="learn-error" hidden>Q6 path unavailable — locked edges missing</div></div><div class="graph-stage"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Path buttons isolate the matching path. Arrows are source → target. Where two nodes have both directions (business capability ↔ value stream stage), the arrows bow apart so they do not stack.</div><div id="graph"></div><div id="tooltip" class="tooltip"></div></div></main>
 <aside class="panel side">
 <div class="section"><h2>Path tools</h2><h3>Source</h3><select id="pathSource"></select><h3>Target</h3><select id="pathTarget"></select><div class="toolbar"><button class="small" id="shortest">Shortest path</button><button class="small" id="impact">Impact path</button><button class="small" id="semanticPath">Semantic path</button><button class="small" id="causalPath">Causal path</button><button class="small" id="temporalPath">Temporal path</button><button class="small" id="clearPath">Clear</button></div>
 <div id="pathResult" class="pathbox"><small>Select source and target nodes.</small></div></div>
@@ -282,6 +290,36 @@ render()}
 function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
 function toGraphML(data){const esc=s=>String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");let out=`<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns"><key id="domain" for="node" attr.name="domain" attr.type="string"/><key id="type" for="node" attr.name="type" attr.type="string"/><key id="label" for="edge" attr.name="label" attr.type="string"/><key id="relationshipClass" for="edge" attr.name="relationshipClass" attr.type="string"/><key id="relationshipFamily" for="edge" attr.name="relationshipFamily" attr.type="string"/><graph id="G" edgedefault="directed">`;data.nodes.forEach(n=>out+=`<node id="${esc(n.id)}"><data key="domain">${esc(n.domain)}</data><data key="type">${esc(n.type)}</data></node>`);data.links.forEach((e,i)=>out+=`<edge id="e${i}" source="${esc(sourceId(e))}" target="${esc(targetId(e))}"><data key="label">${esc(e.label)}</data><data key="relationshipClass">${esc(e.relationshipClass)}</data><data key="relationshipFamily">${esc(e.relationshipFamily)}</data></edge>`);return out+"</graph></graphml>"}
 function renderMini(data){const m=d3.select("#miniGraph"),w=document.getElementById("miniGraph").clientWidth||260,h=130;m.selectAll("*").remove();const ns=data.nodes.map(d=>({...d})),ls=data.links.map(d=>({...d,source:sourceId(d),target:targetId(d)}));const ms=d3.forceSimulation(ns).force("link",d3.forceLink(ls).id(d=>d.id).distance(18).strength(.2)).force("charge",d3.forceManyBody().strength(-18)).force("center",d3.forceCenter(w/2,h/2)).stop();for(let i=0;i<80;i++)ms.tick();m.append("g").selectAll("line").data(ls).enter().append("line").attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y).attr("stroke",d=>familyColours[d.relationshipFamily]).attr("stroke-width",.5);m.append("g").selectAll("circle").data(ns).enter().append("circle").attr("cx",d=>d.x).attr("cy",d=>d.y).attr("r",2).attr("fill",d=>domainColours[d.domain]||"#999")}
+function runLearnQ6(){
+  const step=()=>{
+    const srcSel=document.getElementById("pathSource"), tgtSel=document.getElementById("pathTarget"), focusSel=document.getElementById("focusSelect");
+    if(!originalData||!srcSel||!tgtSel||!focusSel||!srcSel.options.length){requestAnimationFrame(step);return;}
+    const src="application component", mid="data product", tgt="data object";
+    srcSel.value=src; tgtSel.value=tgt; focusSel.value=mid; focus=mid;
+    const consumes=originalData.links.find(e=>sourceId(e)===src&&targetId(e)===mid&&e.label==="consumes");
+    const uses=originalData.links.find(e=>sourceId(e)===mid&&targetId(e)===tgt&&e.label==="uses");
+    const err=document.getElementById("learnError"), finding=document.getElementById("learnFinding");
+    if(!consumes||!uses){
+      if(finding) finding.hidden=true;
+      if(err){err.hidden=false;err.textContent="Q6 path unavailable — locked edges missing";}
+      return;
+    }
+    if(err) err.hidden=true;
+    document.getElementById("nodeLabels").checked=true;
+    document.getElementById("edgeLabels").checked=true;
+    showPath({nodes:[src,mid,tgt],edges:[consumes,uses]},"Q6: Which data does this application depend on?");
+    if(finding) finding.hidden=false;
+  };
+  step();
+}
+function setupLearnFlow(){
+  const strip=document.getElementById("learnFlow");
+  if(!strip) return;
+  if(sessionStorage.getItem("c5plus-learn-dismissed")==="1") strip.hidden=true;
+  const tryBtn=document.getElementById("tryQ6"), dismissBtn=document.getElementById("dismissLearn");
+  if(tryBtn) tryBtn.onclick=runLearnQ6;
+  if(dismissBtn) dismissBtn.onclick=()=>{sessionStorage.setItem("c5plus-learn-dismissed","1");strip.hidden=true;};
+}
 async function boot(){
   applyBuildMeta();
   try{
@@ -298,5 +336,6 @@ async function boot(){
   createCanvas();
   init();
 }
+setupLearnFlow();
 boot();
 </script></body></html>
