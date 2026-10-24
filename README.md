@@ -22,6 +22,29 @@ This is a concept projection (metamodel), not a populated client estate, and no 
 
 How the questions walk (directed patterns, including inverses): [docs/question-traversals.md](docs/question-traversals.md)
 
+## Relationship model
+
+Every relation label is defined once in `relationCatalogue` in the graph JSON. Each entry gives the label's family, class, definition, whether it is transitive, which way a change propagates (`impact`), and its inverse label. Every edge takes these values from its label.
+
+| Family | Classes | Meaning |
+|--------|---------|---------|
+| Structural | decomposition, classification | What a thing is made of, or what kind of thing it is |
+| Behavioural | dependency, flow, activity | Who depends on whom, what flows where, who does what |
+| Causal | propagation, mitigation, enablement | Cause and effect; every edge points from cause to effect |
+| Temporal | sequence, lifecycle, versioning, validity | Order and validity in time |
+| Governance | governance, ownership, measurement | Rules, accountability and measurement |
+| Semantic | realisation, representation, alignment | What realises, represents or aligns with what |
+
+Each edge is stored once, in its primary direction. Inverse labels such as `depended on by` are derived from the catalogue, not stored as second edges.
+
+The viewer's path tools use these rules:
+
+- **Shortest path** follows edge direction. It can walk an edge backwards only through a declared inverse. If no directed path exists, it falls back to ignoring direction and says so.
+- **Impact path** follows each relation's `impact` direction. For example, a change to something you use impacts you.
+- **Semantic path** follows Semantic and Structural edges only.
+- **Causal path** follows Causal edges only, from cause to effect.
+- **Temporal path** follows Temporal edges only, from earlier to later.
+
 ## Repository
 
 These are the files GitHub serves and deploys. Local scratch files are not listed here.
@@ -34,6 +57,7 @@ These are the files GitHub serves and deploys. Local scratch files are not liste
 | [favicon.svg](favicon.svg), [favicon.ico](favicon.ico), [apple-touch-icon.png](apple-touch-icon.png) | Site icons |
 | [docs/question-traversals.md](docs/question-traversals.md) | directed question patterns |
 | [ontology/README.md](ontology/README.md) | Note on local ontology working copies (gitignored; not published) |
+| [scripts/validate_graph.py](scripts/validate_graph.py) | Checks the graph against the relation catalogue and the traversals doc (run by pre-commit) |
 | [requirements-dev.txt](requirements-dev.txt) | Dev dependency: pre-commit |
 | [.github/workflows/ci.yml](.github/workflows/ci.yml) | Pre-commit on `main` and pull requests |
 | [.github/workflows/pages.yml](.github/workflows/pages.yml) | Publish the static viewer to GitHub Pages |
@@ -43,7 +67,13 @@ Edit the JSON or viewer, push to `main`, and GitHub Pages republishes the site.
 
 ## Development
 
-Quality checks on GitHub are pre-commit only.
+Quality checks on GitHub are pre-commit only. The `validate-graph` hook fails if:
+
+- an edge disagrees with its label's catalogue entry
+- an inverse is stored as an edge
+- a node has a placeholder description
+- the versions in the JSON and `index.html` differ
+- a pattern in `docs/question-traversals.md` does not walk real edges
 
 ```bash
 python3 -m pip install -r requirements-dev.txt

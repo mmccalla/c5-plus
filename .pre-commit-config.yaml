@@ -26,3 +26,11 @@ repos:
       - id: ruff
         args: [--fix]
       - id: ruff-format
+  - repo: local
+    hooks:
+      - id: validate-graph
+        name: validate graph, relation catalogue and question traversals
+        entry: python3 scripts/validate_graph.py
+        language: system
+        pass_filenames: false
+        files: ^(c5_enterprise_architecture_knowledge_graph_v5_causal_temporal\.json|index\.html|docs/question-traversals\.md|scripts/validate_graph\.py)$
