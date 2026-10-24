@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Which data does this application depend on? · c5-plus</title>
-<meta name="application-version" content="5.4.0">
+<meta name="application-version" content="5.5.0">
 <meta name="graph-source" content="c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json">
 <meta name="build-date" content="2026-10-24">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -11,335 +12,533 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
 <style>
-:root{--bg:#f8fafc;--panel:#fff;--line:#e5e7eb;--text:#111827;--muted:#6b7280;--blue:#2563eb}
+:root{--bg:#f8fafc;--panel:#fff;--line:#e5e7eb;--text:#111827;--muted:#5b6472;--blue:#2563eb;--soft:#f1f5f9;--target:32px}
+@media (pointer:coarse){:root{--target:44px}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden;color:var(--text)}
-header{height:48px;background:#0b1220;color:#fff;display:flex;align-items:center;gap:10px;padding:0 14px}
-h1{font-size:15px;margin:0;white-space:nowrap}.spacer{flex:1}
-.build-meta{font-size:11px;color:#94a3b8;white-space:nowrap}
-.search{width:230px;background:#111827;color:white;border:1px solid #374151;border-radius:6px;padding:7px 10px;font-size:12px}
-button,select,input{font-family:inherit}
-button{border:1px solid #cbd5e1;background:white;border-radius:6px;padding:6px 9px;font-size:12px;cursor:pointer}
-button.dark{background:#111827;color:white;border-color:#374151}
-button.primary,button.active{background:#2563eb;color:white;border-color:#2563eb}
-button.small{font-size:11px;padding:4px 7px}
-.layout{height:calc(100vh - 48px);display:grid;grid-template-columns:320px 1fr 370px;gap:10px;padding:10px}
-.panel{background:white;border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 4px #0002;overflow:auto}
-.side{padding:10px}.section{border-bottom:1px solid var(--line);margin-bottom:12px;padding-bottom:12px}.section:last-child{border-bottom:0}
-h2{font-size:13px;margin:0 0 10px}h3{font-size:12px;margin:10px 0 6px;color:#374151}
-label{font-size:12px;display:flex;align-items:center;gap:6px;margin:5px 0}
-select,input[type=text]{width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;font-size:12px;background:white}
-small{color:var(--muted)}
-.graph-wrap{position:relative;display:flex;flex-direction:column;background:white;border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 4px #0002;overflow:hidden}
-.learn-flow{flex:none;position:relative;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:8px 10px;font-size:12px}
-.learn-flow[hidden]{display:none}
-.learn-purpose{margin:0 0 6px}
-.learn-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.learn-finding{margin-top:8px;background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:8px}
-.learn-finding p{margin:0 0 4px}
-.learn-error{margin-top:8px;color:#9a3412;background:#fff7ed;border:1px solid #fdba74;border-radius:6px;padding:8px}
+body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;line-height:1.4;color:var(--text);overflow:hidden}
+header{height:52px;background:#0b1220;color:#fff;display:flex;align-items:center;gap:10px;padding:0 14px}
+h1{font-size:16px;margin:0;white-space:nowrap}.spacer{flex:1}
+.build-meta{font-size:12px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+button,select,input{font-family:inherit;font-size:13px}
+button{min-height:var(--target);border:1px solid #cbd5e1;background:#fff;color:var(--text);border-radius:6px;padding:4px 10px;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+button.dark{background:#111827;color:#fff;border-color:#374151}
+button.primary,button[aria-pressed="true"],button[aria-selected="true"]{background:var(--blue);color:#fff;border-color:var(--blue)}
+button.link{border:0;background:none;color:var(--blue);padding:0 2px;min-height:0;text-decoration:underline}
+.layout{height:calc(100vh - 52px);display:grid;grid-template-columns:minmax(260px,300px) minmax(0,1fr) minmax(280px,340px);gap:10px;padding:10px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 4px #0002;overflow:auto;padding:12px}
+.section{border-bottom:1px solid var(--line);margin-bottom:12px;padding-bottom:12px}.section:last-child{border-bottom:0;margin-bottom:0}
+h2{font-size:15px;margin:0 0 8px}h3{font-size:13px;margin:12px 0 6px;color:#374151}
+label{display:flex;align-items:center;gap:8px;min-height:var(--target)}
+input[type=checkbox]{width:18px;height:18px;margin:0;flex:none}
+select,input[type=text],input[type=search]{width:100%;min-height:var(--target);border:1px solid #cbd5e1;border-radius:6px;padding:4px 8px;background:#fff}
+small,.muted{color:var(--muted);font-size:12px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.qgroup{margin:10px 0 0}.qgroup h3{margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.qlist{display:flex;flex-direction:column;gap:4px}
+.qlist button{text-align:left;width:100%;padding:6px 10px}
+details{border:1px solid var(--line);border-radius:6px;padding:0 10px;margin:8px 0;background:#fff}
+details[open]{padding-bottom:8px}
+summary{cursor:pointer;min-height:var(--target);display:flex;align-items:center;font-weight:600}
+.relrow{justify-content:space-between}.relrow>span{display:flex;align-items:center;gap:8px}.count{color:var(--muted)}
+.lsw{display:inline-block;width:18px;height:3px;flex:none}
+.sw{display:inline-block;width:11px;height:11px;border-radius:50%;flex:none;border:1px solid #0003}
+.graph-wrap{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 4px #0002;overflow:hidden;min-width:0}
+.learn-flow{flex:none;border-bottom:1px solid var(--line);padding:8px 10px}
+.learn-flow[hidden]{display:none}.learn-flow p{margin:0 0 6px}
+.learn-finding{margin-top:8px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px}.learn-finding p{margin:0 0 4px}
 .graph-stage{position:relative;flex:1;min-height:0}
 #graph{width:100%;height:100%}
-.overlay{position:absolute;top:10px;left:10px;right:10px;z-index:3;display:flex;flex-direction:column;align-items:flex-start;gap:6px;pointer-events:none}.overlay>*{pointer-events:auto}
-.legend{align-self:stretch;background:#fffffff0;border:1px solid var(--line);border-radius:8px;padding:8px 10px;box-shadow:0 1px 4px #0002}
-.legend-row{display:flex;flex-wrap:wrap;gap:7px 13px;font-size:11px}.sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;border:1px solid #0002}.lsw{display:inline-block;width:18px;height:3px;margin-right:5px;vertical-align:2px}
-.hint{background:#ffffffe0;color:#374151;font-size:11px;padding:3px 6px;border-radius:4px}
-.node circle{stroke:white;stroke-width:1.3px}.node text{font-size:10px;paint-order:stroke;stroke:white;stroke-width:3px;stroke-linejoin:round}
-.link{stroke-opacity:.65;fill:none}.edge-label{font-size:8.5px;fill:#374151;pointer-events:none;opacity:.88;paint-order:stroke;stroke:white;stroke-width:2px}
-.tooltip{position:absolute;visibility:hidden;z-index:20;background:#111827ee;color:white;border-radius:6px;padding:7px 9px;font-size:11px;max-width:400px;pointer-events:none}
-.toolbar{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:8px;text-align:center}.stat b{display:block;color:#2563eb}
-.mini{height:140px;background:#f8fafc;border:1px solid var(--line);border-radius:6px;overflow:hidden}.relrow{justify-content:space-between}.count{color:#6b7280}
-.badge{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:999px;padding:2px 6px;margin:2px;font-size:11px}.item{border-bottom:1px solid #f1f5f9;padding:5px 0;font-size:12px}.pathbox{background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:8px;max-height:240px;overflow:auto;font-size:12px}
-.onto-card{border:1px solid var(--line);border-radius:6px;padding:7px;margin:6px 0;background:#f8fafc}.onto-card b{font-size:12px}.onto-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:11px;margin-top:4px}
-.load-error{position:absolute;inset:120px 24px 24px;background:#fff7ed;border:1px solid #fdba74;border-radius:8px;padding:16px;z-index:4;color:#9a3412;max-width:640px}
+.key{position:absolute;top:8px;left:8px;z-index:3;max-width:calc(100% - 16px);margin:0;box-shadow:0 1px 4px #0002}
+.key-row{display:flex;flex-wrap:wrap;gap:6px 12px;margin:4px 0 8px}.key-row span{display:inline-flex;align-items:center;gap:5px;font-size:12px}
+.status-bar{flex:none;border-top:1px solid var(--line);padding:6px 10px;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;background:var(--bg)}
+.chip{background:#fef3c7;color:#78350f;border-radius:999px;padding:2px 8px;font-size:12px}
+.empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;z-index:2;pointer-events:none}
+.empty>div{pointer-events:auto;max-width:360px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px}
+.empty[hidden]{display:none}
+.node circle{stroke:#fff;stroke-width:1.3px}.node text{font-size:11px;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+.link{stroke-opacity:.65;fill:none}.edge-label{font-size:10px;fill:#374151;pointer-events:none;opacity:.9;paint-order:stroke;stroke:#fff;stroke-width:2px}
+.tooltip{position:fixed;visibility:hidden;z-index:20;background:#111827ee;color:#fff;border-radius:6px;padding:7px 9px;font-size:12px;max-width:380px;pointer-events:none}.tooltip small{color:#cbd5e1}
+.badge{display:inline-flex;align-items:center;gap:5px;background:#eef2ff;color:#3730a3;border-radius:999px;padding:2px 8px;margin:2px 2px 2px 0;font-size:12px}
+.answer-item{border-top:1px solid var(--soft);padding:8px 0}.answer-item:first-of-type{border-top:0}
+.answer-item b{font-size:13px}
+.steps{margin:4px 0 0;padding-left:18px}.steps li{margin:2px 0}.steps li small{display:block}
+.facet{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-top:1px solid var(--soft)}
+.facet .mark{font-weight:700;width:18px;flex:none}.facet.ok .mark{color:#15803d}.facet.missing .mark{color:#b91c1c}
+.item{border-top:1px solid var(--soft);padding:6px 0}
+.onto-card{border:1px solid var(--line);border-radius:6px;padding:8px;margin:6px 0;background:var(--bg)}
+.onto-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12px;margin-top:4px}
+.load-error{position:absolute;inset:24px;background:#fff7ed;border:1px solid #fdba74;border-radius:8px;padding:16px;z-index:4;color:#9a3412;max-width:640px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:1100px){.layout{grid-template-columns:minmax(240px,270px) minmax(0,1fr) minmax(260px,300px)}.build-meta{display:none}}
+@media (max-width:820px){body{overflow:auto}.layout{height:auto;grid-template-columns:1fr}.graph-wrap{height:70vh}.panel{max-height:none}}
 </style>
 </head>
 <body>
-<header><h1>EA questions</h1><span id="buildMeta" class="build-meta">5.4.0</span><input id="globalSearch" class="search" placeholder="Search nodes…"><span class="spacer"></span><button class="dark" id="resetView">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
+<header><h1>EA questions</h1><span id="buildMeta" class="build-meta">5.5.0</span><span class="spacer"></span><button class="dark" id="resetView" title="Reset zoom and pan">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
 <div class="layout">
-<aside class="panel side">
-<div class="section"><h2>1. Focus & views</h2><h3>View</h3><select id="viewSelect"></select><h3>Focus node</h3><select id="focusSelect"></select><div class="toolbar"><button class="small depth active" data-depth="1">1-hop</button><button class="small depth" data-depth="2">2-hop</button><button class="small depth" data-depth="3">3-hop</button><button class="small depth" data-depth="full">Full graph</button></div><h3>Labels</h3><label><input type="checkbox" id="nodeLabels" checked> Node labels</label><label><input type="checkbox" id="edgeLabels" checked> Edge labels</label></div>
-<div class="section"><h2>2. Filters</h2><h3>Domain</h3><select id="domainFilter"><option value="all">All domains</option></select><h3>Node type</h3><select id="typeFilter"><option value="all">All types</option></select><h3>Text search</h3><input type="text" id="textFilter" placeholder="e.g. data product, policy…"></div>
-<div class="section"><h2>3. Relationship ontology</h2><label><input type="checkbox" id="selectAllFamilies" checked> Select all families</label><div id="familyChecks"></div></div>
-<div class="section"><h2>4. Relationship classes</h2><label><input type="checkbox" id="selectAll" checked> Select all classes</label><div id="relChecks"></div></div>
-<div class="section"><h2>5. Overview</h2><div class="mini"><svg id="miniGraph" width="100%" height="100%"></svg></div><div class="stats" style="margin-top:8px"><div class="stat"><b id="sn"></b><small>Nodes</small></div><div class="stat"><b id="se"></b><small>Edges</small></div><div class="stat"><b id="sd"></b><small>Domains</small></div><div class="stat"><b id="sc"></b><small>Cycles</small></div></div></div>
+<aside class="panel" aria-label="Ask">
+  <div class="tabs" role="tablist" aria-label="Mode">
+    <button role="tab" id="tabAsk" aria-selected="true" aria-controls="askPane">Ask a question</button>
+    <button role="tab" id="tabExplore" aria-selected="false" aria-controls="explorePane">Explore</button>
+  </div>
+  <div class="section">
+    <label for="elementInput" style="min-height:0"><h2 style="margin:0">Element</h2></label>
+    <input type="search" id="elementInput" list="elementList" autocomplete="off" placeholder="Search for an element…">
+    <datalist id="elementList"></datalist>
+    <small id="elementHint">Type to search all 226 elements, or click a node in the graph.</small>
+  </div>
+  <div id="askPane" role="tabpanel" aria-labelledby="tabAsk">
+    <h2>Question</h2>
+    <small>Each question works on any element. It looks only at the relationships that answer it.</small>
+    <div id="questionList"></div>
+  </div>
+  <div id="explorePane" role="tabpanel" aria-labelledby="tabExplore" hidden>
+    <div class="section">
+      <h2>Neighbourhood</h2>
+      <small>Elements linked to the element in either direction.</small>
+      <div class="row" style="margin-top:6px" role="group" aria-label="Neighbourhood size">
+        <button class="depth" data-depth="1" aria-pressed="true">1 step</button><button class="depth" data-depth="2" aria-pressed="false">2 steps</button><button class="depth" data-depth="3" aria-pressed="false">3 steps</button><button class="depth" data-depth="full" aria-pressed="false">Whole model</button>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Route to another element</h2>
+      <label for="routeTarget" class="visually-hidden">Route to</label>
+      <input type="search" id="routeTarget" list="elementList" autocomplete="off" placeholder="Search for a second element…">
+      <h3><label for="routeType" style="min-height:0">Follow</label></h3>
+      <select id="routeType">
+        <option value="directed">Any relationship, in its direction</option>
+        <option value="impact">How a change ripples out</option>
+        <option value="causal">Cause → effect only</option>
+        <option value="temporal">Earlier → later only</option>
+        <option value="semantic">Realisation, meaning and structure only</option>
+      </select>
+      <div class="row" style="margin-top:8px"><button class="primary" id="findRoute">Find route</button><button id="clearRoute">Clear route</button></div>
+    </div>
+    <div class="section">
+      <h2>Refine</h2>
+      <small>Applies to the neighbourhood and routes. Questions always use the whole model.</small>
+      <h3>Relationship families</h3>
+      <label><input type="checkbox" id="selectAllFamilies" checked> All families</label>
+      <div id="familyChecks"></div>
+      <h3><label for="domainFilter" style="min-height:0">Domain</label></h3>
+      <select id="domainFilter"><option value="all">All domains</option></select>
+      <h3><label for="typeFilter" style="min-height:0">Element type</label></h3>
+      <select id="typeFilter"><option value="all">All types</option></select>
+      <details id="classPanel">
+        <summary>Relationship classes</summary>
+        <label><input type="checkbox" id="selectAllClasses" checked> All classes</label>
+        <div id="classChecks"></div>
+      </details>
+      <h3>Labels</h3>
+      <label><input type="checkbox" id="nodeLabels" checked> Element names</label>
+      <label><input type="checkbox" id="edgeLabels" checked> Relationship names</label>
+      <button id="clearFilters" style="margin-top:6px">Clear refinements</button>
+    </div>
+  </div>
 </aside>
-<main class="graph-wrap"><div id="learnFlow" class="learn-flow"><p class="learn-purpose">Ask EA and data-architecture questions as directed paths on one shared concept model — not three slide layers joined in the meeting.</p><div class="learn-actions"><button type="button" class="primary small" id="tryQ6">Try Q6: Which data does this application depend on?</button><button type="button" class="small" id="dismissLearn">Dismiss</button></div><div id="learnFinding" class="learn-finding" hidden><p>In the projection, an application component links along one directed path to the data product it consumes and the data object underneath — rather than treating those as three disconnected slide layers.</p><small>Concept projection (metamodel), not a populated client estate. No graph database required to inspect it.</small></div><div id="learnError" class="learn-error" hidden>Q6 path unavailable — locked edges missing</div></div><div class="graph-stage"><div class="overlay"><div class="legend"><b>Relationship ontology families</b><div id="familyLegend" class="legend-row"></div><div style="margin-top:5px"><b>Domains</b></div><div id="domLegend" class="legend-row"></div></div><div class="hint">Default is 1-hop focus. Path buttons isolate the matching path. Arrows are source → target; inverses such as “used by” are derived, not drawn. Where two nodes have edges both ways, the arrows bow apart so they do not stack.</div></div><div id="graph"></div><div id="tooltip" class="tooltip"></div></div></main>
-<aside class="panel side">
-<div class="section"><h2>Path tools</h2><h3>Source</h3><select id="pathSource"></select><h3>Target</h3><select id="pathTarget"></select><div class="toolbar"><button class="small" id="shortest" title="Directed path over all families. Edges can be walked backwards only through a declared inverse (for example consumes → depended on by). Falls back to ignoring direction, and says so.">Shortest path</button><button class="small" id="impact" title="What a change to the source impacts. Each relation propagates change forwards (feeds, causes) or backwards (a change to what you use impacts you).">Impact path</button><button class="small" id="semanticPath" title="Directed path over Semantic and Structural edges and their declared inverses.">Semantic path</button><button class="small" id="causalPath" title="Causal edges only, cause → effect. Swap source and target for root cause.">Causal path</button><button class="small" id="temporalPath" title="Temporal edges only, earlier → later.">Temporal path</button><button class="small" id="clearPath">Clear</button></div>
-<div id="pathResult" class="pathbox"><small>Select source and target nodes.</small></div></div>
-<div class="section"><h2>Node details</h2><div id="nodeDetails"><small>Click a node to inspect metadata and relationships.</small></div></div>
-<div class="section">
-  <h2>Legend</h2>
-  <h3>Relationship families</h3>
-  <div id="rightFamilyLegend" class="legend-row"></div>
-  <h3>Relationship classes</h3>
-  <div id="rightRelLegend" class="legend-row"></div>
-  <h3>Edge styles</h3>
-  <small>Arrow direction shows source → target. Solid = primary, dotted = governance/temporal, dashed = causal.</small>
-</div>
-<div class="section"><h2>Formal relationship ontology</h2><div id="ontologyPanel"></div></div>
+<main class="graph-wrap">
+  <div id="learnFlow" class="learn-flow"><p>Ask EA and data-architecture questions as directed paths on one shared concept model — not three slide layers joined in the meeting.</p><div class="row"><button type="button" class="primary" id="tryQ6">Try Q6: Which data does this application depend on?</button><button type="button" id="dismissLearn">Dismiss</button></div><div id="learnFinding" class="learn-finding" hidden><p>In the projection, an application component links along one directed path to the data product it consumes and the data object underneath — rather than treating those as three disconnected slide layers.</p><small>Concept projection (metamodel), not a populated client estate. No graph database required to inspect it.</small></div></div>
+  <div class="graph-stage">
+    <details class="key"><summary>Key</summary><b>Relationship families</b><div id="familyKey" class="key-row"></div><small>Arrows point source → target. Solid = primary, dotted = governance or temporal, dashed = causal.</small><div style="margin-top:6px"><b>Domains</b></div><div id="domainKey" class="key-row"></div></details>
+    <div id="graph" role="img" aria-label="Graph of the current view"></div>
+    <div id="empty" class="empty" hidden role="status"><div id="emptyText"></div></div>
+  </div>
+  <div class="status-bar" aria-live="polite"><span id="statusText"></span><span id="filterChips"></span></div>
+  <div id="tooltip" class="tooltip"></div>
+</main>
+<aside class="panel" aria-label="Answer">
+  <div class="section" aria-live="polite"><h2 id="answerTitle">Answer</h2><div id="answer"><small>Pick a question on the left. It answers for the element shown, and you can change the element at any time.</small></div></div>
+  <div class="section"><h2>Selected element</h2><div id="nodeDetails"><small>Click a node to see its definition and relationships.</small></div></div>
+  <div class="section"><details id="referencePanel"><summary>Model reference</summary><h3>Relationship classes</h3><div id="classKey" class="key-row"></div><div id="ontologyPanel"></div></details></div>
 </aside>
 </div>
 <script src="vendor/d3.v7.min.js"></script>
 <script>
 const BUILD={
-  version:"5.4.0",
-  label:"v5.4",
+  version:"5.5.0",
+  label:"v5.5",
   title:"Enterprise Architecture Knowledge Graph",
   source:"c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json",
   built:"2026-10-24"
 };
-const domainColours={"business":"#a855f7","value-product":"#f59e0b","information-data":"#06b6d4","application":"#3b82f6","platform-infra":"#8b5cf6","ddd":"#65a30d","operations-sre":"#22c55e","team-topologies":"#16a34a","product":"#f59e0b","measurement":"#1d4ed8","security":"#0ea5e9","governance-risk":"#9333ea","finops":"#ec4899","data-management":"#6366f1","mlops":"#7c3aed","people-actors":"#10b981"};
-const relColours={"decomposition":"#8b5cf6","classification":"#c084fc","dependency":"#f97316","flow":"#06b6d4","activity":"#a16207","propagation":"#ef4444","mitigation":"#16a34a","enablement":"#f43f5e","sequence":"#0ea5e9","lifecycle":"#0284c7","versioning":"#38bdf8","validity":"#7dd3fc","governance":"#f59e0b","ownership":"#15803d","measurement":"#ec4899","realisation":"#2563eb","representation":"#6366f1","alignment":"#64748b"};
-const views={"Knowledge Graph":null,"Structural / ontology":e=>e.relationshipFamily==="Structural","Behavioural / dependency":e=>e.relationshipFamily==="Behavioural","Causal / impact":e=>e.relationshipFamily==="Causal","Temporal / lifecycle":e=>e.relationshipFamily==="Temporal","Governance / compliance":e=>e.relationshipFamily==="Governance","Semantic / GraphRAG":e=>e.relationshipFamily==="Semantic","OWL candidate":e=>["Structural","Semantic","Governance"].includes(e.relationshipFamily)};
-let originalData, ontology, familyColours, selectedClasses, selectedFamilies;
-let currentView="Knowledge Graph", focus="business capability", depth=1, highlightedEdges=new Set(), highlightedNodes=new Set();
-let restrictToHighlight=false, depthBeforePath=1;
-let svg, layer, linkLayer, labelLayer, nodeLayer, zoom, sim, width, height;
-const tooltip=document.getElementById("tooltip");
+// Distinct categorical colours; the domain is also always shown as text.
+const domainColours={"application":"#1f77b4","value-product":"#ff7f0e","operations-sre":"#2ca02c","governance-risk":"#d62728","business":"#9467bd","platform-infra":"#8c564b","finops":"#e377c2","people-actors":"#7f7f7f","ddd":"#bcbd22","information-data":"#17becf","measurement":"#393b79","team-topologies":"#637939","product":"#8c6d31","security":"#843c39","mlops":"#7b4173","data-management":"#e7ba52"};
+const classColours={"decomposition":"#8b5cf6","classification":"#c084fc","dependency":"#f97316","flow":"#06b6d4","activity":"#a16207","propagation":"#ef4444","mitigation":"#16a34a","enablement":"#f43f5e","sequence":"#0ea5e9","lifecycle":"#0284c7","versioning":"#38bdf8","validity":"#7dd3fc","governance":"#f59e0b","ownership":"#15803d","measurement":"#ec4899","realisation":"#2563eb","representation":"#6366f1","alignment":"#64748b"};
+
+// ---- Questions ---------------------------------------------------------------
+// A question walks outward from the element along the relationships that answer it.
+// Each rule matches edges by family, class or label, and says which way to walk them:
+// "out" follows the stored direction, "in" walks it backwards, "both" either way.
+// {impact:true} walks each relation the way a change propagates (relationCatalogue.impact).
+const GOV_IN=["governs","applied to","mandates","defines","controls","establishes","authorises"];
+const GOV_OUT=["governed by","restricted by","constrained by","enforced by"];
+const TEAMS=["stream-aligned team","platform team","enabling team","complicated-subsystem team","product team","product trio","sre","business role","data stewardship","data governance organisation"];
+const OUTCOMES=["outcome","customer impact","customer gains","stakeholder","value item","kpi","key result","okr"];
+const QUESTIONS=[
+  {id:"Q1",group:"Dependencies and impact",text:"What depends on this?",example:"data product",depth:3,
+   rules:[{cls:["dependency"],dir:"in"},{labels:["feeds","input for"],dir:"out"},{labels:["realised by","realised as","exposed via","delivered via"],dir:"in"}]},
+  {id:"Q2",group:"Dependencies and impact",text:"What will a change to this impact?",example:"application change",depth:4,rules:[{impact:true}]},
+  {id:"Q5",group:"Dependencies and impact",text:"Which customer outcomes are affected?",example:"business capability",depth:5,
+   rules:[{impact:true},{labels:["part of"],dir:"out"},{labels:["has","contains","comprises","includes"],dir:"in"}],target:{ids:OUTCOMES}},
+  {id:"Q12",group:"Dependencies and impact",text:"What fails if this breaks?",example:"slo",depth:4,rules:[{fam:["Causal"],dir:"out"}]},
+  {id:"Q14",group:"Dependencies and impact",text:"What does this need from the platform?",example:"business capability",depth:5,
+   rules:[{labels:["realised by","realised as","exposed via","delivered via","implemented by"],dir:"out"},{labels:["implements"],dir:"in"},{cls:["dependency"],dir:"out"}],target:{domains:["platform-infra"]}},
+  {id:"Q3",group:"Ownership and governance",text:"Who owns this?",example:"data product",depth:3,
+   rules:[{labels:["owns","accountable for"],dir:"in"},{labels:["part of"],dir:"out"},{labels:["has","contains","comprises","includes"],dir:"in"},{labels:["realised by","implemented by"],dir:"in"}],target:{via:["owns","accountable for"]}},
+  {id:"Q7",group:"Ownership and governance",text:"Which teams must be involved?",example:"data product",depth:3,
+   rules:[{impact:true},{cls:["ownership"],dir:"in"}],target:{ids:TEAMS}},
+  {id:"Q4",group:"Ownership and governance",text:"Which policies and controls apply?",example:"data product",depth:4,
+   rules:[{cls:["dependency"],dir:"out"},{labels:GOV_OUT,dir:"out"},{labels:GOV_IN,dir:"in"},{labels:["is type of"],dir:"out"},{labels:["enforces"],dir:"in"}],target:{viaClass:["governance","classification"]}},
+  {id:"Q16",group:"Ownership and governance",text:"What retention, privacy or access constraints bind this?",example:"data object",depth:2,
+   rules:[{labels:GOV_OUT,dir:"out"},{labels:GOV_IN,dir:"in"}],target:{viaClass:["governance"]}},
+  {id:"Q11",group:"Ownership and governance",text:"Which risks does this control mitigate?",example:"control",depth:2,
+   rules:[{cls:["mitigation"],dir:"out"},{labels:["is type of"],dir:"in"}],target:{isA:["risk","risk exposure"]}},
+  {id:"Q6",group:"Data and lineage",text:"Which data does this depend on?",example:"application component",depth:2,
+   rules:[{cls:["dependency","flow"],dir:"out"},{labels:["manages","composed of","realised by"],dir:"out"}],target:{domains:["information-data"]}},
+  {id:"Q8",group:"Data and lineage",text:"What feeds this?",example:"ml model",depth:3,
+   rules:[{cls:["flow"],dir:"in"},{labels:["deployed as","promotes to"],dir:"in"},{cls:["dependency"],dir:"out"}]},
+  {id:"Q10",group:"Data and lineage",text:"What lineage exists for this?",example:"data product",depth:2,
+   rules:[{labels:["has lineage"],dir:"out"},{labels:["traces","generates"],dir:"in"},{cls:["dependency"],dir:"out"}],target:{match:"lineage"}},
+  {id:"Q9",group:"Data and lineage",text:"Is this data product AI-ready?",example:"data product",facets:[
+    {name:"Access is controlled",depth:1,rules:[{labels:["restricted by"],dir:"out"}]},
+    {name:"Someone is accountable",depth:1,rules:[{labels:["accountable for","owns"],dir:"in"}]},
+    {name:"Lineage is recorded",depth:1,rules:[{labels:["has lineage"],dir:"out"},{labels:["traces"],dir:"in"}]},
+    {name:"Data policy applies",depth:2,rules:[{cls:["dependency"],dir:"out"},{labels:["governed by"],dir:"out"},{labels:["governs"],dir:"in"}],target:{isA:["data policy","policy"]}},
+    {name:"Quality is managed",depth:2,rules:[{labels:["owns"],dir:"in"},{labels:["implements"],dir:"out"},{labels:["measures","monitors"],dir:"in"}],target:{match:"quality"}}]},
+  {id:"Q18",group:"Causes and sequence",text:"What could cause this?",example:"customer impact",depth:4,rules:[{fam:["Causal"],dir:"in"}]},
+  {id:"Q13",group:"Causes and sequence",text:"Who must act on this incident?",example:"incident",depth:3,
+   rules:[{fam:["Causal"],dir:"out"},{labels:["assigned to","informs","supports"],dir:"out"},{cls:["ownership"],dir:"in"}],target:{ids:TEAMS}},
+  {id:"Q17",group:"Causes and sequence",text:"What customer outcome moves if this moves?",example:"kpi",depth:3,
+   rules:[{cls:["measurement"],dir:"out"},{fam:["Causal"],dir:"out"},{labels:["informs"],dir:"out"}],target:{ids:OUTCOMES}},
+  {id:"Q15",group:"Causes and sequence",text:"Which domains or bounded contexts touch this?",example:"data product",depth:3,
+   rules:[{cls:["ownership"],dir:"in"},{labels:["owns"],dir:"out"},{cls:["realisation"],dir:"both"},{labels:["part of"],dir:"out"}],target:{domains:["ddd"]}},
+];
+const ROUTES={
+  directed:{label:"Any relationship, in its direction",mode:"directed"},
+  impact:{label:"How a change ripples out",mode:"impact"},
+  causal:{label:"Cause → effect",mode:"forward",families:["Causal"]},
+  temporal:{label:"Earlier → later",mode:"forward",families:["Temporal"]},
+  semantic:{label:"Realisation, meaning and structure",mode:"directed",families:["Semantic","Structural"]},
+};
+
+// ---- State --------------------------------------------------------------------
+let originalData, ontology, catalogue, familyColours, nodeById, outEdges, inEdges, typeParents;
+const state={mode:"ask",element:"application component",question:null,depth:"1",scene:null,
+  families:null,classes:null,domain:"all",type:"all"};
+let svg, layer, linkLayer, labelLayer, nodeLayer, zoom, sim;
+const $=id=>document.getElementById(id);
+const tooltip=$("tooltip");
+const esc=s=>String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
 function sourceId(e){return typeof e.source==="string"?e.source:e.source.id} function targetId(e){return typeof e.target==="string"?e.target:e.target.id} function edgeKey(e){return `${sourceId(e)}|${targetId(e)}|${e.label}`}
-function applyBuildMeta(extra){
-  const el=document.getElementById("buildMeta");
-  if(!el) return;
-  el.textContent=`${BUILD.version} · ${BUILD.source} · built ${BUILD.built}${extra||""}`;
-  el.title=`${BUILD.title} ${BUILD.version}`;
-}
+function relation(e){return catalogue[e.label]||{}}
+function sentence(e){return `${sourceId(e)} ${e.label} ${targetId(e)}`}
+
+// ---- Loading --------------------------------------------------------------------
+function applyBuildMeta(extra){const el=$("buildMeta"); el.textContent=`${BUILD.version} · ${BUILD.source} · built ${BUILD.built}${extra||""}`; el.title=`${BUILD.title} ${BUILD.version}`}
 async function loadGraphData(){
   const res=await fetch(BUILD.source,{cache:"no-store"});
   if(!res.ok) throw new Error(`Failed to load ${BUILD.source} (HTTP ${res.status})`);
   const data=await res.json();
-  if(!Array.isArray(data.nodes)||!Array.isArray(data.links)||!data.relationshipOntology){
-    throw new Error(`${BUILD.source} must contain nodes, links and relationshipOntology`);
-  }
+  if(!Array.isArray(data.nodes)||!Array.isArray(data.links)||!data.relationshipOntology||!data.relationCatalogue) throw new Error(`${BUILD.source} must contain nodes, links, relationshipOntology and relationCatalogue`);
   return data;
 }
 function showLoadError(err){
-  const wrap=document.querySelector(".graph-wrap");
-  const box=document.createElement("div");
-  box.className="load-error";
+  const box=document.createElement("div"); box.className="load-error";
   const fileProtocol=location.protocol==="file:";
-  box.innerHTML=`<b>Could not load the graph</b><p>${err.message}</p><small>${fileProtocol?"Open <a href=\"https://mmccalla.github.io/c5-plus/\">https://mmccalla.github.io/c5-plus/</a> — this page is meant to be viewed from that link, not as a local file.":"Check that the JSON file sits beside this HTML page."}</small>`;
-  wrap.appendChild(box);
+  box.innerHTML=`<b>Could not load the graph</b><p>${esc(err.message)}</p><small>${fileProtocol?"Open <a href=\"https://mmccalla.github.io/c5-plus/\">https://mmccalla.github.io/c5-plus/</a> — this page is meant to be viewed from that link, not as a local file.":"Check that the JSON file sits beside this HTML page."}</small>`;
+  document.querySelector(".graph-stage").appendChild(box);
 }
-function createCanvas(){
-  const graphEl=document.getElementById("graph");
-  width=graphEl.clientWidth; height=graphEl.clientHeight;
-  svg=d3.select("#graph").append("svg").attr("width",width).attr("height",height);
-  const defs=svg.append("defs");
-  defs.append("marker")
-    .attr("id","arrowhead")
-    .attr("viewBox","0 -5 10 10")
-    .attr("refX",8)
-    .attr("refY",0)
-    .attr("markerWidth",8)
-    .attr("markerHeight",8)
-    .attr("orient","auto")
-    .attr("markerUnits","userSpaceOnUse")
-    .append("path")
-    .attr("d","M0,-5L10,0L0,5")
-    .attr("fill","#6b7280");
-  defs.append("marker")
-    .attr("id","arrowhead-highlight")
-    .attr("viewBox","0 -5 10 10")
-    .attr("refX",8)
-    .attr("refY",0)
-    .attr("markerWidth",9)
-    .attr("markerHeight",9)
-    .attr("orient","auto")
-    .attr("markerUnits","userSpaceOnUse")
-    .append("path")
-    .attr("d","M0,-5L10,0L0,5")
-    .attr("fill","#111827");
-  layer=svg.append("g"); linkLayer=layer.append("g"); labelLayer=layer.append("g"); nodeLayer=layer.append("g");
-  zoom=d3.zoom().scaleExtent([.08,5]).on("zoom",ev=>layer.attr("transform",ev.transform)); svg.call(zoom);
-  sim=d3.forceSimulation().force("link",d3.forceLink().id(d=>d.id).distance(d=>d._paired?170:95).strength(.48)).force("charge",d3.forceManyBody().strength(-220)).force("center",d3.forceCenter(width/2,height/2)).force("collision",d3.forceCollide().radius(26));
-}
-function baseLinks(){let out=originalData.links.filter(e=>selectedClasses.has(e.relationshipClass)&&selectedFamilies.has(e.relationshipFamily)); if(views[currentView]) out=out.filter(views[currentView]); return out}
-function focusSet(links){if(depth==="full")return null; const adj=new Map(); links.forEach(e=>{const s=sourceId(e),t=targetId(e); if(!adj.has(s))adj.set(s,new Set()); if(!adj.has(t))adj.set(t,new Set()); adj.get(s).add(t); adj.get(t).add(s)}); let seen=new Set([focus]), front=new Set([focus]); for(let i=0;i<Number(depth);i++){let nxt=new Set(); front.forEach(n=>(adj.get(n)||[]).forEach(m=>{if(!seen.has(m)){seen.add(m);nxt.add(m)}})); front=nxt} return seen}
-function filtered(){
-  let links=baseLinks(), nodes;
-  if(restrictToHighlight && highlightedNodes.size){
-    links=links.filter(e=>highlightedEdges.has(edgeKey(e)));
-    nodes=originalData.nodes.filter(n=>highlightedNodes.has(n.id));
-  }else{
-    const fs=focusSet(links);
-    if(fs) links=links.filter(e=>fs.has(sourceId(e))&&fs.has(targetId(e)));
-    const incident=new Set();
-    links.forEach(e=>{incident.add(sourceId(e));incident.add(targetId(e))});
-    nodes=originalData.nodes.filter(n=>incident.has(n.id));
-  }
-  const dom=document.getElementById("domainFilter").value, typ=document.getElementById("typeFilter").value, text=(document.getElementById("textFilter").value||document.getElementById("globalSearch").value||"").toLowerCase().trim();
-  if(dom!=="all")nodes=nodes.filter(n=>n.domain===dom);
-  if(typ!=="all")nodes=nodes.filter(n=>n.type===typ);
-  if(text)nodes=nodes.filter(n=>n.id.toLowerCase().includes(text)||n.domain.toLowerCase().includes(text)||n.type.toLowerCase().includes(text));
-  const ns=new Set(nodes.map(n=>n.id));
-  links=links.filter(e=>ns.has(sourceId(e))&&ns.has(targetId(e)));
-  return{nodes:nodes.map(n=>({...n})),links:links.map(e=>({...e,source:sourceId(e),target:targetId(e)}))}
-}
-function markOppositeLanes(links){
-  const dirs=new Set(links.map(e=>sourceId(e)+"\0"+targetId(e)));
-  links.forEach(e=>{
-    const s=sourceId(e), t=targetId(e);
-    e._paired=dirs.has(t+"\0"+s);
-    e._sign=s<t?1:-1;
+function indexGraph(){
+  nodeById=new Map(originalData.nodes.map(n=>[n.id,n])); outEdges=new Map(); inEdges=new Map(); typeParents=new Map();
+  originalData.links.forEach(e=>{
+    (outEdges.get(e.source)||outEdges.set(e.source,[]).get(e.source)).push(e);
+    (inEdges.get(e.target)||inEdges.set(e.target,[]).get(e.target)).push(e);
+    if(e.label==="is type of") (typeParents.get(e.source)||typeParents.set(e.source,[]).get(e.source)).push(e.target);
   });
 }
-function linkGeometry(d){
-  const x1=d.source.x, y1=d.source.y, x2=d.target.x, y2=d.target.y;
-  if(!Number.isFinite(x1)||!Number.isFinite(y1)||!Number.isFinite(x2)||!Number.isFinite(y2)){
-    return{path:"M0,0L0,0",lx:0,ly:0};
+function isA(id,base){const seen=new Set(),stack=[id]; while(stack.length){const n=stack.pop(); if(n===base)return true; if(seen.has(n))continue; seen.add(n); (typeParents.get(n)||[]).forEach(p=>stack.push(p))} return false}
+
+// ---- Traversal ------------------------------------------------------------------
+// A rule with labels matches those labels; otherwise it matches its classes; fam narrows either.
+function ruleMatches(rule,e){
+  if(rule.fam&&!rule.fam.includes(e.relationshipFamily))return false;
+  if(rule.labels)return rule.labels.includes(e.label);
+  if(rule.cls)return rule.cls.includes(e.relationshipClass);
+  return true;
+}
+// Steps out of a node under a set of rules: {to, edge, backward}.
+function ruleSteps(id,rules,links){
+  const ok=e=>!links||links.has(e), out=[];
+  (outEdges.get(id)||[]).filter(ok).forEach(e=>{if(rules.some(r=>r.impact?relation(e).impact==="forward":(r.dir!=="in"&&ruleMatches(r,e))))out.push({to:e.target,edge:e,backward:false})});
+  (inEdges.get(id)||[]).filter(ok).forEach(e=>{if(rules.some(r=>r.impact?relation(e).impact==="reverse":(r.dir!=="out"&&ruleMatches(r,e))))out.push({to:e.source,edge:e,backward:true})});
+  return out;
+}
+// Steps for route-finding modes.
+function modeSteps(id,mode,families,links){
+  const ok=e=>(!links||links.has(e))&&(!families||families.includes(e.relationshipFamily)), out=[];
+  (outEdges.get(id)||[]).filter(ok).forEach(e=>{if(mode!=="impact"||relation(e).impact==="forward")out.push({to:e.target,edge:e,backward:false})});
+  (inEdges.get(id)||[]).filter(ok).forEach(e=>{const r=relation(e); if((mode==="directed"&&r.inverse)||(mode==="any")||(mode==="impact"&&r.impact==="reverse"))out.push({to:e.source,edge:e,backward:true})});
+  return out;
+}
+function bfs(src,stepsOf,maxDepth=Infinity){
+  const prev=new Map([[src,null]]), depth=new Map([[src,0]]), q=[src];
+  while(q.length){const u=q.shift(); if(depth.get(u)>=maxDepth)continue; stepsOf(u).forEach(st=>{if(!prev.has(st.to)){prev.set(st.to,{...st,from:u});depth.set(st.to,depth.get(u)+1);q.push(st.to)}})}
+  const pathTo=t=>{const steps=[];let c=t;while(prev.get(c)){steps.push(prev.get(c));c=prev.get(c).from}return steps.reverse()};
+  return{prev,depth,pathTo};
+}
+function matchesTarget(target,id,lastStep){
+  if(!target)return true;
+  const n=nodeById.get(id);
+  if(target.ids&&!target.ids.includes(id))return false;
+  if(target.domains&&!target.domains.includes(n.domain))return false;
+  if(target.isA&&!target.isA.some(b=>isA(id,b)))return false;
+  if(target.match&&!id.includes(target.match))return false;
+  if(target.via&&!target.via.includes(lastStep.edge.label))return false;
+  if(target.viaClass&&!target.viaClass.includes(lastStep.edge.relationshipClass))return false;
+  return true;
+}
+function runQuery(element,spec){
+  const r=bfs(element,id=>ruleSteps(id,spec.rules),spec.depth);
+  const answers=[];
+  r.prev.forEach((st,id)=>{if(st&&matchesTarget(spec.target,id,st))answers.push({id,steps:r.pathTo(id)})});
+  answers.sort((a,b)=>a.steps.length-b.steps.length||a.id.localeCompare(b.id));
+  return answers;
+}
+function findRoute(src,tgt,route,links){
+  let r=bfs(src,id=>modeSteps(id,route.mode,route.families,links)), note="";
+  if(!r.prev.has(tgt)&&route.mode==="directed"&&!route.families){r=bfs(src,id=>modeSteps(id,"any",null,links)); note="No route follows the arrows, so this one ignores direction."}
+  return r.prev.has(tgt)?{steps:r.pathTo(tgt),note}:null;
+}
+
+// ---- Scenes -----------------------------------------------------------------------
+function sceneFromSteps(element,stepLists){const nodes=new Set([element]),edges=new Set();stepLists.forEach(steps=>steps.forEach(st=>{nodes.add(st.to);nodes.add(st.from);edges.add(st.edge)}));return{nodes,edges}}
+function refinedLinks(){return new Set(originalData.links.filter(e=>state.families.has(e.relationshipFamily)&&state.classes.has(e.relationshipClass)))}
+function neighbourhood(){
+  const links=[...refinedLinks()], focus=state.element;
+  let keep=null;
+  if(state.depth!=="full"){
+    const adj=new Map(); links.forEach(e=>{[[e.source,e.target],[e.target,e.source]].forEach(([a,b])=>{(adj.get(a)||adj.set(a,new Set()).get(a)).add(b)})});
+    keep=new Set([focus]); let front=[focus];
+    for(let i=0;i<Number(state.depth);i++){const nxt=[];front.forEach(n=>(adj.get(n)||[]).forEach(m=>{if(!keep.has(m)){keep.add(m);nxt.push(m)}}));front=nxt}
   }
-  const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy)||1;
-  const ux=dx/len, uy=dy/len;
-  const flip=sourceId(d)<targetId(d)?1:-1;
-  const nx=-uy*flip, ny=ux*flip;
-  const sr=highlightedNodes.has(d.source.id)?16:12;
-  const tr=highlightedNodes.has(d.target.id)?18:16;
-  const paired=!!d._paired, sign=d._sign||1;
-  const lane=paired?sign*12:0;
-  const sx=x1+ux*sr+nx*lane, sy=y1+uy*sr+ny*lane;
-  const ex=x2-ux*tr+nx*lane, ey=y2-uy*tr+ny*lane;
-  if(!paired) return{path:`M${sx},${sy}L${ex},${ey}`,lx:(sx+ex)/2,ly:(sy+ey)/2};
-  const bow=Math.max(28, Math.min(46, len*0.18))*sign;
-  const qx=(sx+ex)/2+nx*bow, qy=(sy+ey)/2+ny*bow;
+  const passes=id=>{const n=nodeById.get(id);return id===focus||((state.domain==="all"||n.domain===state.domain)&&(state.type==="all"||n.type===state.type))};
+  const edges=new Set(links.filter(e=>(!keep||(keep.has(e.source)&&keep.has(e.target)))&&passes(e.source)&&passes(e.target)));
+  const nodes=new Set(); edges.forEach(e=>{nodes.add(e.source);nodes.add(e.target)});
+  if(nodeById.has(focus)&&(state.depth!=="full"||passes(focus)))nodes.add(focus);
+  if(state.depth==="full")originalData.nodes.forEach(n=>{if(passes(n.id))nodes.add(n.id)});
+  return{nodes,edges};
+}
+function activeRefinements(){
+  const out=[], famTotal=Object.keys(ontology).length, clsTotal=Object.keys(classColours).length;
+  if(state.families.size<famTotal)out.push(`Families ${state.families.size}/${famTotal}`);
+  if(state.classes.size<clsTotal)out.push(`Classes ${state.classes.size}/${clsTotal}`);
+  if(state.domain!=="all")out.push(`Domain: ${state.domain}`);
+  if(state.type!=="all")out.push(`Type: ${state.type}`);
+  return out;
+}
+
+// ---- Rendering -----------------------------------------------------------------
+function createCanvas(){
+  const graphEl=$("graph");
+  svg=d3.select("#graph").append("svg").attr("width","100%").attr("height","100%");
+  const defs=svg.append("defs");
+  [["arrowhead","#6b7280",8],["arrowhead-highlight","#111827",9]].forEach(([id,fill,size])=>defs.append("marker").attr("id",id).attr("viewBox","0 -5 10 10").attr("refX",8).attr("refY",0).attr("markerWidth",size).attr("markerHeight",size).attr("orient","auto").attr("markerUnits","userSpaceOnUse").append("path").attr("d","M0,-5L10,0L0,5").attr("fill",fill));
+  layer=svg.append("g"); linkLayer=layer.append("g"); labelLayer=layer.append("g"); nodeLayer=layer.append("g");
+  zoom=d3.zoom().scaleExtent([.08,5]).on("zoom",ev=>layer.attr("transform",ev.transform)); svg.call(zoom);
+  const w=graphEl.clientWidth||600,h=graphEl.clientHeight||500;
+  sim=d3.forceSimulation().force("link",d3.forceLink().id(d=>d.id).distance(d=>d._paired?170:95).strength(.48)).force("charge",d3.forceManyBody().strength(-220)).force("center",d3.forceCenter(w/2,h/2)).force("collision",d3.forceCollide().radius(26));
+  new ResizeObserver(()=>{sim.force("center",d3.forceCenter(graphEl.clientWidth/2,graphEl.clientHeight/2));sim.alpha(.3).restart()}).observe(graphEl);
+}
+function markOppositeLanes(links){const dirs=new Set(links.map(e=>sourceId(e)+"\0"+targetId(e)));links.forEach(e=>{const s=sourceId(e),t=targetId(e);e._paired=dirs.has(t+"\0"+s);e._sign=s<t?1:-1})}
+function linkGeometry(d,hl){
+  const x1=d.source.x,y1=d.source.y,x2=d.target.x,y2=d.target.y;
+  if(![x1,y1,x2,y2].every(Number.isFinite))return{path:"M0,0L0,0",lx:0,ly:0};
+  const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy)||1,ux=dx/len,uy=dy/len,flip=sourceId(d)<targetId(d)?1:-1,nx=-uy*flip,ny=ux*flip;
+  const sr=hl.has(d.source.id)?16:12,tr=hl.has(d.target.id)?18:16,paired=!!d._paired,sign=d._sign||1,lane=paired?sign*12:0;
+  const sx=x1+ux*sr+nx*lane,sy=y1+uy*sr+ny*lane,ex=x2-ux*tr+nx*lane,ey=y2-uy*tr+ny*lane;
+  if(!paired)return{path:`M${sx},${sy}L${ex},${ey}`,lx:(sx+ex)/2,ly:(sy+ey)/2};
+  const bow=Math.max(28,Math.min(46,len*.18))*sign,qx=(sx+ex)/2+nx*bow,qy=(sy+ey)/2+ny*bow;
   return{path:`M${sx},${sy}Q${qx},${qy} ${ex},${ey}`,lx:.25*sx+.5*qx+.25*ex,ly:.25*sy+.5*qy+.25*ey};
 }
-function render(){const data=filtered(); document.getElementById("sn").textContent=data.nodes.length; document.getElementById("se").textContent=data.links.length; document.getElementById("sd").textContent=new Set(data.nodes.map(n=>n.domain)).size; document.getElementById("sc").textContent=hasCycle(data.links)?"Yes":"No";
-markOppositeLanes(data.links);
-linkLayer.selectAll("line").remove();
-const link=linkLayer.selectAll("path.link").data(data.links,d=>edgeKey(d)); link.exit().remove(); const linkSel=link.enter().append("path").attr("class","link").merge(link).attr("fill","none").attr("stroke",d=>highlightedEdges.has(edgeKey(d))?"#111827":familyColours[d.relationshipFamily]).attr("stroke-width",d=>highlightedEdges.has(edgeKey(d))?4:(d._paired?2.4:(d.relationshipFamily==="Causal"?1.9:1.2))).attr("stroke-dasharray",d=>d.relationshipFamily==="Causal"?"6,4":(d.relationshipFamily==="Governance"||d.relationshipFamily==="Temporal"?"2,3":null)).attr("stroke-dashoffset",d=>d._paired&&d._sign<0?3:0).attr("marker-end",d=>highlightedEdges.has(edgeKey(d))?"url(#arrowhead-highlight)":"url(#arrowhead)").on("mousemove",(ev,d)=>{tooltip.style.visibility="visible";tooltip.innerHTML=`<b>${sourceId(d)}</b> → <b>${targetId(d)}</b><br>${d.label}<br><small>${d.relationshipFamily} / ${d.relationshipClass}</small><br><small>${relation(d).definition||""}</small>`;tooltip.style.top=(ev.clientY+10)+"px";tooltip.style.left=(ev.clientX+10)+"px"}).on("mouseout",()=>tooltip.style.visibility="hidden");
-const labels=labelLayer.selectAll("text").data(data.links,d=>edgeKey(d)); labels.exit().remove(); const labSel=labels.enter().append("text").attr("class","edge-label").merge(labels).text(d=>d.label).style("display",document.getElementById("edgeLabels").checked?"block":"none");
-const node=nodeLayer.selectAll("g").data(data.nodes,d=>d.id); node.exit().remove(); const nodeEnter=node.enter().append("g").attr("class","node").call(d3.drag().on("start",dragstarted).on("drag",dragged).on("end",dragended)).on("click",(ev,d)=>{ev.stopPropagation();focus=d.id;document.getElementById("focusSelect").value=d.id;document.getElementById("pathSource").value=d.id;showNode(d); restrictToHighlight=false; if(depth==="full") highlightNode(d.id, linkSel); else render()}).on("dblclick",(ev,d)=>{d.fx=null;d.fy=null}); nodeEnter.append("circle"); nodeEnter.append("text").attr("x",10).attr("y",3);
-const nodeSel=nodeEnter.merge(node); nodeSel.select("circle").attr("r",d=>highlightedNodes.has(d.id)?10:(d.id===focus?9:7)).attr("fill",d=>domainColours[d.domain]||"#9ca3af").attr("stroke",d=>highlightedNodes.has(d.id)?"#111827":"white").attr("stroke-width",d=>highlightedNodes.has(d.id)?3:1.3); nodeSel.select("text").text(d=>d.id).style("display",document.getElementById("nodeLabels").checked?"block":"none");
-sim.nodes(data.nodes).on("tick",()=>{linkSel.attr("d",d=>linkGeometry(d).path);
-labSel.attr("x",d=>linkGeometry(d).lx).attr("y",d=>linkGeometry(d).ly); nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`)}); sim.force("link").links(data.links); sim.alpha(1).restart(); renderMini(data)}
-function showNode(n){const rels=originalData.links.filter(e=>sourceId(e)===n.id||targetId(e)===n.id), grouped={}; rels.forEach(e=>(grouped[e.relationshipFamily]??=[]).push(e)); let out=`<h3 style="font-size:16px;color:${domainColours[n.domain]||"#111"}">${n.id}</h3><span class="badge">${n.domain}</span><span class="badge">${n.type}</span><p><small>${n.description}</small></p><small>Degree: ${rels.length}</small>`; Object.keys(grouped).sort().forEach(f=>{out+=`<details open><summary style="color:${familyColours[f]}">${f} (${grouped[f].length})</summary>`; grouped[f].slice(0,12).forEach(e=>{let incoming=targetId(e)===n.id, inv=relation(e).inverse; out+=`<div class="item">${incoming?"←":"→"} <b>${incoming?sourceId(e):targetId(e)}</b><br><small title="${relation(e).definition||""}">${incoming?(inv?`${inv} (inverse of ${e.label})`:`${sourceId(e)} ${e.label} this`):e.label} / ${e.relationshipClass}</small></div>`}); out+="</details>"}); document.getElementById("nodeDetails").innerHTML=out}
-function highlightNode(id,linkSel){const neigh=new Set([id]); originalData.links.forEach(e=>{if(sourceId(e)===id)neigh.add(targetId(e)); if(targetId(e)===id)neigh.add(sourceId(e))}); nodeLayer.selectAll("g").style("opacity",d=>neigh.has(d.id)?1:.15); linkSel.style("opacity",d=>sourceId(d)===id||targetId(d)===id?1:.08)}
-function hasCycle(edges){const adj=new Map(), indeg=new Map(), ns=new Set(); edges.forEach(e=>{const s=sourceId(e),t=targetId(e); ns.add(s);ns.add(t); if(!adj.has(s))adj.set(s,[]);adj.get(s).push(t);indeg.set(t,(indeg.get(t)||0)+1);if(!indeg.has(s))indeg.set(s,0)});let q=[...ns].filter(n=>(indeg.get(n)||0)===0),seen=0;while(q.length){let u=q.shift();seen++;(adj.get(u)||[]).forEach(v=>{indeg.set(v,indeg.get(v)-1);if(indeg.get(v)===0)q.push(v)})}return seen!==ns.size}
-// How a path may walk an edge. "directed": forwards, or backwards only through a declared inverse.
-// "forward": forwards only. "impact": in the direction the relation propagates change. "any": either way.
-function relation(e){return (originalData.relationCatalogue||{})[e.label]||{}}
-function edgeSteps(e,mode){
-  const s=sourceId(e),t=targetId(e),rel=relation(e),fwd={from:s,to:t,edge:e,label:e.label,backward:false},back={from:t,to:s,edge:e,label:rel.inverse||`← ${e.label}`,backward:true};
-  if(mode==="forward") return [fwd];
-  if(mode==="directed") return rel.inverse?[fwd,back]:[fwd];
-  if(mode==="impact") return rel.impact==="forward"?[fwd]:rel.impact==="reverse"?[back]:[];
-  return [fwd,back];
+function showTooltip(ev,html){tooltip.innerHTML=html;tooltip.style.visibility="visible";tooltip.style.top=(ev.clientY+12)+"px";tooltip.style.left=Math.min(ev.clientX+12,innerWidth-390)+"px"}
+function hideTooltip(){tooltip.style.visibility="hidden"}
+function render(){
+  const view=state.scene||neighbourhood(), highlighted=state.scene?state.scene.nodes:new Set();
+  const nodes=[...view.nodes].map(id=>({...nodeById.get(id)})), links=[...view.edges].map(e=>({...e}));
+  markOppositeLanes(links);
+  const hlEdge=()=>!!state.scene;
+  const link=linkLayer.selectAll("path.link").data(links,edgeKey); link.exit().remove();
+  const linkSel=link.enter().append("path").attr("class","link").merge(link)
+    .attr("stroke",d=>hlEdge(d)?"#111827":familyColours[d.relationshipFamily])
+    .attr("stroke-width",d=>hlEdge(d)?3:(d._paired?2.4:(d.relationshipFamily==="Causal"?1.9:1.2)))
+    .attr("stroke-dasharray",d=>d.relationshipFamily==="Causal"?"6,4":(["Governance","Temporal"].includes(d.relationshipFamily)?"2,3":null))
+    .attr("marker-end",d=>hlEdge(d)?"url(#arrowhead-highlight)":"url(#arrowhead)")
+    .on("mousemove",(ev,d)=>showTooltip(ev,`<b>${esc(sentence(d))}</b><br><small>${d.relationshipFamily} / ${d.relationshipClass}</small><br><small>${esc(relation(d).definition||"")}</small>`)).on("mouseout",hideTooltip);
+  const labels=labelLayer.selectAll("text").data(links,edgeKey); labels.exit().remove();
+  const labSel=labels.enter().append("text").attr("class","edge-label").merge(labels).text(d=>d.label).style("display",$("edgeLabels").checked?null:"none");
+  const node=nodeLayer.selectAll("g").data(nodes,d=>d.id); node.exit().remove();
+  const nodeEnter=node.enter().append("g").attr("class","node").attr("tabindex",0).attr("role","button")
+    .call(d3.drag().on("start",(ev,d)=>{if(!ev.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y}).on("drag",(ev,d)=>{d.fx=ev.x;d.fy=ev.y}).on("end",ev=>{if(!ev.active)sim.alphaTarget(0)}))
+    .on("click",(ev,d)=>{ev.stopPropagation();selectNode(d.id)}).on("keydown",(ev,d)=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();selectNode(d.id)}})
+    .on("mousemove",(ev,d)=>showTooltip(ev,`<b>${esc(d.id)}</b> <small>· ${esc(d.domain)}</small><br><small>${esc(d.description)}</small>`)).on("mouseout",hideTooltip);
+  nodeEnter.append("circle"); nodeEnter.append("text").attr("x",11).attr("y",4);
+  const nodeSel=nodeEnter.merge(node).attr("aria-label",d=>`${d.id}, ${d.domain}`);
+  nodeSel.select("circle").attr("r",d=>d.id===state.element?10:(highlighted.has(d.id)?9:7)).attr("fill",d=>domainColours[d.domain]||"#9ca3af").attr("stroke",d=>d.id===state.element||highlighted.has(d.id)?"#111827":"#fff").attr("stroke-width",d=>d.id===state.element?3:(highlighted.has(d.id)?2:1.3));
+  nodeSel.select("text").text(d=>d.id).style("display",$("nodeLabels").checked?null:"none");
+  sim.nodes(nodes).on("tick",()=>{linkSel.attr("d",d=>linkGeometry(d,highlighted).path);labSel.attr("x",d=>linkGeometry(d,highlighted).lx).attr("y",d=>linkGeometry(d,highlighted).ly);nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`)});
+  sim.force("link").links(links); sim.alpha(1).restart();
+  renderStatus(nodes.length,links.length);
 }
-function findPath(src,tgt,mode="directed",families=null,linkset=null){
-  const adj=new Map();
-  (linkset||baseLinks()).filter(e=>!families||families.has(e.relationshipFamily)).forEach(e=>edgeSteps(e,mode).forEach(st=>{if(!adj.has(st.from))adj.set(st.from,[]);adj.get(st.from).push(st)}));
-  const q=[src], prev=new Map([[src,null]]);
-  while(q.length){const u=q.shift(); if(u===tgt)break; (adj.get(u)||[]).forEach(st=>{if(!prev.has(st.to)){prev.set(st.to,st);q.push(st.to)}})}
-  if(!prev.has(tgt))return null;
-  const steps=[]; let c=tgt; while(prev.get(c)){const st=prev.get(c); steps.push(st); c=st.from}
-  steps.reverse();
-  return{nodes:[src,...steps.map(st=>st.to)],edges:steps.map(st=>st.edge),steps};
+function renderStatus(n,e){
+  const what=state.scene?state.scene.label:(state.depth==="full"?"Whole model":`${state.depth}-step neighbourhood of ${state.element}`);
+  $("statusText").textContent=`${what} · ${n} elements · ${e} relationships`;
+  const refinements=state.scene&&state.scene.ignoresRefine?[]:activeRefinements();
+  $("filterChips").innerHTML=refinements.map(r=>`<span class="chip">${esc(r)}</span>`).join(" ")+(refinements.length?` <button class="link" id="chipClear">Clear refinements</button>`:"");
+  if(refinements.length)$("chipClear").onclick=clearRefinements;
+  let empty="";
+  if(!nodeById.has(state.element)&&!state.scene&&state.depth!=="full")empty=`<b>Choose an element</b><p>Search for an element on the left, or switch to <i>Whole model</i>.</p>`;
+  else if(n<=1&&!state.scene)empty=`<b>Nothing else to show</b><p>No relationships of ${esc(state.element)} match the current view.${refinements.length?" Try clearing refinements.":" Try a larger neighbourhood."}</p>`;
+  $("empty").hidden=!empty; $("emptyText").innerHTML=empty+(empty&&refinements.length?`<button id="emptyClear">Clear refinements</button>`:"");
+  if(empty&&refinements.length)$("emptyClear").onclick=clearRefinements;
 }
-function enterPathView(){
-  if(!restrictToHighlight) depthBeforePath=depth;
-  restrictToHighlight=true;
+
+// ---- Answer panel --------------------------------------------------------------------
+function stepHtml(st){const e=st.edge;return `<li>${esc(sentence(e))}<small>${e.relationshipFamily} / ${e.relationshipClass} · ${esc(relation(e).definition||"")}</small></li>`}
+function answerItem(a){return `<div class="answer-item"><b>${esc(a.id)}</b> <span class="badge"><span class="sw" style="background:${domainColours[nodeById.get(a.id).domain]}"></span>${esc(nodeById.get(a.id).domain)}</span><ol class="steps">${a.steps.map(stepHtml).join("")}</ol></div>`}
+function exampleOffer(q){return q.example&&q.example!==state.element?`<p><small>Example element for this question: <button class="link" data-example="${esc(q.example)}">${esc(q.example)}</button></small></p>`:""}
+function wireExamples(){document.querySelectorAll("[data-example]").forEach(b=>b.onclick=()=>{setElement(b.dataset.example)})}
+function askQuestion(id){
+  state.question=QUESTIONS.find(q=>q.id===id)||null;
+  document.querySelectorAll("#questionList button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.q===id)));
+  answerCurrent();
 }
-function exitPathView(){
-  if(!restrictToHighlight) return;
-  restrictToHighlight=false;
-  depth=depthBeforePath;
-  document.querySelectorAll(".depth").forEach(b=>b.classList.toggle("active",String(b.dataset.depth)===String(depth)));
-}
-function showPath(path,title){
-  if(!path){
-    highlightedEdges=new Set();
-    highlightedNodes=new Set();
-    document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>No path found under current filters.</small>`;
-    exitPathView();
-    render();
-    return;
+function answerCurrent(){
+  const q=state.question; if(!q)return;
+  $("answerTitle").textContent=`${q.id}: ${q.text}`;
+  if(!nodeById.has(state.element)){$("answer").innerHTML=`<p>Choose an element to ask about.</p>${exampleOffer(q)}`;wireExamples();state.scene=null;render();return}
+  let html, stepLists;
+  if(q.facets){
+    const results=q.facets.map(f=>({f,answers:runQuery(state.element,f)}));
+    stepLists=results.flatMap(r=>r.answers.map(a=>a.steps));
+    const ok=results.filter(r=>r.answers.length).length;
+    html=`<p><b>${ok} of ${results.length}</b> readiness facets are present for <b>${esc(state.element)}</b>. Facets only — not a readiness certificate.</p>`+results.map(r=>`<div class="facet ${r.answers.length?"ok":"missing"}"><span class="mark" aria-hidden="true">${r.answers.length?"✓":"✗"}</span><div><b>${esc(r.f.name)}</b> <span class="visually-hidden">${r.answers.length?"present":"missing"}</span>${r.answers.length?r.answers.map(a=>`<ol class="steps">${a.steps.map(stepHtml).join("")}</ol>`).join(""):`<br><small>No matching relationship.</small>`}</div></div>`).join("");
+  }else{
+    const answers=runQuery(state.element,q); stepLists=answers.map(a=>a.steps);
+    html=answers.length?`<p><b>${answers.length}</b> answer${answers.length===1?"":"s"} for <b>${esc(state.element)}</b>, nearest first.</p>`+answers.map(answerItem).join(""):`<p>The model has no relationships that answer this for <b>${esc(state.element)}</b>.</p>`;
   }
-  highlightedEdges=new Set(path.edges.map(edgeKey));
-  highlightedNodes=new Set(path.nodes);
-  const steps=path.steps||path.edges.map(e=>({edge:e,label:e.label,backward:false}));
-  const hop=st=>`<br><small>--${st.label}→ <span title="${relation(st.edge).definition||""}">${st.edge.relationshipFamily} / ${st.edge.relationshipClass}${st.backward?` · stored as ${sourceId(st.edge)} --${st.edge.label}→ ${targetId(st.edge)}`:""}</span></small>`;
-  document.getElementById("pathResult").innerHTML=`<b>${title}</b><br><small>${path.nodes.length-1} hops${path.note?` · ${path.note}`:""}</small>`+path.nodes.map((n,i)=>`<div class="item"><b>${n}</b>${i<steps.length?hop(steps[i]):""}</div>`).join("");
-  enterPathView();
+  $("answer").innerHTML=html+exampleOffer(q); wireExamples();
+  const scene=sceneFromSteps(state.element,stepLists); scene.label=`${q.id} for ${state.element}`; scene.ignoresRefine=true;
+  state.scene=scene; render();
+}
+function showRoute(){
+  const tgt=$("routeTarget").value.trim(), route=ROUTES[$("routeType").value];
+  $("answerTitle").textContent="Route";
+  if(!nodeById.has(state.element)||!nodeById.has(tgt)){$("answer").innerHTML=`<p>Choose both elements: the element above and the second element under <i>Route to another element</i>.</p>`;return}
+  const r=findRoute(state.element,tgt,route,refinedLinks());
+  if(!r){$("answer").innerHTML=`<p>No route from <b>${esc(state.element)}</b> to <b>${esc(tgt)}</b> following <i>${esc(route.label)}</i>${activeRefinements().length?" with the current refinements":""}.</p><p><small>Try another option under <i>Follow</i>${activeRefinements().length?" or clear refinements":""}.</small></p>`;state.scene=null;render();return}
+  $("answer").innerHTML=`<p><b>${r.steps.length}</b> step${r.steps.length===1?"":"s"} from <b>${esc(state.element)}</b> to <b>${esc(tgt)}</b>, following <i>${esc(route.label)}</i>.</p>${r.note?`<p><small>${esc(r.note)}</small></p>`:""}<ol class="steps">${r.steps.map(stepHtml).join("")}</ol>`;
+  const scene=sceneFromSteps(state.element,[r.steps]); scene.label=`Route to ${tgt}`; state.scene=scene; render();
+}
+function showNode(id){
+  const n=nodeById.get(id); if(!n){$("nodeDetails").innerHTML=`<small>Click a node to see its definition and relationships.</small>`;return}
+  const rels=[...(outEdges.get(id)||[]),...(inEdges.get(id)||[])], grouped={};
+  rels.forEach(e=>(grouped[e.relationshipFamily]??=[]).push(e));
+  let out=`<h3 style="margin-top:0;font-size:15px">${esc(n.id)}</h3><span class="badge"><span class="sw" style="background:${domainColours[n.domain]}"></span>${esc(n.domain)}</span><span class="badge">${esc(n.type)}</span><p>${esc(n.description)}</p><div class="row"><button data-act="ask">Ask about this</button><button data-act="explore">Explore from this</button></div><p><small>${rels.length} relationships</small></p>`;
+  Object.keys(grouped).sort().forEach(f=>{out+=`<details><summary style="color:${familyColours[f]}">${f} (${grouped[f].length})</summary>`+grouped[f].map(e=>`<div class="item">${esc(sentence(e))}<br><small>${e.relationshipClass} · ${esc(relation(e).definition||"")}</small></div>`).join("")+`</details>`});
+  $("nodeDetails").innerHTML=out;
+  $("nodeDetails").querySelector('[data-act="ask"]').onclick=()=>{setMode("ask");setElement(id)};
+  $("nodeDetails").querySelector('[data-act="explore"]').onclick=()=>{setMode("explore");setElement(id)};
+}
+
+// ---- Interaction ----------------------------------------------------------------------
+function selectNode(id){showNode(id); if(state.mode==="explore"&&!state.scene)setElement(id)}
+function setElement(id){
+  state.element=id; $("elementInput").value=id; showNode(id);
+  if(state.mode==="ask"&&state.question)answerCurrent(); else{state.scene=null;render()}
+}
+function setMode(mode){
+  state.mode=mode;
+  $("tabAsk").setAttribute("aria-selected",String(mode==="ask")); $("tabExplore").setAttribute("aria-selected",String(mode==="explore"));
+  $("askPane").hidden=mode!=="ask"; $("explorePane").hidden=mode!=="explore";
+  if(mode==="ask"&&state.question){answerCurrent();return}
+  state.scene=null;
+  if(mode==="explore"){$("answerTitle").textContent="Answer";$("answer").innerHTML=`<small>Find a route to a second element, or browse the neighbourhood. Switch back to <i>Ask a question</i> at any time.</small>`}
   render();
 }
-function dragstarted(ev,d){if(!ev.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y} function dragged(ev,d){d.fx=ev.x;d.fy=ev.y} function dragended(ev,d){if(!ev.active)sim.alphaTarget(0)}
-function init(){const nodeIds=originalData.nodes.map(n=>n.id).sort(); const relCounts={}, famCounts={}; originalData.links.forEach(e=>{relCounts[e.relationshipClass]=(relCounts[e.relationshipClass]||0)+1;famCounts[e.relationshipFamily]=(famCounts[e.relationshipFamily]||0)+1});
-Object.keys(views).forEach(v=>viewSelect.add(new Option(v,v))); viewSelect.onchange=()=>{currentView=viewSelect.value;render()}; nodeIds.forEach(id=>{focusSelect.add(new Option(id,id));pathSource.add(new Option(id,id));pathTarget.add(new Option(id,id))}); focusSelect.value=focus; pathSource.value="business capability"; pathTarget.value="value stream stage"; focusSelect.onchange=()=>{focus=focusSelect.value;render()};
-document.querySelectorAll(".depth").forEach(b=>b.onclick=()=>{depth=b.dataset.depth;restrictToHighlight=false;document.querySelectorAll(".depth").forEach(x=>x.classList.toggle("active",x===b));render()}); nodeLabels.onchange=render; edgeLabels.onchange=render;
-const fc=document.getElementById("familyChecks"); Object.keys(ontology).forEach(f=>{let row=document.createElement("label");row.className="relrow";row.innerHTML=`<span><input type="checkbox" class="fam" value="${f}" checked> <span class="lsw" style="background:${familyColours[f]}"></span>${f}</span><span class="count">${famCounts[f]||0}</span>`;fc.appendChild(row)}); fc.onchange=()=>{selectedFamilies=new Set([...document.querySelectorAll(".fam:checked")].map(x=>x.value));render()}; selectAllFamilies.onchange=e=>{document.querySelectorAll(".fam").forEach(x=>x.checked=e.target.checked);selectedFamilies=new Set([...document.querySelectorAll(".fam:checked")].map(x=>x.value));render()};
-Object.keys(relColours).forEach(r=>{let row=document.createElement("label");row.className="relrow";row.innerHTML=`<span><input type="checkbox" class="rel" value="${r}" checked> <span class="lsw" style="background:${relColours[r]}"></span>${r}</span><span class="count">${relCounts[r]||0}</span>`;relChecks.appendChild(row)}); relChecks.onchange=()=>{selectedClasses=new Set([...document.querySelectorAll(".rel:checked")].map(x=>x.value));render()}; selectAll.onchange=e=>{document.querySelectorAll(".rel").forEach(x=>x.checked=e.target.checked);selectedClasses=new Set([...document.querySelectorAll(".rel:checked")].map(x=>x.value));render()};
-[...new Set(originalData.nodes.map(n=>n.domain))].sort().forEach(d=>domainFilter.add(new Option(d,d))); domainFilter.onchange=render; [...new Set(originalData.nodes.map(n=>n.type))].sort().forEach(t=>typeFilter.add(new Option(t,t))); typeFilter.onchange=render; textFilter.oninput=render; globalSearch.oninput=render;
-Object.keys(familyColours).forEach(f=>{familyLegend.innerHTML+=`<span><span class="lsw" style="background:${familyColours[f]}"></span>${f}</span>`});
-Object.keys(domainColours).forEach(d=>{domLegend.innerHTML+=`<span><span class="sw" style="background:${domainColours[d]}"></span>${d}</span>`});
-const rightFamilyLegendEl=document.getElementById("rightFamilyLegend");
-if(rightFamilyLegendEl){
-  Object.keys(familyColours).forEach(f=>{rightFamilyLegendEl.innerHTML+=`<span><span class="lsw" style="background:${familyColours[f]}"></span>${f}</span>`});
+function syncSelectAll(boxSel,allBox){const boxes=[...document.querySelectorAll(boxSel)],on=boxes.filter(b=>b.checked).length;allBox.checked=on===boxes.length;allBox.indeterminate=on>0&&on<boxes.length}
+function readRefinements(){
+  state.families=new Set([...document.querySelectorAll(".fam:checked")].map(x=>x.value));
+  state.classes=new Set([...document.querySelectorAll(".cls:checked")].map(x=>x.value));
+  state.domain=$("domainFilter").value; state.type=$("typeFilter").value;
+  syncSelectAll(".fam",$("selectAllFamilies")); syncSelectAll(".cls",$("selectAllClasses"));
+  if(state.scene&&!state.scene.ignoresRefine){showRoute();return}
+  render();
 }
-const rightRelLegendEl=document.getElementById("rightRelLegend");
-if(rightRelLegendEl){
-  Object.keys(relColours).forEach(r=>{rightRelLegendEl.innerHTML+=`<span><span class="lsw" style="background:${relColours[r]}"></span>${r}</span>`});
+function clearRefinements(){document.querySelectorAll(".fam,.cls").forEach(b=>b.checked=true);$("domainFilter").value="all";$("typeFilter").value="all";readRefinements()}
+function checkRow(cls,value,colour,count){return `<label class="relrow"><span><input type="checkbox" class="${cls}" value="${esc(value)}" checked><span class="lsw" style="background:${colour}"></span>${esc(value)}</span><span class="count">${count}</span></label>`}
+function init(){
+  const famCounts={},clsCounts={};
+  originalData.links.forEach(e=>{famCounts[e.relationshipFamily]=(famCounts[e.relationshipFamily]||0)+1;clsCounts[e.relationshipClass]=(clsCounts[e.relationshipClass]||0)+1});
+  $("elementList").innerHTML=originalData.nodes.map(n=>n.id).sort().map(id=>`<option value="${esc(id)}">`).join("");
+  $("elementInput").value=state.element;
+  const pick=input=>{const v=input.value.trim(); return nodeById.has(v)?v:null};
+  $("elementInput").addEventListener("change",()=>{const v=pick($("elementInput")); if(v)setElement(v); else $("elementHint").textContent=`No element called “${$("elementInput").value}”. Pick one from the suggestions.`});
+  $("elementInput").addEventListener("input",()=>{$("elementHint").textContent="Type to search all 226 elements, or click a node in the graph."; const v=pick($("elementInput")); if(v&&v!==state.element)setElement(v)});
+  $("elementHint").textContent=`Type to search all ${originalData.nodes.length} elements, or click a node in the graph.`;
+  const groups=[...new Set(QUESTIONS.map(q=>q.group))];
+  $("questionList").innerHTML=groups.map(g=>`<div class="qgroup"><h3>${esc(g)}</h3><div class="qlist">${QUESTIONS.filter(q=>q.group===g).map(q=>`<button data-q="${q.id}" aria-pressed="false">${esc(q.text)} <small>${q.id}</small></button>`).join("")}</div></div>`).join("");
+  document.querySelectorAll("#questionList button").forEach(b=>b.onclick=()=>askQuestion(b.dataset.q));
+  $("tabAsk").onclick=()=>setMode("ask"); $("tabExplore").onclick=()=>setMode("explore");
+  document.querySelectorAll(".depth").forEach(b=>b.onclick=()=>{state.depth=b.dataset.depth;state.scene=null;document.querySelectorAll(".depth").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render()});
+  $("findRoute").onclick=showRoute;
+  $("routeTarget").addEventListener("keydown",ev=>{if(ev.key==="Enter")showRoute()});
+  $("clearRoute").onclick=()=>{state.scene=null;$("routeTarget").value="";$("answerTitle").textContent="Answer";$("answer").innerHTML="<small>Route cleared.</small>";render()};
+  $("familyChecks").innerHTML=Object.keys(ontology).map(f=>checkRow("fam",f,familyColours[f],famCounts[f]||0)).join("");
+  $("classChecks").innerHTML=Object.keys(classColours).map(c=>checkRow("cls",c,classColours[c],clsCounts[c]||0)).join("");
+  $("familyChecks").onchange=readRefinements; $("classChecks").onchange=readRefinements;
+  $("selectAllFamilies").onchange=e=>{document.querySelectorAll(".fam").forEach(x=>x.checked=e.target.checked);readRefinements()};
+  $("selectAllClasses").onchange=e=>{document.querySelectorAll(".cls").forEach(x=>x.checked=e.target.checked);readRefinements()};
+  [...new Set(originalData.nodes.map(n=>n.domain))].sort().forEach(d=>$("domainFilter").add(new Option(d,d)));
+  [...new Set(originalData.nodes.map(n=>n.type))].sort().forEach(t=>$("typeFilter").add(new Option(t,t)));
+  $("domainFilter").onchange=readRefinements; $("typeFilter").onchange=readRefinements; $("clearFilters").onclick=clearRefinements;
+  $("nodeLabels").onchange=render; $("edgeLabels").onchange=render;
+  $("familyKey").innerHTML=Object.keys(familyColours).map(f=>`<span><span class="lsw" style="background:${familyColours[f]}"></span>${f}</span>`).join("");
+  $("domainKey").innerHTML=Object.keys(domainColours).sort().map(d=>`<span><span class="sw" style="background:${domainColours[d]}"></span>${d}</span>`).join("");
+  $("classKey").innerHTML=Object.keys(classColours).map(c=>`<span><span class="lsw" style="background:${classColours[c]}"></span>${c}</span>`).join("");
+  const invMap=originalData.inverseMap||{};
+  $("ontologyPanel").innerHTML=`<div class="onto-card"><b>Declared inverses</b><br><small>Each relationship is stored once, in its primary direction. Inverse labels are derived from the relation catalogue.</small><div class="onto-grid">${Object.entries(invMap).map(([a,b])=>`<span>${esc(a)} → ${esc(b)}</span>`).join("")}</div></div>`+Object.entries(ontology).map(([k,v])=>`<div class="onto-card"><b style="color:${v.colour}">${k}</b><br><small>${esc(v.description)}</small>${Object.entries(v.classes||{}).map(([c,d])=>`<br><small><b>${c}:</b> ${esc(d)}</small>`).join("")}<div class="onto-grid"><span>Edges: ${famCounts[k]||0}</span><span>Relations: ${(v.relations||[]).length}</span></div><small><b>Transitive:</b> ${(v.transitiveRelations||[]).join(", ")||"none"}</small><br><small><b>Relations:</b> ${esc((v.relations||[]).join(", "))}</small></div>`).join("");
+  $("resetView").onclick=()=>svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity);
+  $("downloadJson").onclick=()=>download(`c5-enterprise-architecture-knowledge-graph-${BUILD.label}.json`,JSON.stringify(originalData,null,2),"application/json");
+  $("downloadGraphml").onclick=()=>download(`c5-enterprise-architecture-knowledge-graph-${BUILD.label}.graphml`,toGraphML(originalData),"application/xml");
+  $("exportSvg").onclick=()=>{const c=svg.node().cloneNode(true);c.setAttribute("xmlns","http://www.w3.org/2000/svg");download(`c5-enterprise-architecture-knowledge-graph-${BUILD.label}.svg`,new XMLSerializer().serializeToString(c),"image/svg+xml")};
+  readRefinements(); showNode(state.element);
 }
-const invMap=originalData.inverseMap||{};
-const invCard=Object.keys(invMap).length?`<div class="onto-card"><b>Declared inverses</b><br><small>Each edge is stored once, in its primary direction. Inverse labels are derived from the relation catalogue for reading and for directed paths.</small><div class="onto-grid">${Object.entries(invMap).map(([a,b])=>`<span>${a} → ${b}</span>`).join("")}</div></div>`:"";
-ontologyPanel.innerHTML=invCard+Object.entries(ontology).map(([k,v])=>`<div class="onto-card"><b style="color:${v.colour}">${k}</b><br><small>${v.description}</small>${Object.entries(v.classes||{}).map(([c,d])=>`<br><small><b>${c}:</b> ${d}</small>`).join("")}<div class="onto-grid"><span>Edges: ${famCounts[k]||0}</span><span>Relations: ${(v.relations||[]).length}</span></div><small><b>Transitive:</b> ${(v.transitiveRelations||[]).join(", ")||"none"}</small><br><small><b>Relations:</b> ${(v.relations||[]).join(", ")}</small><br><small><b>Enables:</b> ${v.enables.join(", ")}</small></div>`).join("");
-shortest.onclick=()=>{let p=findPath(pathSource.value,pathTarget.value,"directed"); if(!p){p=findPath(pathSource.value,pathTarget.value,"any"); if(p)p.note="no directed path; this one ignores edge direction";} showPath(p,"Shortest path")};
-impact.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,"impact"),`Impact path: a change to ${pathSource.value}`);
-semanticPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,"directed",new Set(["Semantic","Structural"])),"Semantic path");
-causalPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,"forward",new Set(["Causal"])),"Causal path (cause → effect)");
-temporalPath.onclick=()=>showPath(findPath(pathSource.value,pathTarget.value,"forward",new Set(["Temporal"])),"Temporal path (earlier → later)");
-clearPath.onclick=()=>{highlightedEdges=new Set();highlightedNodes=new Set();pathResult.innerHTML="<small>Select source and target nodes.</small>";exitPathView();render()};
-resetView.onclick=()=>svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity); downloadJson.onclick=()=>download(`c5-enterprise-architecture-knowledge-graph-${BUILD.label}.json`,JSON.stringify(originalData,null,2),"application/json"); downloadGraphml.onclick=()=>download(`c5-enterprise-architecture-knowledge-graph-${BUILD.label}.graphml`,toGraphML(originalData),"application/xml"); exportSvg.onclick=()=>{const c=svg.node().cloneNode(true);c.setAttribute("xmlns","http://www.w3.org/2000/svg");download(`c5-enterprise-architecture-knowledge-graph-${BUILD.label}.svg`,new XMLSerializer().serializeToString(c),"image/svg+xml")};
-render()}
 function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
-function toGraphML(data){const esc=s=>String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");let out=`<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns"><key id="domain" for="node" attr.name="domain" attr.type="string"/><key id="type" for="node" attr.name="type" attr.type="string"/><key id="label" for="edge" attr.name="label" attr.type="string"/><key id="relationshipClass" for="edge" attr.name="relationshipClass" attr.type="string"/><key id="relationshipFamily" for="edge" attr.name="relationshipFamily" attr.type="string"/><graph id="G" edgedefault="directed">`;data.nodes.forEach(n=>out+=`<node id="${esc(n.id)}"><data key="domain">${esc(n.domain)}</data><data key="type">${esc(n.type)}</data></node>`);data.links.forEach((e,i)=>out+=`<edge id="e${i}" source="${esc(sourceId(e))}" target="${esc(targetId(e))}"><data key="label">${esc(e.label)}</data><data key="relationshipClass">${esc(e.relationshipClass)}</data><data key="relationshipFamily">${esc(e.relationshipFamily)}</data></edge>`);return out+"</graph></graphml>"}
-function renderMini(data){const m=d3.select("#miniGraph"),w=document.getElementById("miniGraph").clientWidth||260,h=130;m.selectAll("*").remove();const ns=data.nodes.map(d=>({...d})),ls=data.links.map(d=>({...d,source:sourceId(d),target:targetId(d)}));const ms=d3.forceSimulation(ns).force("link",d3.forceLink(ls).id(d=>d.id).distance(18).strength(.2)).force("charge",d3.forceManyBody().strength(-18)).force("center",d3.forceCenter(w/2,h/2)).stop();for(let i=0;i<80;i++)ms.tick();m.append("g").selectAll("line").data(ls).enter().append("line").attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y).attr("stroke",d=>familyColours[d.relationshipFamily]).attr("stroke-width",.5);m.append("g").selectAll("circle").data(ns).enter().append("circle").attr("cx",d=>d.x).attr("cy",d=>d.y).attr("r",2).attr("fill",d=>domainColours[d.domain]||"#999")}
+function toGraphML(data){let out=`<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns"><key id="domain" for="node" attr.name="domain" attr.type="string"/><key id="type" for="node" attr.name="type" attr.type="string"/><key id="description" for="node" attr.name="description" attr.type="string"/><key id="label" for="edge" attr.name="label" attr.type="string"/><key id="relationshipClass" for="edge" attr.name="relationshipClass" attr.type="string"/><key id="relationshipFamily" for="edge" attr.name="relationshipFamily" attr.type="string"/><graph id="G" edgedefault="directed">`;data.nodes.forEach(n=>out+=`<node id="${esc(n.id)}"><data key="domain">${esc(n.domain)}</data><data key="type">${esc(n.type)}</data><data key="description">${esc(n.description)}</data></node>`);data.links.forEach((e,i)=>out+=`<edge id="e${i}" source="${esc(sourceId(e))}" target="${esc(targetId(e))}"><data key="label">${esc(e.label)}</data><data key="relationshipClass">${esc(e.relationshipClass)}</data><data key="relationshipFamily">${esc(e.relationshipFamily)}</data></edge>`);return out+"</graph></graphml>"}
 function runLearnQ6(){
   const step=()=>{
-    const srcSel=document.getElementById("pathSource"), tgtSel=document.getElementById("pathTarget"), focusSel=document.getElementById("focusSelect");
-    if(!originalData||!srcSel||!tgtSel||!focusSel||!srcSel.options.length){requestAnimationFrame(step);return;}
-    const src="application component", mid="data product", tgt="data object";
-    srcSel.value=src; tgtSel.value=tgt; focusSel.value=mid; focus=mid;
-    const consumes=originalData.links.find(e=>sourceId(e)===src&&targetId(e)===mid&&e.label==="consumes");
-    const uses=originalData.links.find(e=>sourceId(e)===mid&&targetId(e)===tgt&&e.label==="uses");
-    const err=document.getElementById("learnError"), finding=document.getElementById("learnFinding");
-    if(!consumes||!uses){
-      if(finding) finding.hidden=true;
-      if(err){err.hidden=false;err.textContent="Q6 path unavailable — locked edges missing";}
-      return;
-    }
-    if(err) err.hidden=true;
-    document.getElementById("nodeLabels").checked=true;
-    document.getElementById("edgeLabels").checked=true;
-    showPath({nodes:[src,mid,tgt],edges:[consumes,uses]},"Q6: Which data does this application depend on?");
-    if(finding) finding.hidden=false;
+    if(!originalData||!nodeById){requestAnimationFrame(step);return}
+    setMode("ask"); state.element="application component"; $("elementInput").value=state.element; showNode(state.element); askQuestion("Q6");
+    $("learnFinding").hidden=false;
   };
   step();
 }
 function setupLearnFlow(){
-  const strip=document.getElementById("learnFlow");
-  if(!strip) return;
-  if(sessionStorage.getItem("c5plus-learn-dismissed")==="1") strip.hidden=true;
-  const tryBtn=document.getElementById("tryQ6"), dismissBtn=document.getElementById("dismissLearn");
-  if(tryBtn) tryBtn.onclick=runLearnQ6;
-  if(dismissBtn) dismissBtn.onclick=()=>{sessionStorage.setItem("c5plus-learn-dismissed","1");strip.hidden=true;};
+  const strip=$("learnFlow");
+  try{if(sessionStorage.getItem("c5plus-learn-dismissed")==="1")strip.hidden=true}catch(e){}
+  $("tryQ6").onclick=runLearnQ6;
+  $("dismissLearn").onclick=()=>{try{sessionStorage.setItem("c5plus-learn-dismissed","1")}catch(e){}strip.hidden=true};
 }
 async function boot(){
   applyBuildMeta();
-  try{
-    originalData=await loadGraphData();
-  }catch(err){
-    showLoadError(err);
-    return;
-  }
-  ontology=originalData.relationshipOntology;
+  try{originalData=await loadGraphData()}catch(err){showLoadError(err);return}
+  ontology=originalData.relationshipOntology; catalogue=originalData.relationCatalogue;
   familyColours=Object.fromEntries(Object.entries(ontology).map(([k,v])=>[k,v.colour]));
-  selectedClasses=new Set(Object.keys(relColours));
-  selectedFamilies=new Set(Object.keys(ontology));
+  indexGraph();
   applyBuildMeta(` · ${originalData.nodes.length} nodes · ${originalData.links.length} edges`);
-  createCanvas();
-  init();
+  createCanvas(); init();
 }
 setupLearnFlow();
 boot();

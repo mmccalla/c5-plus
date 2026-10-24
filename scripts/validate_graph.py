@@ -117,6 +117,31 @@ def check_links(data, errors):
         errors.append(f"relation {label!r} is catalogued but unused")
 
 
+def check_structural_acyclic(data, errors):
+    """Part-whole and subtype edges must not loop. Temporal loops are allowed: they model recurring lifecycles."""
+    adjacency = {}
+    for link in data["links"]:
+        if link["relationshipFamily"] == "Structural":
+            adjacency.setdefault(link["source"], []).append(link["target"])
+    state = {}
+
+    def visit(node, trail):
+        state[node] = "open"
+        trail.append(node)
+        for nxt in adjacency.get(node, []):
+            if state.get(nxt) == "open":
+                loop = trail[trail.index(nxt) :] + [nxt]
+                errors.append(f"Structural loop: {' -> '.join(loop)}")
+            elif nxt not in state:
+                visit(nxt, trail)
+        trail.pop()
+        state[node] = "done"
+
+    for node in list(adjacency):
+        if node not in state:
+            visit(node, [])
+
+
 def check_nodes(data, errors):
     descriptions = Counter()
     for node in data["nodes"]:
@@ -181,6 +206,7 @@ def main():
     errors = []
     check_ontology(data, errors)
     check_links(data, errors)
+    check_structural_acyclic(data, errors)
     check_nodes(data, errors)
     check_versions(data, errors)
     check_traversals(data, errors)

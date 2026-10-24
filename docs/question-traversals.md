@@ -2,6 +2,8 @@
 
 This file records directed patterns for the shopfront questions. The graph is a concept projection (metamodel), not a populated client estate. Inspecting it does not require a graph database.
 
+In the viewer, pick a question in **Ask a question** and it answers for whichever element is chosen. The patterns below are the documented examples; the same question works on any element.
+
 Each edge is stored once, in its primary direction. A hop written with an inverse label (for example `--depended on by→`, the inverse of `consumes`) walks a stored edge backwards. The inverse is declared in `relationCatalogue` in the JSON, not stored as a second edge. `scripts/validate_graph.py` checks that every hop below is either a stored edge or a declared inverse of one.
 
 ## Q1 — What depends on this?
@@ -74,4 +76,4 @@ Each edge is stored once, in its primary direction. A hop written with an invers
 
 ## Q18 — What is the root cause of this customer impact?
 **Pattern:** `root cause --causes→ incident --can cause→ customer impact`
-**Notes:** Causal path from `root cause` to `customer impact`. Every Causal edge points from cause to effect, so reading a causal path backwards is root-cause analysis.
+**Notes:** Ask it about `customer impact`: the viewer walks Causal edges backwards from the effect to its possible causes. Every Causal edge points from cause to effect, so reading a causal path backwards is root-cause analysis.
