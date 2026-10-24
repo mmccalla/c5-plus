@@ -1,6 +1,6 @@
 {
   "projection": {
-    "version": "5.4.0",
+    "version": "5.5.0",
     "series": "v5.4",
     "built": "2026-10-24",
     "description": "Concept projection. Every relation label is defined once in relationCatalogue with its family, class, transitivity, impact direction and inverse. Inverses are derived, not stored."

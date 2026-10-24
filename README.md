@@ -37,13 +37,19 @@ Every relation label is defined once in `relationCatalogue` in the graph JSON. E
 
 Each edge is stored once, in its primary direction. Inverse labels such as `depended on by` are derived from the catalogue, not stored as second edges.
 
-The viewer's path tools use these rules:
+## Using the viewer
 
-- **Shortest path** follows edge direction. It can walk an edge backwards only through a declared inverse. If no directed path exists, it falls back to ignoring direction and says so.
-- **Impact path** follows each relation's `impact` direction. For example, a change to something you use impacts you.
-- **Semantic path** follows Semantic and Structural edges only.
-- **Causal path** follows Causal edges only, from cause to effect.
-- **Temporal path** follows Temporal edges only, from earlier to later.
+The page has two modes. Both share one **Element** search box, which searches all elements; clicking a node selects it.
+
+- **Ask a question** (default): pick one of the 18 questions. It answers for the chosen element, using only the relationships that answer that question. Each answer shows the relationships it rests on, as plain sentences with their definitions. Each question has an example element you can switch to with one click.
+- **Explore**: browse an element's neighbourhood (1–3 steps in either direction, or the whole model) and find a route to a second element. Under **Follow**, a route can use:
+  - any relationship in its direction, walking backwards only through declared inverses
+  - how a change ripples out (each relation's `impact`)
+  - cause → effect only
+  - earlier → later only
+  - realisation, meaning and structure only
+
+  **Refine** narrows the neighbourhood and routes by family, domain and element type, and always keeps the chosen element. Relationship-class filters sit in a collapsed panel inside Refine. Active refinements are shown under the graph, with a one-click clear.
 
 ## Repository
 
@@ -74,6 +80,7 @@ Quality checks on GitHub are pre-commit only. The `validate-graph` hook fails if
 - a node has a placeholder description
 - the versions in the JSON and `index.html` differ
 - a pattern in `docs/question-traversals.md` does not walk real edges
+- Structural (part-whole or subtype) edges form a loop. Temporal loops are allowed, because they model recurring lifecycles.
 
 ```bash
 python3 -m pip install -r requirements-dev.txt
