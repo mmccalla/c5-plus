@@ -111,3 +111,9 @@ c5-plus-pages-docs-fix-cursor-plan.md
 q6_plan.md
 test_learn_q6.py
 test_learn_q6.py
+test_ask_api.py
+test_ask_compile.py
+test_ask_intents.py
+test_ask_rdf.py
+test_ask_viewer.py
+test_impact_path.py

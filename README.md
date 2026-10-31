@@ -8,7 +8,7 @@ It is for EA and data-architecture decisions: impact, productisation, and joinin
 
 **Finding:** From an application component you can reach the data product it consumes and the data object underneath — one directed path instead of three slide layers.
 
-Core questions this model is built to answer:
+Core questions this model is built to answer (directed walks on the graph, path tools, and verified competency coverage):
 
 1. What depends on this?
 2. What will this change impact?
@@ -18,9 +18,38 @@ Core questions this model is built to answer:
 6. What data is involved?
 7. Which teams must be involved?
 
-This is a concept projection (metamodel), not a populated client estate, and no graph database is required to inspect it.
+Not all of these are available from the **English Ask box** — only the seven intents below. The rest are answered via path buttons, Learn Q6, or the wider verified competency set (see tests and local `question_set.md` if present).
 
-How the questions walk (directed patterns, including inverses): [docs/question-traversals.md](docs/question-traversals.md)
+This is a concept projection (metamodel), not a populated client estate, and no graph database is required to inspect the static viewer.
+
+How the graph walks (directed patterns, including inverses): [docs/question-traversals.md](docs/question-traversals.md)
+
+## English Ask (local reasoner)
+
+GitHub Pages serves the static viewer only. To use **Ask in English**, run the reasoner locally; it serves the viewer and `POST /ask` on port **8765**.
+
+```bash
+python3 -m pip install -r requirements-ask.txt
+python3 -m ask
+```
+
+Open [http://127.0.0.1:8765/](http://127.0.0.1:8765/). Health: `GET /health` → `{"status":"ok"}`.
+
+Ask is **not** open chat. Your sentence must match a regex in [ask/compile_nl.py](ask/compile_nl.py) (`INTENT_PATTERNS`). The `…` slot must resolve to **exactly one** node id from the projection JSON (longest gazetteer match wins). Misses return HTTP **422** with `error` and `candidates`.
+
+| Intent | Example shapes (paraphrase only within the regex) |
+|--------|---------------------------------------------------|
+| `depends_on` | What does … depend on? |
+| `dependents` | What depends on …? · Who depends on …? · Dependents of … |
+| `owns` | Who owns …? |
+| `policies` | Which policies apply to …? · What policies apply to …? |
+| `realisation` | How is … realised? · How is … realized? |
+| `sequence` | What happens after …? · What happens next …? |
+| `impact` | What will be/is/gets impacted if I/we change …? · What will changing … impact? · Impact of changing … |
+
+Worked compile examples: [test_ask_compile.py](test_ask_compile.py) (`GOLDEN_IR`). SPARQL for each intent: [ask/intents.py](ask/intents.py).
+
+**Seed naming:** use graph node ids (e.g. `application component`, `data product`). Synonyms that are not node ids (e.g. “software component”) may match a shorter id such as `component` and yield a different blast than you expect.
 
 ## Repository
 
@@ -33,6 +62,8 @@ These are the files GitHub serves and deploys. Local scratch files are not liste
 | [vendor/d3.v7.min.js](vendor/d3.v7.min.js) | Vendored D3 v7 |
 | [favicon.svg](favicon.svg), [favicon.ico](favicon.ico), [apple-touch-icon.png](apple-touch-icon.png) | Site icons |
 | [docs/question-traversals.md](docs/question-traversals.md) | directed question patterns |
+| [ask/](ask/) | English → Query IR compile, OWL-RL SPARQL reasoner, local viewer server |
+| [requirements-ask.txt](requirements-ask.txt) | Reasoner runtime (rdflib, owlrl, FastAPI) |
 | [ontology/README.md](ontology/README.md) | Note on local ontology working copies (gitignored; not published) |
 | [requirements-dev.txt](requirements-dev.txt) | Dev dependency: pre-commit |
 | [.github/workflows/ci.yml](.github/workflows/ci.yml) | Pre-commit on `main` and pull requests |
