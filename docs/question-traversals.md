@@ -39,8 +39,8 @@ Each edge is stored once, in its primary direction. A hop written with an invers
 **Notes:** Product to model via the training pipeline, not a direct product-to-model hop.
 
 ## Q9 — Is this data product AI-ready?
-**Pattern:** `data product --restricted by→ entitlement` ; `data product --accountable steward→ data stewardship` ; `data product --has lineage→ data lineage` ; `data product --uses→ data object --governed by→ data policy` ; `data product --owned by→ stream-aligned team --implements→ data quality management`
-**Notes:** Facets within two hops: access, stewardship, lineage, policy and quality. Facets only — not a readiness certificate.
+**Pattern:** `data product --restricted by→ entitlement` ; `data product --accountable steward→ data stewardship` ; `data product --has lineage→ data lineage` ; `data product --uses→ data object --governed by→ data policy` ; `data product --measured by→ data quality monitoring`
+**Notes:** Facets within two hops: access, stewardship, lineage, policy and quality. Facets only — not a readiness certificate. Quality is shown by a data quality monitor measuring the product, not by the data quality management practice: questions about enterprise elements never pass through a practice.
 
 ## Q10 — What lineage exists for X?
 **Pattern:** `data product --has lineage→ data lineage`

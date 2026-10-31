@@ -41,7 +41,7 @@ Each edge is stored once, in its primary direction. Inverse labels such as `depe
 
 The page has two modes. Both share one **Element** search box, which searches all elements; clicking a node selects it.
 
-- **Ask a question** (default): pick one of the 18 questions. It answers for the chosen element, using only the relationships that answer that question. Each answer shows the relationships it rests on, as plain sentences with their definitions. Each question has an example element you can switch to with one click.
+- **Ask a question** (default): pick one of the 18 questions. It answers for the chosen element, using only the relationships that answer that question. Each answer shows the relationships it rests on, as plain sentences with their definitions. Answers are recorded elements; practices the question reaches are listed under *Practices involved*, and connections that only exist through a practice under *Found only through a practice* (see [docs/planes.md](docs/planes.md)). Each question has an example element you can switch to with one click.
 - **Explore**: browse an element's neighbourhood (1–3 steps in either direction, or the whole model) and find a route to a second element. Under **Follow**, a route can use:
   - any relationship in its direction, walking backwards only through declared inverses
   - how a change ripples out (each relation's `impact`)
@@ -81,6 +81,7 @@ Quality checks on GitHub are pre-commit only. The `validate-graph` hook fails if
 - the versions in the JSON and `index.html` differ
 - a pattern in `docs/question-traversals.md` does not walk real edges
 - Structural (part-whole or subtype) edges form a loop. Temporal loops are allowed, because they model recurring lifecycles.
+- a concept has no valid plane (enterprise, method or attribute), an attribute is the source of a relationship, a subtype is on a different plane from its parent, or a documented example about an enterprise element passes through a practice. See [docs/planes.md](docs/planes.md).
 
 ```bash
 python3 -m pip install -r requirements-dev.txt

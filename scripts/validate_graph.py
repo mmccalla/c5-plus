@@ -174,7 +174,11 @@ def check_versions(data, errors):
 
 
 def check_traversals(data, errors):
-    """Every hop in a documented pattern must be a stored edge or a declared inverse of one."""
+    """Every hop in a documented pattern must be a stored edge or a declared inverse of one.
+
+    A pattern that starts at an enterprise element must not pass through a practice (planes.rules).
+    """
+    plane = {node["id"]: node.get("plane") for node in data["nodes"]}
     catalogue = data["relationCatalogue"]
     stored = {(link["source"], link["label"], link["target"]) for link in data["links"]}
     inverse_of = {}
@@ -188,6 +192,12 @@ def check_traversals(data, errors):
     for line in patterns:
         for chain in re.findall(r"`([^`]+)`", line):
             parts = re.split(r" --(.+?)→ ", chain)
+            if len(parts) > 1 and plane.get(parts[0]) == "enterprise":
+                practices = [n for n in parts[2::2] if plane.get(n) == "method"]
+                if practices:
+                    errors.append(
+                        f"docs/question-traversals.md: {chain} starts at an enterprise element but passes through practice {practices}"
+                    )
             for i in range(0, len(parts) - 2, 2):
                 s, label, t = parts[i], parts[i + 1], parts[i + 2]
                 if (s, label, t) in stored:
@@ -201,6 +211,28 @@ def check_traversals(data, errors):
                 )
 
 
+def check_planes(data, errors):
+    """Every concept has a plane, attributes are only targets, and subtypes stay on their parent's plane."""
+    defined = set(data["planes"]["definitions"])
+    plane = {}
+    for node in data["nodes"]:
+        plane[node["id"]] = node.get("plane")
+        if node.get("plane") not in defined:
+            errors.append(
+                f"node {node['id']!r}: plane {node.get('plane')!r} is not one of {sorted(defined)}"
+            )
+    for link in data["links"]:
+        s, label, t = link["source"], link["label"], link["target"]
+        if plane.get(s) == "attribute":
+            errors.append(
+                f"edge {s} --{label}-> {t}: an attribute concept can only be a target"
+            )
+        if label == "is type of" and plane.get(s) != plane.get(t):
+            errors.append(
+                f"edge {s} --{label}-> {t}: a subtype must be on the same plane as its parent ({plane.get(s)} vs {plane.get(t)})"
+            )
+
+
 def main():
     data = json.loads(GRAPH.read_text(encoding="utf-8"))
     errors = []
@@ -210,13 +242,16 @@ def main():
     check_nodes(data, errors)
     check_versions(data, errors)
     check_traversals(data, errors)
+    check_planes(data, errors)
     for error in errors:
         print(error)
     if errors:
         print(f"{len(errors)} problem(s) found")
         return 1
+    planes = Counter(node["plane"] for node in data["nodes"])
     print(
-        f"graph OK: {len(data['nodes'])} nodes, {len(data['links'])} edges, {len(data['relationCatalogue'])} relations"
+        f"graph OK: {len(data['nodes'])} nodes, {len(data['links'])} edges, {len(data['relationCatalogue'])} relations; "
+        f"planes {dict(sorted(planes.items()))}"
     )
     return 0
 
