@@ -11,6 +11,8 @@ Every concept in the model sits on one of three planes. The plane says whether y
 ## The rules
 
 1. **A question about an enterprise element answers with enterprise elements, and never reaches them through a practice.** If a data catalog changes, the model no longer claims initiatives are affected just because the discovery practice uses catalogs and proposes initiatives. In a real estate there is no single "discovery" to pass through.
+
+   Nothing is hidden. Below the main answer the viewer lists **Practices involved** (practices the question reaches directly, such as RBAC and ABAC for an entitlement) and, collapsed, **Found only through a practice** (possible connections, such as the initiatives above). In Q9, a readiness facet that only a practice shows is marked **~** rather than ✓.
 2. **An attribute is only ever the target of a relationship.** A risk has a probability; a probability does not do anything.
 3. **A concept and its subtypes are on the same plane.** A kind of practice is a practice; a kind of team is a team.
 
@@ -26,7 +28,7 @@ The validator checks rules 2 and 3 and every concept's plane. The viewer applies
 
 ### Effect on answers (measured)
 
-All 18 questions were run on every element before and after. For questions about enterprise elements, 88 answer items disappear and none are added. Every one of the 88 had been reached only by passing through a practice. Practices also stop being listed as if they were enterprise answers (262 items), for example *database recovery* as something that depends on an infrastructure service. Questions asked about a practice are unchanged except one: Q4 on *data stewardship in cloud* no longer lists the steward role as a policy, an error that came from the reworded subtype relationship.
+All 18 questions were run on every element before and after. Every item shown before is still shown, except one error noted below. For questions about enterprise elements, 88 items move out of the main answer and none are added. Every one of the 88 had been reached only by passing through a practice, and they now appear under *Found only through a practice*. Practices that were listed as if they were enterprise answers (262 items), such as *database recovery* depending on an infrastructure service, now appear under *Practices involved* or *Found only through a practice*. Questions asked about a practice are unchanged except one: Q4 on *data stewardship in cloud* no longer lists the steward role as a policy, an error that came from the reworded subtype relationship.
 
 ## Please confirm
 

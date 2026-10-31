@@ -65,7 +65,7 @@ summary{cursor:pointer;min-height:var(--target);display:flex;align-items:center;
 .answer-item b{font-size:13px}
 .steps{margin:4px 0 0;padding-left:18px}.steps li{margin:2px 0}.steps li small{display:block}
 .facet{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-top:1px solid var(--soft)}
-.facet .mark{font-weight:700;width:18px;flex:none}.facet.ok .mark{color:#15803d}.facet.missing .mark{color:#b91c1c}
+.facet .mark{font-weight:700;width:18px;flex:none}.facet.ok .mark{color:#15803d}.facet.partly .mark{color:#b45309}.facet.missing .mark{color:#b91c1c}
 .item{border-top:1px solid var(--soft);padding:6px 0}
 .onto-card{border:1px solid var(--line);border-radius:6px;padding:8px;margin:6px 0;background:var(--bg)}
 .onto-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12px;margin-top:4px}
@@ -165,6 +165,8 @@ const BUILD={
 };
 // Distinct categorical colours; the domain is also always shown as text.
 const domainColours={"application":"#1f77b4","value-product":"#ff7f0e","operations-sre":"#2ca02c","governance-risk":"#d62728","business":"#9467bd","platform-infra":"#8c564b","finops":"#e377c2","people-actors":"#7f7f7f","ddd":"#bcbd22","information-data":"#17becf","measurement":"#393b79","team-topologies":"#637939","product":"#8c6d31","security":"#843c39","mlops":"#7b4173","data-management":"#e7ba52"};
+const PLANE_LABELS={method:"Practice",attribute:"Attribute"};
+const PLANE_NOTES={method:"A practice, technique or pattern, the same in every organisation. Questions about recorded elements list it separately rather than passing through it.",attribute:"A value that describes other elements, not a thing in its own right."};
 const classColours={"decomposition":"#8b5cf6","classification":"#c084fc","dependency":"#f97316","flow":"#06b6d4","activity":"#a16207","propagation":"#ef4444","mitigation":"#16a34a","enablement":"#f43f5e","sequence":"#0ea5e9","lifecycle":"#0284c7","versioning":"#38bdf8","validity":"#7dd3fc","governance":"#f59e0b","ownership":"#15803d","measurement":"#ec4899","realisation":"#2563eb","representation":"#6366f1","alignment":"#64748b"};
 
 // ---- Questions ---------------------------------------------------------------
@@ -309,6 +311,21 @@ function runQuery(element,spec){
   answers.sort((a,b)=>a.steps.length-b.steps.length||a.id.localeCompare(b.id));
   return answers;
 }
+// Everything else the question reaches when practices are not skipped, in two groups:
+// practices reached directly, and recorded elements reachable only by passing through a practice.
+function classifyQuery(element,spec){
+  const direct=runQuery(element,spec);
+  if(nodeById.get(element)?.plane==="method")return{direct,practices:[],indirect:[]};
+  const seen=new Set(direct.map(a=>a.id)), wide=bfs(element,id=>ruleSteps(id,spec.rules),spec.depth), practices=[], indirect=[];
+  wide.prev.forEach((st,id)=>{
+    if(!st||seen.has(id)||!matchesTarget(spec.target,id,st))return;
+    const steps=wide.pathTo(id), throughPractice=steps.slice(0,-1).some(x=>nodeById.get(x.to).plane==="method");
+    if(throughPractice)indirect.push({id,steps});
+    else if(nodeById.get(id).plane==="method")practices.push({id,steps});
+  });
+  const order=(a,b)=>a.steps.length-b.steps.length||a.id.localeCompare(b.id);
+  return{direct,practices:practices.sort(order),indirect:indirect.sort(order)};
+}
 function findRoute(src,tgt,route,links){
   let r=bfs(src,id=>modeSteps(id,route.mode,route.families,links)), note="";
   if(!r.prev.has(tgt)&&route.mode==="directed"&&!route.families){r=bfs(src,id=>modeSteps(id,"any",null,links)); note="No route follows the arrows, so this one ignores direction."}
@@ -423,13 +440,16 @@ function answerCurrent(){
   if(!nodeById.has(state.element)){$("answer").innerHTML=`<p>Choose an element to ask about.</p>${exampleOffer(q)}`;wireExamples();state.scene=null;render();return}
   let html, stepLists;
   if(q.facets){
-    const results=q.facets.map(f=>({f,answers:runQuery(state.element,f)}));
-    stepLists=results.flatMap(r=>r.answers.map(a=>a.steps));
-    const ok=results.filter(r=>r.answers.length).length;
-    html=`<p><b>${ok} of ${results.length}</b> readiness facets are present for <b>${esc(state.element)}</b>. Facets only — not a readiness certificate.</p>`+results.map(r=>`<div class="facet ${r.answers.length?"ok":"missing"}"><span class="mark" aria-hidden="true">${r.answers.length?"✓":"✗"}</span><div><b>${esc(r.f.name)}</b> <span class="visually-hidden">${r.answers.length?"present":"missing"}</span>${r.answers.length?r.answers.map(a=>`<ol class="steps">${a.steps.map(stepHtml).join("")}</ol>`).join(""):`<br><small>No matching relationship.</small>`}</div></div>`).join("");
+    const results=q.facets.map(f=>({f,...classifyQuery(state.element,f)}));
+    stepLists=results.flatMap(r=>(r.direct.length?r.direct:r.practices).map(a=>a.steps));
+    const ok=results.filter(r=>r.direct.length).length, partly=results.filter(r=>!r.direct.length&&r.practices.length).length;
+    const mark=r=>r.direct.length?["ok","✓","present"]:r.practices.length?["partly","~","only through a practice"]:["missing","✗","missing"];
+    html=`<p><b>${ok} of ${results.length}</b> readiness facets are present for <b>${esc(state.element)}</b>${partly?`, and ${partly} only through a practice`:""}. Facets only — not a readiness certificate.</p>`+results.map(r=>{const [cls,sym,word]=mark(r),shown=r.direct.length?r.direct:r.practices;return `<div class="facet ${cls}"><span class="mark" aria-hidden="true">${sym}</span><div><b>${esc(r.f.name)}</b> <span class="visually-hidden">${word}</span>${!r.direct.length&&r.practices.length?`<br><small>Only a practice shows this, not a recorded element.</small>`:""}${shown.length?shown.map(a=>`<ol class="steps">${a.steps.map(stepHtml).join("")}</ol>`).join(""):`<br><small>No matching relationship.</small>`}</div></div>`}).join("");
   }else{
-    const answers=runQuery(state.element,q); stepLists=answers.map(a=>a.steps);
-    html=answers.length?`<p><b>${answers.length}</b> answer${answers.length===1?"":"s"} for <b>${esc(state.element)}</b>, nearest first.</p>`+answers.map(answerItem).join(""):`<p>The model has no relationships that answer this for <b>${esc(state.element)}</b>.</p>`;
+    const {direct,practices,indirect}=classifyQuery(state.element,q); stepLists=[...direct,...practices].map(a=>a.steps);
+    html=direct.length?`<p><b>${direct.length}</b> answer${direct.length===1?"":"s"} for <b>${esc(state.element)}</b>, nearest first.</p>`+direct.map(answerItem).join(""):`<p>${practices.length||indirect.length?"No recorded elements answer this":"The model has no relationships that answer this"} for <b>${esc(state.element)}</b>.</p>`;
+    if(practices.length)html+=`<h3>Practices involved (${practices.length})</h3><p><small>Practices and techniques this reaches directly. They are the same in every organisation, so they are listed apart from recorded elements.</small></p>`+practices.map(answerItem).join("");
+    if(indirect.length)html+=`<details><summary>Found only through a practice (${indirect.length})</summary><p><small>These are reached only by passing through a practice, so they are possible connections rather than recorded ones.</small></p>${indirect.map(answerItem).join("")}</details>`;
   }
   $("answer").innerHTML=html+exampleOffer(q); wireExamples();
   const scene=sceneFromSteps(state.element,stepLists); scene.label=`${q.id} for ${state.element}`; scene.ignoresRefine=true;
@@ -448,7 +468,7 @@ function showNode(id){
   const n=nodeById.get(id); if(!n){$("nodeDetails").innerHTML=`<small>Click a node to see its definition and relationships.</small>`;return}
   const rels=[...(outEdges.get(id)||[]),...(inEdges.get(id)||[])], grouped={};
   rels.forEach(e=>(grouped[e.relationshipFamily]??=[]).push(e));
-  let out=`<h3 style="margin-top:0;font-size:15px">${esc(n.id)}</h3><span class="badge"><span class="sw" style="background:${domainColours[n.domain]}"></span>${esc(n.domain)}</span><span class="badge">${esc(n.type)}</span>${n.plane?`<span class="badge" title="${esc((originalData.planes?.definitions||{})[n.plane]||"")}">${esc(n.plane)} plane</span>`:""}<p>${esc(n.description)}</p><div class="row"><button data-act="ask">Ask about this</button><button data-act="explore">Explore from this</button></div><p><small>${rels.length} relationships</small></p>`;
+  let out=`<h3 style="margin-top:0;font-size:15px">${esc(n.id)}</h3><span class="badge"><span class="sw" style="background:${domainColours[n.domain]}"></span>${esc(n.domain)}</span><span class="badge">${esc(n.type)}</span>${PLANE_LABELS[n.plane]?`<span class="badge">${PLANE_LABELS[n.plane]}</span>`:""}<p>${esc(n.description)}</p>${PLANE_NOTES[n.plane]?`<p><small>${PLANE_NOTES[n.plane]}</small></p>`:""}<div class="row"><button data-act="ask">Ask about this</button><button data-act="explore">Explore from this</button></div><p><small>${rels.length} relationships</small></p>`;
   Object.keys(grouped).sort().forEach(f=>{out+=`<details><summary style="color:${familyColours[f]}">${f} (${grouped[f].length})</summary>`+grouped[f].map(e=>`<div class="item">${esc(sentence(e))}<br><small>${e.relationshipClass} · ${esc(relation(e).definition||"")}</small></div>`).join("")+`</details>`});
   $("nodeDetails").innerHTML=out;
   $("nodeDetails").querySelector('[data-act="ask"]').onclick=()=>{setMode("ask");setElement(id)};
