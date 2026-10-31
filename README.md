@@ -81,6 +81,7 @@ Quality checks on GitHub are pre-commit only. The `validate-graph` hook fails if
 - the versions in the JSON and `index.html` differ
 - a pattern in `docs/question-traversals.md` does not walk real edges
 - Structural (part-whole or subtype) edges form a loop. Temporal loops are allowed, because they model recurring lifecycles.
+- a concept has no valid plane (enterprise, method or attribute), an attribute is the source of a relationship, a subtype is on a different plane from its parent, or a documented example about an enterprise element passes through a practice. See [docs/planes.md](docs/planes.md).
 
 ```bash
 python3 -m pip install -r requirements-dev.txt

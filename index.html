@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Which data does this application depend on? · c5-plus</title>
-<meta name="application-version" content="5.5.0">
+<meta name="application-version" content="5.6.0">
 <meta name="graph-source" content="c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json">
-<meta name="build-date" content="2026-10-24">
+<meta name="build-date" content="2026-10-31">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -76,7 +76,7 @@ summary{cursor:pointer;min-height:var(--target);display:flex;align-items:center;
 </style>
 </head>
 <body>
-<header><h1>EA questions</h1><span id="buildMeta" class="build-meta">5.5.0</span><span class="spacer"></span><button class="dark" id="resetView" title="Reset zoom and pan">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
+<header><h1>EA questions</h1><span id="buildMeta" class="build-meta">5.6.0</span><span class="spacer"></span><button class="dark" id="resetView" title="Reset zoom and pan">Reset view</button><button class="dark" id="exportSvg">Export SVG</button><button class="dark" id="downloadJson">Download JSON</button><button class="primary" id="downloadGraphml">Download GraphML</button></header>
 <div class="layout">
 <aside class="panel" aria-label="Ask">
   <div class="tabs" role="tablist" aria-label="Mode">
@@ -157,11 +157,11 @@ summary{cursor:pointer;min-height:var(--target);display:flex;align-items:center;
 <script src="vendor/d3.v7.min.js"></script>
 <script>
 const BUILD={
-  version:"5.5.0",
-  label:"v5.5",
+  version:"5.6.0",
+  label:"v5.6",
   title:"Enterprise Architecture Knowledge Graph",
   source:"c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json",
-  built:"2026-10-24"
+  built:"2026-10-31"
 };
 // Distinct categorical colours; the domain is also always shown as text.
 const domainColours={"application":"#1f77b4","value-product":"#ff7f0e","operations-sre":"#2ca02c","governance-risk":"#d62728","business":"#9467bd","platform-infra":"#8c564b","finops":"#e377c2","people-actors":"#7f7f7f","ddd":"#bcbd22","information-data":"#17becf","measurement":"#393b79","team-topologies":"#637939","product":"#8c6d31","security":"#843c39","mlops":"#7b4173","data-management":"#e7ba52"};
@@ -299,8 +299,11 @@ function matchesTarget(target,id,lastStep){
   if(target.viaClass&&!target.viaClass.includes(lastStep.edge.relationshipClass))return false;
   return true;
 }
+// A question about an enterprise element answers with enterprise elements, and never reaches them
+// through a practice (planes.rules in the JSON). Questions about a practice may walk anywhere.
 function runQuery(element,spec){
-  const r=bfs(element,id=>ruleSteps(id,spec.rules),spec.depth);
+  const enterprise=nodeById.get(element)?.plane!=="method";
+  const r=bfs(element,id=>ruleSteps(id,spec.rules).filter(st=>!enterprise||nodeById.get(st.to).plane!=="method"),spec.depth);
   const answers=[];
   r.prev.forEach((st,id)=>{if(st&&matchesTarget(spec.target,id,st))answers.push({id,steps:r.pathTo(id)})});
   answers.sort((a,b)=>a.steps.length-b.steps.length||a.id.localeCompare(b.id));
@@ -445,7 +448,7 @@ function showNode(id){
   const n=nodeById.get(id); if(!n){$("nodeDetails").innerHTML=`<small>Click a node to see its definition and relationships.</small>`;return}
   const rels=[...(outEdges.get(id)||[]),...(inEdges.get(id)||[])], grouped={};
   rels.forEach(e=>(grouped[e.relationshipFamily]??=[]).push(e));
-  let out=`<h3 style="margin-top:0;font-size:15px">${esc(n.id)}</h3><span class="badge"><span class="sw" style="background:${domainColours[n.domain]}"></span>${esc(n.domain)}</span><span class="badge">${esc(n.type)}</span><p>${esc(n.description)}</p><div class="row"><button data-act="ask">Ask about this</button><button data-act="explore">Explore from this</button></div><p><small>${rels.length} relationships</small></p>`;
+  let out=`<h3 style="margin-top:0;font-size:15px">${esc(n.id)}</h3><span class="badge"><span class="sw" style="background:${domainColours[n.domain]}"></span>${esc(n.domain)}</span><span class="badge">${esc(n.type)}</span>${n.plane?`<span class="badge" title="${esc((originalData.planes?.definitions||{})[n.plane]||"")}">${esc(n.plane)} plane</span>`:""}<p>${esc(n.description)}</p><div class="row"><button data-act="ask">Ask about this</button><button data-act="explore">Explore from this</button></div><p><small>${rels.length} relationships</small></p>`;
   Object.keys(grouped).sort().forEach(f=>{out+=`<details><summary style="color:${familyColours[f]}">${f} (${grouped[f].length})</summary>`+grouped[f].map(e=>`<div class="item">${esc(sentence(e))}<br><small>${e.relationshipClass} · ${esc(relation(e).definition||"")}</small></div>`).join("")+`</details>`});
   $("nodeDetails").innerHTML=out;
   $("nodeDetails").querySelector('[data-act="ask"]').onclick=()=>{setMode("ask");setElement(id)};

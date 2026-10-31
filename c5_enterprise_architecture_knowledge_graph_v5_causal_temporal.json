@@ -1,9 +1,9 @@
 {
   "projection": {
-    "version": "5.5.0",
-    "series": "v5.4",
-    "built": "2026-10-24",
-    "description": "Concept projection. Every relation label is defined once in relationCatalogue with its family, class, transitivity, impact direction and inverse. Inverses are derived, not stored."
+    "version": "5.6.0",
+    "series": "v5.6",
+    "built": "2026-10-31",
+    "description": "Concept projection. Every relation label is defined once in relationCatalogue with its family, class, transitivity, impact direction and inverse. Inverses are derived, not stored. Each concept is tagged with its plane: enterprise, method or attribute."
   },
   "relationshipOntology": {
     "Structural": {
@@ -1464,6 +1464,19 @@
       "inverse": "used by"
     }
   },
+  "planes": {
+    "description": "Every concept belongs to one plane. Only enterprise concepts have instances in a populated estate. Method concepts are practices, techniques and patterns shared by every organisation. Attribute concepts are values on enterprise elements.",
+    "definitions": {
+      "enterprise": "Has many identifiable, ownable instances held in a system of record, such as application components, data products, policies, incidents and teams.",
+      "method": "A practice, discipline, technique or pattern. It is the same in every organisation; enterprise elements apply, follow or are scoped by it.",
+      "attribute": "A value of a property or qualifier on an enterprise element, such as a risk's probability or a version's effective date. Only ever the target of a relationship."
+    },
+    "rules": [
+      "A question about an enterprise element answers with enterprise elements, and never reaches them through a practice.",
+      "An attribute concept is only ever the target of a relationship.",
+      "A concept and its subtypes are on the same plane."
+    ]
+  },
   "inverseMap": {
     "accountable for": "accountable steward",
     "achieves": "achieved by",
@@ -1566,1582 +1579,1808 @@
       "domain": "security",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Attribute-based access control: access decisions evaluated from attributes of user, resource and context."
+      "description": "Attribute-based access control: access decisions evaluated from attributes of user, resource and context.",
+      "plane": "method"
     },
     {
       "id": "aggregate",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "A cluster of domain objects treated as one unit for data changes, with a single root that enforces invariants."
+      "description": "A cluster of domain objects treated as one unit for data changes, with a single root that enforces invariants.",
+      "plane": "enterprise"
     },
     {
       "id": "anti-corruption layer",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "A translation layer that keeps an external or legacy model from leaking into a bounded context."
+      "description": "A translation layer that keeps an external or legacy model from leaking into a bounded context.",
+      "plane": "enterprise"
     },
     {
       "id": "api management",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "The platform that publishes, secures, throttles and monitors APIs."
+      "description": "The platform that publishes, secures, throttles and monitors APIs.",
+      "plane": "enterprise"
     },
     {
       "id": "apm",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "Application performance monitoring that measures latency, errors and throughput of running software."
+      "description": "Application performance monitoring that measures latency, errors and throughput of running software.",
+      "plane": "enterprise"
     },
     {
       "id": "application component",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A deployable, modular unit of software that encapsulates behaviour and data and exposes it through interfaces."
+      "description": "A deployable, modular unit of software that encapsulates behaviour and data and exposes it through interfaces.",
+      "plane": "enterprise"
     },
     {
       "id": "application interface",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A point of access through which an application service is made available to users or other systems."
+      "description": "A point of access through which an application service is made available to users or other systems.",
+      "plane": "enterprise"
     },
     {
       "id": "application service",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Explicitly defined application behaviour offered to consumers, independent of the components that realise it."
+      "description": "Explicitly defined application behaviour offered to consumers, independent of the components that realise it.",
+      "plane": "enterprise"
     },
     {
       "id": "architecture standards",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "Agreed technical and design standards that architecture work must follow."
+      "description": "Agreed technical and design standards that architecture work must follow.",
+      "plane": "enterprise"
     },
     {
       "id": "audit",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "An independent examination of whether controls are designed and operating effectively."
+      "description": "An independent examination of whether controls are designed and operating effectively.",
+      "plane": "enterprise"
     },
     {
       "id": "audit finding",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A documented gap or weakness identified by an audit."
+      "description": "A documented gap or weakness identified by an audit.",
+      "plane": "enterprise"
     },
     {
       "id": "authentication",
       "domain": "security",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Verifying that an identity is who or what it claims to be."
+      "description": "Verifying that an identity is who or what it claims to be.",
+      "plane": "method"
     },
     {
       "id": "automated data discovery",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Tool-driven scanning that finds, profiles and classifies data assets without manual cataloguing."
+      "description": "Tool-driven scanning that finds, profiles and classifies data assets without manual cataloguing.",
+      "plane": "method"
     },
     {
       "id": "automated retraining pipeline",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "A pipeline that retrains a model automatically when drift or new data triggers it."
+      "description": "A pipeline that retrains a model automatically when drift or new data triggers it.",
+      "plane": "enterprise"
     },
     {
       "id": "bounded context",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "An explicit boundary within which a particular domain model and ubiquitous language apply."
+      "description": "An explicit boundary within which a particular domain model and ubiquitous language apply.",
+      "plane": "enterprise"
     },
     {
       "id": "business actor",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "An organisational entity, such as a person, unit or partner, capable of performing behaviour."
+      "description": "An organisational entity, such as a person, unit or partner, capable of performing behaviour.",
+      "plane": "enterprise"
     },
     {
       "id": "business capability",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A stable statement of what the organisation is able to do, independent of who does it or how."
+      "description": "A stable statement of what the organisation is able to do, independent of who does it or how.",
+      "plane": "enterprise"
     },
     {
       "id": "business event",
       "domain": "value-product",
       "type": "value-model-concept",
       "abstractionLevel": "logical",
-      "description": "Something that happens to or within the organisation and triggers a value stream."
+      "description": "Something that happens to or within the organisation and triggers a value stream.",
+      "plane": "enterprise"
     },
     {
       "id": "business function",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A collection of business behaviour grouped by required skills, resources or knowledge."
+      "description": "A collection of business behaviour grouped by required skills, resources or knowledge.",
+      "plane": "enterprise"
     },
     {
       "id": "business glossary",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "A governed list of business terms with agreed definitions, owners and relationships."
+      "description": "A governed list of business terms with agreed definitions, owners and relationships.",
+      "plane": "enterprise"
     },
     {
       "id": "business glossary integration",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Linking glossary terms to technical metadata so business meaning is attached to physical assets."
+      "description": "Linking glossary terms to technical metadata so business meaning is attached to physical assets.",
+      "plane": "method"
     },
     {
       "id": "business object",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A concept of business significance, such as an order or contract, that business behaviour acts on."
+      "description": "A concept of business significance, such as an order or contract, that business behaviour acts on.",
+      "plane": "enterprise"
     },
     {
       "id": "business process",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "An ordered sequence of business behaviour that achieves a defined result."
+      "description": "An ordered sequence of business behaviour that achieves a defined result.",
+      "plane": "enterprise"
     },
     {
       "id": "business role",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A named responsibility that a business actor is assigned to perform."
+      "description": "A named responsibility that a business actor is assigned to perform.",
+      "plane": "enterprise"
     },
     {
       "id": "business service",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Explicitly defined business behaviour offered to customers or other parts of the organisation."
+      "description": "Explicitly defined business behaviour offered to customers or other parts of the organisation.",
+      "plane": "enterprise"
     },
     {
       "id": "c5-data-management",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The data management reference framework used in this model, organised into DMBOK-style knowledge areas."
+      "description": "The data management reference framework used in this model, organised into DMBOK-style knowledge areas.",
+      "plane": "method"
     },
     {
       "id": "candidate model",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "A trained model awaiting evaluation and approval before promotion."
+      "description": "A trained model awaiting evaluation and approval before promotion.",
+      "plane": "enterprise"
     },
     {
       "id": "cloud cost management",
       "domain": "finops",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Monitoring, allocating and optimising spend on cloud resources."
+      "description": "Monitoring, allocating and optimising spend on cloud resources.",
+      "plane": "method"
     },
     {
       "id": "cloud data cataloguing",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The practice of populating and maintaining a data catalogue for cloud-hosted data assets."
+      "description": "The practice of populating and maintaining a data catalogue for cloud-hosted data assets.",
+      "plane": "method"
     },
     {
       "id": "cloud data governance policies",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Data governance policies adapted to cloud services, shared responsibility and multi-region hosting."
+      "description": "Data governance policies adapted to cloud services, shared responsibility and multi-region hosting.",
+      "plane": "enterprise"
     },
     {
       "id": "cloud data storage tiering",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Placing data in hot, warm or cold cloud storage tiers according to access pattern and cost."
+      "description": "Placing data in hot, warm or cold cloud storage tiers according to access pattern and cost.",
+      "plane": "method"
     },
     {
       "id": "cloud identity management",
       "domain": "security",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Managing identities and credentials for users and workloads across cloud services."
+      "description": "Managing identities and credentials for users and workloads across cloud services.",
+      "plane": "method"
     },
     {
       "id": "code element",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A unit of source code, such as a class, module or function, that implements a component (C4 code level)."
+      "description": "A unit of source code, such as a class, module or function, that implements a component (C4 code level).",
+      "plane": "enterprise"
     },
     {
       "id": "collaboration",
       "domain": "team-topologies",
       "type": "people-and-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "A Team Topologies interaction mode in which teams work closely together for a defined period."
+      "description": "A Team Topologies interaction mode in which teams work closely together for a defined period.",
+      "plane": "attribute"
     },
     {
       "id": "complicated-subsystem team",
       "domain": "team-topologies",
       "type": "people-and-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "A team that owns a part of the system needing deep specialist knowledge."
+      "description": "A team that owns a part of the system needing deep specialist knowledge.",
+      "plane": "enterprise"
     },
     {
       "id": "component",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A grouping of related functionality behind a well-defined interface inside a container (C4 component level)."
+      "description": "A grouping of related functionality behind a well-defined interface inside a container (C4 component level).",
+      "plane": "enterprise"
     },
     {
       "id": "conceptual data modelling",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Modelling the main business concepts and their relationships, without technical detail."
+      "description": "Modelling the main business concepts and their relationships, without technical detail.",
+      "plane": "method"
     },
     {
       "id": "container",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A separately runnable or deployable unit, such as an application, service or database, inside a software system (C4 container level)."
+      "description": "A separately runnable or deployable unit, such as an application, service or database, inside a software system (C4 container level).",
+      "plane": "enterprise"
     },
     {
       "id": "content lifecycle management",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Managing documents and content from creation through review, publication, retention and disposal."
+      "description": "Managing documents and content from creation through review, publication, retention and disposal.",
+      "plane": "method"
     },
     {
       "id": "context map",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "A view of bounded contexts and the integration relationships between them."
+      "description": "A view of bounded contexts and the integration relationships between them.",
+      "plane": "enterprise"
     },
     {
       "id": "control",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A measure that modifies risk, such as a process, policy, device or practice."
+      "description": "A measure that modifies risk, such as a process, policy, device or practice.",
+      "plane": "enterprise"
     },
     {
       "id": "cost",
       "domain": "measurement",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "The financial spend attributable to a resource, service or product."
+      "description": "The financial spend attributable to a resource, service or product.",
+      "plane": "enterprise"
     },
     {
       "id": "customer",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A party that buys, uses or benefits from the organisation's products and services."
+      "description": "A party that buys, uses or benefits from the organisation's products and services.",
+      "plane": "enterprise"
     },
     {
       "id": "customer emotional jobs",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Jobs where customers seek a particular feeling or state, such as security or peace of mind."
+      "description": "Jobs where customers seek a particular feeling or state, such as security or peace of mind.",
+      "plane": "enterprise"
     },
     {
       "id": "customer functional jobs",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Practical tasks customers are trying to complete or problems they are trying to solve."
+      "description": "Practical tasks customers are trying to complete or problems they are trying to solve.",
+      "plane": "enterprise"
     },
     {
       "id": "customer gains",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "The outcomes and benefits customers want, including expected and desired gains."
+      "description": "The outcomes and benefits customers want, including expected and desired gains.",
+      "plane": "enterprise"
     },
     {
       "id": "customer jobs",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "What customers are trying to get done in their work or life (value proposition canvas)."
+      "description": "What customers are trying to get done in their work or life (value proposition canvas).",
+      "plane": "enterprise"
     },
     {
       "id": "customer pains",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Bad outcomes, risks and obstacles customers experience before, during or after a job."
+      "description": "Bad outcomes, risks and obstacles customers experience before, during or after a job.",
+      "plane": "enterprise"
     },
     {
       "id": "customer segment",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A group of customers that share needs, behaviours or characteristics and are served as one."
+      "description": "A group of customers that share needs, behaviours or characteristics and are served as one.",
+      "plane": "enterprise"
     },
     {
       "id": "customer social jobs",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Jobs where customers want to look good, gain status or be perceived in a certain way."
+      "description": "Jobs where customers want to look good, gain status or be perceived in a certain way.",
+      "plane": "enterprise"
     },
     {
       "id": "data access policies",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Data policies that state who may access which data and under what conditions."
+      "description": "Data policies that state who may access which data and under what conditions.",
+      "plane": "enterprise"
     },
     {
       "id": "data architecture",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area that defines the blueprint for data assets, flows and standards aligned to business strategy."
+      "description": "The knowledge area that defines the blueprint for data assets, flows and standards aligned to business strategy.",
+      "plane": "method"
     },
     {
       "id": "data catalog",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "A searchable inventory of data assets with their metadata, owners and usage."
+      "description": "A searchable inventory of data assets with their metadata, owners and usage.",
+      "plane": "enterprise"
     },
     {
       "id": "data classification",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Labelling data by sensitivity and criticality so appropriate controls apply."
+      "description": "Labelling data by sensitivity and criticality so appropriate controls apply.",
+      "plane": "method"
     },
     {
       "id": "data classification in cloud",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Data classification applied to cloud-hosted data, often with automated tagging."
+      "description": "Data classification applied to cloud-hosted data, often with automated tagging.",
+      "plane": "method"
     },
     {
       "id": "data cleansing",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Correcting or removing inaccurate, incomplete or duplicated data."
+      "description": "Correcting or removing inaccurate, incomplete or duplicated data.",
+      "plane": "method"
     },
     {
       "id": "data domains and hierarchies",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The groupings and parent-child structures used to organise reference and master data."
+      "description": "The groupings and parent-child structures used to organise reference and master data.",
+      "plane": "enterprise"
     },
     {
       "id": "data encryption (at-rest, in-transit)",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Encrypting data while stored and while moving between systems."
+      "description": "Encrypting data while stored and while moving between systems.",
+      "plane": "method"
     },
     {
       "id": "data flow analysis",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Analysing how data moves between systems and processes as it is today."
+      "description": "Analysing how data moves between systems and processes as it is today.",
+      "plane": "method"
     },
     {
       "id": "data flow design",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Designing the target movement of data between systems and processes."
+      "description": "Designing the target movement of data between systems and processes.",
+      "plane": "method"
     },
     {
       "id": "data governance",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The exercise of authority, control and decision-making over the management of data assets."
+      "description": "The exercise of authority, control and decision-making over the management of data assets.",
+      "plane": "method"
     },
     {
       "id": "data governance organisation",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The councils, roles and forums that hold data governance decision rights."
+      "description": "The councils, roles and forums that hold data governance decision rights.",
+      "plane": "enterprise"
     },
     {
       "id": "data integration and interoperability",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area covering movement and consolidation of data within and between systems."
+      "description": "The knowledge area covering movement and consolidation of data within and between systems.",
+      "plane": "method"
     },
     {
       "id": "data interoperability",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The ability of systems to exchange data and use it with shared meaning."
+      "description": "The ability of systems to exchange data and use it with shared meaning.",
+      "plane": "method"
     },
     {
       "id": "data lifecycle management",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Managing data from creation and use through archival and disposal."
+      "description": "Managing data from creation and use through archival and disposal.",
+      "plane": "method"
     },
     {
       "id": "data lineage",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The recorded origin of data and the transformations and movements it has undergone."
+      "description": "The recorded origin of data and the transformations and movements it has undergone.",
+      "plane": "enterprise"
     },
     {
       "id": "data management strategy",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The plan that links data management goals and investment to business strategy."
+      "description": "The plan that links data management goals and investment to business strategy.",
+      "plane": "enterprise"
     },
     {
       "id": "data mart development",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Building subject-oriented analytical stores for a specific business area."
+      "description": "Building subject-oriented analytical stores for a specific business area.",
+      "plane": "method"
     },
     {
       "id": "data masking and anonymisation",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Obscuring or removing identifying values so data can be used without exposing individuals."
+      "description": "Obscuring or removing identifying values so data can be used without exposing individuals.",
+      "plane": "method"
     },
     {
       "id": "data model quality management",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Reviewing data models against standards for correctness, completeness and consistency."
+      "description": "Reviewing data models against standards for correctness, completeness and consistency.",
+      "plane": "method"
     },
     {
       "id": "data modelling and design",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area for discovering, analysing and representing data requirements as models."
+      "description": "The knowledge area for discovering, analysing and representing data requirements as models.",
+      "plane": "method"
     },
     {
       "id": "data movement and migration",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Moving data between systems, including one-off migrations and recurring transfers."
+      "description": "Moving data between systems, including one-off migrations and recurring transfers.",
+      "plane": "method"
     },
     {
       "id": "data movement architecture",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The patterns and technologies chosen for moving data between systems."
+      "description": "The patterns and technologies chosen for moving data between systems.",
+      "plane": "method"
     },
     {
       "id": "data object",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "A logical data structure, such as a table, document or message type, that holds business data."
+      "description": "A logical data structure, such as a table, document or message type, that holds business data.",
+      "plane": "enterprise"
     },
     {
       "id": "data policies and standards",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The approved set of data policies and the standards that implement them."
+      "description": "The approved set of data policies and the standards that implement them.",
+      "plane": "enterprise"
     },
     {
       "id": "data policy",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "A policy that governs how a class of data is created, used, protected or retained."
+      "description": "A policy that governs how a class of data is created, used, protected or retained.",
+      "plane": "enterprise"
     },
     {
       "id": "data preparation",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Selecting, cleaning and transforming data into a form ready for analysis or training."
+      "description": "Selecting, cleaning and transforming data into a form ready for analysis or training.",
+      "plane": "method"
     },
     {
       "id": "data product",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "A governed, discoverable and reusable data asset owned by a domain team and offered to consumers."
+      "description": "A governed, discoverable and reusable data asset owned by a domain team and offered to consumers.",
+      "plane": "enterprise"
     },
     {
       "id": "data profiling",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Analysing data content and structure to understand its quality and characteristics."
+      "description": "Analysing data content and structure to understand its quality and characteristics.",
+      "plane": "method"
     },
     {
       "id": "data profiling in cloud",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Data profiling run on cloud-hosted data with cloud-native tooling."
+      "description": "Data profiling run on cloud-hosted data with cloud-native tooling.",
+      "plane": "method"
     },
     {
       "id": "data quality management",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area that plans and runs activities to keep data fit for its intended use."
+      "description": "The knowledge area that plans and runs activities to keep data fit for its intended use.",
+      "plane": "method"
     },
     {
       "id": "data quality monitoring",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Continuously measuring data against quality rules and raising issues when it falls short."
+      "description": "Continuously measuring data against quality rules and raising issues when it falls short.",
+      "plane": "enterprise"
     },
     {
       "id": "data quality monitoring and reporting",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Publishing data quality measurements and trends to owners and consumers."
+      "description": "Publishing data quality measurements and trends to owners and consumers.",
+      "plane": "method"
     },
     {
       "id": "data quality rules for cloud",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Quality rules defined for cloud-hosted data and enforced in cloud pipelines."
+      "description": "Quality rules defined for cloud-hosted data and enforced in cloud pipelines.",
+      "plane": "enterprise"
     },
     {
       "id": "data quality strategy",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The plan for which data quality dimensions matter, the targets and how they are met."
+      "description": "The plan for which data quality dimensions matter, the targets and how they are met.",
+      "plane": "enterprise"
     },
     {
       "id": "data retention and archiving",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Keeping data for required periods, archiving it and disposing of it on schedule."
+      "description": "Keeping data for required periods, archiving it and disposing of it on schedule.",
+      "plane": "enterprise"
     },
     {
       "id": "data security",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area for policies and controls that protect data confidentiality, integrity and availability."
+      "description": "The knowledge area for policies and controls that protect data confidentiality, integrity and availability.",
+      "plane": "method"
     },
     {
       "id": "data security policy",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "A data policy that states security requirements such as encryption and masking."
+      "description": "A data policy that states security requirements such as encryption and masking.",
+      "plane": "enterprise"
     },
     {
       "id": "data sovereignty and residency",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Requirements on where data is stored and processed, and which jurisdiction's laws apply."
+      "description": "Requirements on where data is stored and processed, and which jurisdiction's laws apply.",
+      "plane": "enterprise"
     },
     {
       "id": "data stewardship",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The accountable, day-to-day care of data quality, definitions and use on behalf of the organisation."
+      "description": "The accountable, day-to-day care of data quality, definitions and use on behalf of the organisation.",
+      "plane": "enterprise"
     },
     {
       "id": "data stewardship in cloud",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Data stewardship applied to cloud-hosted data and services."
+      "description": "Data stewardship applied to cloud-hosted data and services.",
+      "plane": "method"
     },
     {
       "id": "data storage and operations",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area for designing, running and supporting stored data across its lifecycle."
+      "description": "The knowledge area for designing, running and supporting stored data across its lifecycle.",
+      "plane": "method"
     },
     {
       "id": "data technology management",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Selecting, deploying and supporting the database and data platform technologies in use."
+      "description": "Selecting, deploying and supporting the database and data platform technologies in use.",
+      "plane": "method"
     },
     {
       "id": "data virtualisation",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Giving unified access to data across sources without physically moving it."
+      "description": "Giving unified access to data across sources without physically moving it.",
+      "plane": "method"
     },
     {
       "id": "data warehousing and business intelligence",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area for integrated analytical data stores and the reporting built on them."
+      "description": "The knowledge area for integrated analytical data stores and the reporting built on them.",
+      "plane": "method"
     },
     {
       "id": "database recovery",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "Restoring databases from backup or replicas after failure or corruption."
+      "description": "Restoring databases from backup or replicas after failure or corruption.",
+      "plane": "method"
     },
     {
       "id": "database support",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "Operational support of databases, including patching, tuning and capacity."
+      "description": "Operational support of databases, including patching, tuning and capacity.",
+      "plane": "method"
     },
     {
       "id": "delivery",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The product work of building, testing and shipping validated solutions."
+      "description": "The product work of building, testing and shipping validated solutions.",
+      "plane": "method"
     },
     {
       "id": "device",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "A physical or virtual hardware resource on which software runs."
+      "description": "A physical or virtual hardware resource on which software runs.",
+      "plane": "enterprise"
     },
     {
       "id": "dimensional modelling",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Designing analytical schemas as facts and dimensions, such as star schemas."
+      "description": "Designing analytical schemas as facts and dimensions, such as star schemas.",
+      "plane": "method"
     },
     {
       "id": "discovery",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The product work of deciding what to build by testing value, usability, feasibility and viability."
+      "description": "The product work of deciding what to build by testing value, usability, feasibility and viability.",
+      "plane": "method"
     },
     {
       "id": "document and content management",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area for controlling unstructured data such as documents, records and media."
+      "description": "The knowledge area for controlling unstructured data such as documents, records and media.",
+      "plane": "method"
     },
     {
       "id": "document storage and retrieval",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Storing documents so they can be found, versioned and retrieved reliably."
+      "description": "Storing documents so they can be found, versioned and retrieved reliably.",
+      "plane": "method"
     },
     {
       "id": "domain",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The sphere of knowledge and activity that a software system addresses."
+      "description": "The sphere of knowledge and activity that a software system addresses.",
+      "plane": "enterprise"
     },
     {
       "id": "domain event",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "A record that something significant happened in the domain, named in the past tense."
+      "description": "A record that something significant happened in the domain, named in the past tense.",
+      "plane": "enterprise"
     },
     {
       "id": "domain service",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Domain logic that does not naturally belong to an entity or value object."
+      "description": "Domain logic that does not naturally belong to an entity or value object.",
+      "plane": "enterprise"
     },
     {
       "id": "dora metric",
       "domain": "measurement",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "One of the DORA delivery measures: deployment frequency, lead time, change failure rate, recovery time or rework rate."
+      "description": "One of the DORA delivery measures: deployment frequency, lead time, change failure rate, recovery time or rework rate.",
+      "plane": "enterprise"
     },
     {
       "id": "dw/bi architecture",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The architecture of the data warehouse and the business intelligence layer built on it."
+      "description": "The architecture of the data warehouse and the business intelligence layer built on it.",
+      "plane": "method"
     },
     {
       "id": "e-discovery",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Identifying, preserving and producing electronic information for legal or regulatory requests."
+      "description": "Identifying, preserving and producing electronic information for legal or regulatory requests.",
+      "plane": "method"
     },
     {
       "id": "enablement",
       "domain": "team-topologies",
       "type": "people-and-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The coaching and capability uplift an enabling team gives to other teams."
+      "description": "The coaching and capability uplift an enabling team gives to other teams.",
+      "plane": "method"
     },
     {
       "id": "enabling team",
       "domain": "team-topologies",
       "type": "people-and-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "A team of specialists that helps stream-aligned teams adopt new skills and practices."
+      "description": "A team of specialists that helps stream-aligned teams adopt new skills and practices.",
+      "plane": "enterprise"
     },
     {
       "id": "end-to-end data lineage",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Lineage that traces data from original source through every hop to final consumption."
+      "description": "Lineage that traces data from original source through every hop to final consumption.",
+      "plane": "method"
     },
     {
       "id": "enterprise data model",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "An organisation-wide model of the main data subjects, entities and relationships."
+      "description": "An organisation-wide model of the main data subjects, entities and relationships.",
+      "plane": "enterprise"
     },
     {
       "id": "entitlement",
       "domain": "security",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A specific permission granted to an identity to access a resource or perform an action."
+      "description": "A specific permission granted to an identity to access a resource or perform an action.",
+      "plane": "enterprise"
     },
     {
       "id": "entity",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "A domain object defined by a stable identity that persists through changes in its attributes."
+      "description": "A domain object defined by a stable identity that persists through changes in its attributes.",
+      "plane": "enterprise"
     },
     {
       "id": "error budget",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "The amount of unreliability an SLO allows over a period before changes must slow down."
+      "description": "The amount of unreliability an SLO allows over a period before changes must slow down.",
+      "plane": "enterprise"
     },
     {
       "id": "etl/elt development",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Building pipelines that extract, transform and load data between systems."
+      "description": "Building pipelines that extract, transform and load data between systems.",
+      "plane": "method"
     },
     {
       "id": "external system",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A software system outside the boundary of the system being described that it integrates with."
+      "description": "A software system outside the boundary of the system being described that it integrates with.",
+      "plane": "enterprise"
     },
     {
       "id": "feature store",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "A shared store of curated ML features, served consistently for training and inference."
+      "description": "A shared store of curated ML features, served consistently for training and inference.",
+      "plane": "enterprise"
     },
     {
       "id": "finops",
       "domain": "finops",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "The operating practice that brings financial accountability to variable cloud spend."
+      "description": "The operating practice that brings financial accountability to variable cloud spend.",
+      "plane": "method"
     },
     {
       "id": "finops metric",
       "domain": "measurement",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A measure of cloud spend or unit cost used for allocation and optimisation."
+      "description": "A measure of cloud spend or unit cost used for allocation and optimisation.",
+      "plane": "enterprise"
     },
     {
       "id": "fit hypothesis",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A testable statement that a value proposition matches a customer segment's jobs, pains and gains."
+      "description": "A testable statement that a value proposition matches a customer segment's jobs, pains and gains.",
+      "plane": "enterprise"
     },
     {
       "id": "gain creators",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Features of a value proposition that produce the gains customers expect or desire."
+      "description": "Features of a value proposition that produce the gains customers expect or desire.",
+      "plane": "enterprise"
     },
     {
       "id": "golden record management",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Creating and maintaining the single trusted version of each master entity."
+      "description": "Creating and maintaining the single trusted version of each master entity.",
+      "plane": "method"
     },
     {
       "id": "identity",
       "domain": "security",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A unique representation of a user, service or device for access control."
+      "description": "A unique representation of a user, service or device for access control.",
+      "plane": "enterprise"
     },
     {
       "id": "impact",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "The magnitude of consequence if a risk materialises."
+      "description": "The magnitude of consequence if a risk materialises.",
+      "plane": "attribute"
     },
     {
       "id": "incident",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "An unplanned interruption or reduction in the quality of a service."
+      "description": "An unplanned interruption or reduction in the quality of a service.",
+      "plane": "enterprise"
     },
     {
       "id": "incident remediation",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "The actions taken to contain an incident and return the service to normal."
+      "description": "The actions taken to contain an incident and return the service to normal.",
+      "plane": "enterprise"
     },
     {
       "id": "infrastructure service",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "A platform capability, such as compute, storage or networking, offered to applications."
+      "description": "A platform capability, such as compute, storage or networking, offered to applications.",
+      "plane": "enterprise"
     },
     {
       "id": "initiative",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "A funded body of work aimed at moving a product outcome or key result."
+      "description": "A funded body of work aimed at moving a product outcome or key result.",
+      "plane": "enterprise"
     },
     {
       "id": "issue management",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "The process of logging, prioritising, assigning and closing issues."
+      "description": "The process of logging, prioritising, assigning and closing issues.",
+      "plane": "enterprise"
     },
     {
       "id": "issue remediation workflows",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "Defined workflows that route and track issues through to resolution."
+      "description": "Defined workflows that route and track issues through to resolution.",
+      "plane": "enterprise"
     },
     {
       "id": "key result",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "A measurable result that shows progress towards an OKR objective."
+      "description": "A measurable result that shows progress towards an OKR objective.",
+      "plane": "enterprise"
     },
     {
       "id": "kpi",
       "domain": "measurement",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A key performance indicator that tracks progress towards a business objective."
+      "description": "A key performance indicator that tracks progress towards a business objective.",
+      "plane": "enterprise"
     },
     {
       "id": "logical data modelling",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Modelling entities, attributes and keys in detail, independent of any database technology."
+      "description": "Modelling entities, attributes and keys in detail, independent of any database technology.",
+      "plane": "method"
     },
     {
       "id": "master data",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Core shared business entities, such as customer or product, used across many processes."
+      "description": "Core shared business entities, such as customer or product, used across many processes.",
+      "plane": "enterprise"
     },
     {
       "id": "master data management (mdm)",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "The discipline and tooling for keeping master data consistent across systems."
+      "description": "The discipline and tooling for keeping master data consistent across systems.",
+      "plane": "method"
     },
     {
       "id": "measure",
       "domain": "measurement",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A quantified observation of a property, used to evaluate performance or quality."
+      "description": "A quantified observation of a property, used to evaluate performance or quality.",
+      "plane": "enterprise"
     },
     {
       "id": "metadata",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Data that describes other data, such as definitions, structure, lineage and ownership."
+      "description": "Data that describes other data, such as definitions, structure, lineage and ownership.",
+      "plane": "enterprise"
     },
     {
       "id": "metadata management",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area for collecting, governing and publishing data about data."
+      "description": "The knowledge area for collecting, governing and publishing data about data.",
+      "plane": "method"
     },
     {
       "id": "metadata repository management",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Running the store that holds business, technical and operational metadata."
+      "description": "Running the store that holds business, technical and operational metadata.",
+      "plane": "method"
     },
     {
       "id": "metadata strategy",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The plan for which metadata is captured, how it is integrated and who uses it."
+      "description": "The plan for which metadata is captured, how it is integrated and who uses it.",
+      "plane": "enterprise"
     },
     {
       "id": "ml model",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "A trained machine learning model deployed to make predictions or decisions."
+      "description": "A trained machine learning model deployed to make predictions or decisions.",
+      "plane": "enterprise"
     },
     {
       "id": "model bias",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "Systematic error in a model's outputs that disadvantages particular groups or cases."
+      "description": "Systematic error in a model's outputs that disadvantages particular groups or cases.",
+      "plane": "enterprise"
     },
     {
       "id": "model drift",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "Degradation of model performance as live data or relationships diverge from training conditions."
+      "description": "Degradation of model performance as live data or relationships diverge from training conditions.",
+      "plane": "enterprise"
     },
     {
       "id": "model experimentation",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "Iterative trials of features, algorithms and parameters to find a viable model."
+      "description": "Iterative trials of features, algorithms and parameters to find a viable model.",
+      "plane": "enterprise"
     },
     {
       "id": "model governance",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "Oversight of ML models across inventory, approval, monitoring and retirement."
+      "description": "Oversight of ML models across inventory, approval, monitoring and retirement.",
+      "plane": "method"
     },
     {
       "id": "model performance monitoring",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "Tracking a deployed model's accuracy, drift and bias in production."
+      "description": "Tracking a deployed model's accuracy, drift and bias in production.",
+      "plane": "enterprise"
     },
     {
       "id": "model registry",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "A store that records model versions, their lineage, stage and approval status."
+      "description": "A store that records model versions, their lineage, stage and approval status.",
+      "plane": "enterprise"
     },
     {
       "id": "model training pipeline",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "The automated pipeline that trains, evaluates and packages a model from prepared data."
+      "description": "The automated pipeline that trains, evaluates and packages a model from prepared data.",
+      "plane": "enterprise"
     },
     {
       "id": "model version",
       "domain": "mlops",
       "type": "mlops-concept",
       "abstractionLevel": "logical",
-      "description": "A specific, immutable trained artefact of a model, recorded in the registry."
+      "description": "A specific, immutable trained artefact of a model, recorded in the registry.",
+      "plane": "enterprise"
     },
     {
       "id": "multi-cloud data architecture",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "A data architecture that spans more than one cloud provider."
+      "description": "A data architecture that spans more than one cloud provider.",
+      "plane": "method"
     },
     {
       "id": "node",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "A computational resource that hosts and runs software artefacts."
+      "description": "A computational resource that hosts and runs software artefacts.",
+      "plane": "enterprise"
     },
     {
       "id": "okr",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "An objective with key results: a goal-setting frame linking intent to measurable outcomes."
+      "description": "An objective with key results: a goal-setting frame linking intent to measurable outcomes.",
+      "plane": "enterprise"
     },
     {
       "id": "outcome",
       "domain": "value-product",
       "type": "value-model-concept",
       "abstractionLevel": "logical",
-      "description": "A change in customer behaviour or business result that creates value."
+      "description": "A change in customer behaviour or business result that creates value.",
+      "plane": "enterprise"
     },
     {
       "id": "outcome focus",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "Managing product work by changes in customer behaviour or business results, not by output."
+      "description": "Managing product work by changes in customer behaviour or business results, not by output.",
+      "plane": "method"
     },
     {
       "id": "pain relievers",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Features of a value proposition that remove or reduce specific customer pains."
+      "description": "Features of a value proposition that remove or reduce specific customer pains.",
+      "plane": "enterprise"
     },
     {
       "id": "person",
       "domain": "people-actors",
       "type": "people-and-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "An individual human, who may act as a customer, stakeholder, employee or user."
+      "description": "An individual human, who may act as a customer, stakeholder, employee or user.",
+      "plane": "enterprise"
     },
     {
       "id": "physical data modelling",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Modelling how data is implemented in a specific database technology."
+      "description": "Modelling how data is implemented in a specific database technology.",
+      "plane": "method"
     },
     {
       "id": "pipeline pattern",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "A reusable, golden-path delivery pipeline template that builds, tests and deploys software."
+      "description": "A reusable, golden-path delivery pipeline template that builds, tests and deploys software.",
+      "plane": "enterprise"
     },
     {
       "id": "platform team",
       "domain": "team-topologies",
       "type": "people-and-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "A team that provides internal services so stream-aligned teams can deliver with autonomy."
+      "description": "A team that provides internal services so stream-aligned teams can deliver with autonomy.",
+      "plane": "enterprise"
     },
     {
       "id": "policy",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A statement of intent and rules, approved by management, that directs behaviour."
+      "description": "A statement of intent and rules, approved by management, that directs behaviour.",
+      "plane": "enterprise"
     },
     {
       "id": "postmortem",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "A blameless review held after an incident to understand what happened and why."
+      "description": "A blameless review held after an incident to understand what happened and why.",
+      "plane": "enterprise"
     },
     {
       "id": "postmortem finding",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "A cause, contributing factor or improvement identified in a postmortem."
+      "description": "A cause, contributing factor or improvement identified in a postmortem.",
+      "plane": "enterprise"
     },
     {
       "id": "privileged access management",
       "domain": "security",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Controlling, monitoring and auditing elevated access."
+      "description": "Controlling, monitoring and auditing elevated access.",
+      "plane": "method"
     },
     {
       "id": "probability",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "The likelihood that a risk will materialise."
+      "description": "The likelihood that a risk will materialise.",
+      "plane": "attribute"
     },
     {
       "id": "procedure",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "Step-by-step instructions that put a policy into operation."
+      "description": "Step-by-step instructions that put a policy into operation.",
+      "plane": "enterprise"
     },
     {
       "id": "product designer",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The product trio member accountable for usability and user experience."
+      "description": "The product trio member accountable for usability and user experience.",
+      "plane": "enterprise"
     },
     {
       "id": "product manager",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The product trio member accountable for value and viability."
+      "description": "The product trio member accountable for value and viability.",
+      "plane": "enterprise"
     },
     {
       "id": "product strategy",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The choices about which problems to solve, for whom, and how to win."
+      "description": "The choices about which problems to solve, for whom, and how to win.",
+      "plane": "enterprise"
     },
     {
       "id": "product team",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "A durable, cross-functional team accountable for a product's outcomes."
+      "description": "A durable, cross-functional team accountable for a product's outcomes.",
+      "plane": "enterprise"
     },
     {
       "id": "product trio",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The product manager, product designer and tech lead who lead discovery together."
+      "description": "The product manager, product designer and tech lead who lead discovery together.",
+      "plane": "enterprise"
     },
     {
       "id": "product vision",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The long-term future a product aims to create for its customers."
+      "description": "The long-term future a product aims to create for its customers.",
+      "plane": "enterprise"
     },
     {
       "id": "products and services",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "The offerings a value proposition is built around and that customers use."
+      "description": "The offerings a value proposition is built around and that customers use.",
+      "plane": "enterprise"
     },
     {
       "id": "rbac",
       "domain": "security",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Role-based access control: access granted through membership of roles."
+      "description": "Role-based access control: access granted through membership of roles.",
+      "plane": "method"
     },
     {
       "id": "records management",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Managing records as evidence of business activity, including retention schedules and disposal."
+      "description": "Managing records as evidence of business activity, including retention schedules and disposal.",
+      "plane": "method"
     },
     {
       "id": "reference and master data",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "The knowledge area for managing shared reference values and master entities across systems."
+      "description": "The knowledge area for managing shared reference values and master entities across systems.",
+      "plane": "method"
     },
     {
       "id": "reference data",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Controlled lists of values, such as country or currency codes, used to classify other data."
+      "description": "Controlled lists of values, such as country or currency codes, used to classify other data.",
+      "plane": "enterprise"
     },
     {
       "id": "reference data management",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Governing and distributing reference data sets and their versions."
+      "description": "Governing and distributing reference data sets and their versions.",
+      "plane": "method"
     },
     {
       "id": "regulatory compliance for cloud",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "Meeting legal and regulatory obligations for data and services hosted in the cloud."
+      "description": "Meeting legal and regulatory obligations for data and services hosted in the cloud.",
+      "plane": "enterprise"
     },
     {
       "id": "reporting and analytics support",
       "domain": "information-data",
       "type": "data-or-information-concept",
       "abstractionLevel": "logical",
-      "description": "Delivering and supporting reports, dashboards and analytical access for users."
+      "description": "Delivering and supporting reports, dashboards and analytical access for users.",
+      "plane": "method"
     },
     {
       "id": "repository",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "An abstraction that gives collection-like access to aggregates and hides persistence details."
+      "description": "An abstraction that gives collection-like access to aggregates and hides persistence details.",
+      "plane": "enterprise"
     },
     {
       "id": "risk",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "The effect of uncertainty on objectives, characterised by probability and impact."
+      "description": "The effect of uncertainty on objectives, characterised by probability and impact.",
+      "plane": "enterprise"
     },
     {
       "id": "risk assessment",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "The process of identifying, analysing and evaluating risks."
+      "description": "The process of identifying, analysing and evaluating risks.",
+      "plane": "enterprise"
     },
     {
       "id": "security monitoring",
       "domain": "security",
       "type": "enterprise-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "Continuously watching systems and events to detect security threats."
+      "description": "Continuously watching systems and events to detect security threats.",
+      "plane": "method"
     },
     {
       "id": "siem",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "Security information and event management: collecting and correlating security events to detect threats."
+      "description": "Security information and event management: collecting and correlating security events to detect threats.",
+      "plane": "enterprise"
     },
     {
       "id": "sli",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "A service level indicator: a measured quantity of service behaviour, such as latency or availability."
+      "description": "A service level indicator: a measured quantity of service behaviour, such as latency or availability.",
+      "plane": "enterprise"
     },
     {
       "id": "slo",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "A service level objective: the target value or range for an SLI over a period."
+      "description": "A service level objective: the target value or range for an SLI over a period.",
+      "plane": "enterprise"
     },
     {
       "id": "soar",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "Security orchestration, automation and response: playbook-driven handling of security alerts."
+      "description": "Security orchestration, automation and response: playbook-driven handling of security alerts.",
+      "plane": "enterprise"
     },
     {
       "id": "software system",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "The highest level of software abstraction that delivers value to its users (C4 system level)."
+      "description": "The highest level of software abstraction that delivers value to its users (C4 system level).",
+      "plane": "enterprise"
     },
     {
       "id": "sre",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "Site reliability engineering: the practice and teams that run services to defined reliability targets."
+      "description": "Site reliability engineering: the practice and teams that run services to defined reliability targets.",
+      "plane": "enterprise"
     },
     {
       "id": "stakeholder",
       "domain": "value-product",
       "type": "value-model-concept",
       "abstractionLevel": "logical",
-      "description": "A party with an interest in, or influence over, an outcome."
+      "description": "A party with an interest in, or influence over, an outcome.",
+      "plane": "enterprise"
     },
     {
       "id": "standard",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A mandatory rule or specification that ensures consistency."
+      "description": "A mandatory rule or specification that ensures consistency.",
+      "plane": "enterprise"
     },
     {
       "id": "stream-aligned team",
       "domain": "team-topologies",
       "type": "people-and-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "A team aligned to a flow of change for a business domain, product or user journey."
+      "description": "A team aligned to a flow of change for a business domain, product or user journey.",
+      "plane": "enterprise"
     },
     {
       "id": "subdomain",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "A distinct part of the domain, classified as core, supporting or generic."
+      "description": "A distinct part of the domain, classified as core, supporting or generic.",
+      "plane": "enterprise"
     },
     {
       "id": "tech lead",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "The product trio member accountable for technical feasibility."
+      "description": "The product trio member accountable for technical feasibility.",
+      "plane": "enterprise"
     },
     {
       "id": "technical metadata integration",
       "domain": "data-management",
       "type": "data-management-reference-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "Harvesting schema, lineage and operational metadata from platforms into the metadata repository."
+      "description": "Harvesting schema, lineage and operational metadata from platforms into the metadata repository.",
+      "plane": "method"
     },
     {
       "id": "technology interface",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "A point of access through which an infrastructure service is offered."
+      "description": "A point of access through which an infrastructure service is offered.",
+      "plane": "enterprise"
     },
     {
       "id": "value item",
       "domain": "value-product",
       "type": "value-model-concept",
       "abstractionLevel": "logical",
-      "description": "The unit of value a value stream or initiative delivers to a stakeholder."
+      "description": "The unit of value a value stream or initiative delivers to a stakeholder.",
+      "plane": "enterprise"
     },
     {
       "id": "value object",
       "domain": "ddd",
       "type": "domain-design-concept",
       "abstractionLevel": "metamodel/reference",
-      "description": "An immutable domain object defined only by its attribute values, with no identity."
+      "description": "An immutable domain object defined only by its attribute values, with no identity.",
+      "plane": "enterprise"
     },
     {
       "id": "value proposition statement",
       "domain": "business",
       "type": "business-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A concise statement of the value an offering creates for a target customer segment."
+      "description": "A concise statement of the value an offering creates for a target customer segment.",
+      "plane": "enterprise"
     },
     {
       "id": "value stream",
       "domain": "value-product",
       "type": "value-model-concept",
       "abstractionLevel": "logical",
-      "description": "An end-to-end set of value-adding stages that creates an outcome for a stakeholder."
+      "description": "An end-to-end set of value-adding stages that creates an outcome for a stakeholder.",
+      "plane": "enterprise"
     },
     {
       "id": "value stream stage",
       "domain": "value-product",
       "type": "value-model-concept",
       "abstractionLevel": "logical",
-      "description": "A distinct step within a value stream that adds incremental value."
+      "description": "A distinct step within a value stream that adds incremental value.",
+      "plane": "enterprise"
     },
     {
       "id": "x-as-a-service",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "A Team Topologies interaction mode in which one team consumes another's offering with minimal collaboration."
+      "description": "A Team Topologies interaction mode in which one team consumes another's offering with minimal collaboration.",
+      "plane": "attribute"
     },
     {
       "id": "change",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "Any addition, modification or removal that could affect services, systems or controls."
+      "description": "Any addition, modification or removal that could affect services, systems or controls.",
+      "plane": "enterprise"
     },
     {
       "id": "application change",
       "domain": "application",
       "type": "application-architecture-concept",
       "abstractionLevel": "logical",
-      "description": "A modification to an application's code, configuration or interfaces that can alter behaviour for its consumers."
+      "description": "A modification to an application's code, configuration or interfaces that can alter behaviour for its consumers.",
+      "plane": "enterprise"
     },
     {
       "id": "platform failure",
       "domain": "platform-infra",
       "type": "technology-platform-concept",
       "abstractionLevel": "logical",
-      "description": "A failure of shared infrastructure or platform services."
+      "description": "A failure of shared infrastructure or platform services.",
+      "plane": "enterprise"
     },
     {
       "id": "service degradation",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "A drop in a service's performance or availability below normal levels."
+      "description": "A drop in a service's performance or availability below normal levels.",
+      "plane": "enterprise"
     },
     {
       "id": "customer impact",
       "domain": "value-product",
       "type": "value-model-concept",
       "abstractionLevel": "logical",
-      "description": "A consequence experienced by customers, such as failed transactions, delays or lost access."
+      "description": "A consequence experienced by customers, such as failed transactions, delays or lost access.",
+      "plane": "enterprise"
     },
     {
       "id": "operational impact",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "A consequence for internal operations, such as backlog, rework or lost staff time."
+      "description": "A consequence for internal operations, such as backlog, rework or lost staff time.",
+      "plane": "enterprise"
     },
     {
       "id": "regulatory impact",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A consequence that breaches or threatens regulatory obligations, such as a reportable breach."
+      "description": "A consequence that breaches or threatens regulatory obligations, such as a reportable breach.",
+      "plane": "enterprise"
     },
     {
       "id": "risk exposure",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "The current level of risk the organisation carries after existing controls."
+      "description": "The current level of risk the organisation carries after existing controls.",
+      "plane": "enterprise"
     },
     {
       "id": "root cause",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "The underlying condition that, if removed, would have prevented an incident."
+      "description": "The underlying condition that, if removed, would have prevented an incident.",
+      "plane": "enterprise"
     },
     {
       "id": "failure mode",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "A specific way in which a component or service can fail."
+      "description": "A specific way in which a component or service can fail.",
+      "plane": "enterprise"
     },
     {
       "id": "mitigation action",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A planned action that reduces the likelihood or impact of a risk."
+      "description": "A planned action that reduces the likelihood or impact of a risk.",
+      "plane": "enterprise"
     },
     {
       "id": "compensating control",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "An alternative control that reduces risk when a primary control cannot be applied."
+      "description": "An alternative control that reduces risk when a primary control cannot be applied.",
+      "plane": "enterprise"
     },
     {
       "id": "release",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "Making a deployed change available to users."
+      "description": "Making a deployed change available to users.",
+      "plane": "enterprise"
     },
     {
       "id": "deployment",
       "domain": "product",
       "type": "product-operating-model-concept",
       "abstractionLevel": "logical",
-      "description": "Installing a software version into an environment."
+      "description": "Installing a software version into an environment.",
+      "plane": "enterprise"
     },
     {
       "id": "rollback",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "Reverting a deployment to the last known good version."
+      "description": "Reverting a deployment to the last known good version.",
+      "plane": "enterprise"
     },
     {
       "id": "change request",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A formal proposal for a change, submitted for assessment and approval."
+      "description": "A formal proposal for a change, submitted for assessment and approval.",
+      "plane": "enterprise"
     },
     {
       "id": "approval",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A recorded decision by an authorised party that allows a change or action to proceed."
+      "description": "A recorded decision by an authorised party that allows a change or action to proceed.",
+      "plane": "enterprise"
     },
     {
       "id": "effective date",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "The date from which a policy or control version applies."
+      "description": "The date from which a policy or control version applies.",
+      "plane": "attribute"
     },
     {
       "id": "expiry date",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "The date after which a policy or control version no longer applies."
+      "description": "The date after which a policy or control version no longer applies.",
+      "plane": "attribute"
     },
     {
       "id": "policy version",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A specific, dated revision of a policy."
+      "description": "A specific, dated revision of a policy.",
+      "plane": "enterprise"
     },
     {
       "id": "control version",
       "domain": "governance-risk",
       "type": "governance-risk-control-concept",
       "abstractionLevel": "logical",
-      "description": "A specific, dated revision of a control definition."
+      "description": "A specific, dated revision of a control definition.",
+      "plane": "enterprise"
     },
     {
       "id": "service restoration",
       "domain": "operations-sre",
       "type": "operations-reliability-concept",
       "abstractionLevel": "logical",
-      "description": "The return of a service to its agreed level of operation."
+      "description": "The return of a service to its agreed level of operation.",
+      "plane": "enterprise"
     }
   ],
   "links": [
@@ -7953,14 +8192,14 @@
       "inverseCandidate": true
     },
     {
-      "source": "data stewardship in cloud",
-      "target": "data stewardship",
-      "label": "is type of",
-      "relationshipFamily": "Structural",
-      "relationshipClass": "classification",
-      "relationshipSemantics": "The source is a subtype or kind of the target and inherits its meaning.",
+      "source": "data stewardship",
+      "target": "data stewardship in cloud",
+      "label": "performs",
+      "relationshipFamily": "Behavioural",
+      "relationshipClass": "activity",
+      "relationshipSemantics": "The source carries out the target activity.",
       "directed": true,
-      "transitiveCandidate": true,
+      "transitiveCandidate": false,
       "inverseCandidate": true
     },
     {
