@@ -58,11 +58,13 @@ These are the files GitHub serves and deploys. Local scratch files are not liste
 | Path | Role |
 |------|------|
 | [index.html](index.html) | Viewer |
+| [questions.js](questions.js) | The 18 questions and the graph walks that answer them, used by the viewer and the question check |
 | [c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json](c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json) | Graph source |
 | [vendor/d3.v7.min.js](vendor/d3.v7.min.js) | Vendored D3 v7 |
 | [favicon.svg](favicon.svg), [favicon.ico](favicon.ico), [apple-touch-icon.png](apple-touch-icon.png) | Site icons |
 | [docs/question-traversals.md](docs/question-traversals.md) | directed question patterns |
 | [ontology/README.md](ontology/README.md) | Note on local ontology working copies (gitignored; not published) |
+| [scripts/check_questions.js](scripts/check_questions.js), [tests/expected-answers.json](tests/expected-answers.json) | Checks the questions' scopes and answers against the agreed answers ([docs/question-validation.md](docs/question-validation.md)) |
 | [scripts/validate_graph.py](scripts/validate_graph.py) | Checks the graph against the relation catalogue and the traversals doc (run by pre-commit) |
 | [requirements-dev.txt](requirements-dev.txt) | Dev dependency: pre-commit |
 | [.github/workflows/ci.yml](.github/workflows/ci.yml) | Pre-commit on `main` and pull requests |
@@ -73,7 +75,7 @@ Edit the JSON or viewer, push to `main`, and GitHub Pages republishes the site.
 
 ## Development
 
-Quality checks on GitHub are pre-commit only. The `validate-graph` hook fails if:
+Quality checks on GitHub are pre-commit only. The `check-questions` hook (needs Node) fails if a question's scope or answers differ from the agreed ones in `tests/expected-answers.json`. The `validate-graph` hook fails if:
 
 - an edge disagrees with its label's catalogue entry
 - an inverse is stored as an edge

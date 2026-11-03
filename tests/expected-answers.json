@@ -1,0 +1,1116 @@
+{
+  "about": "Expected answers agreed for the automated question check. exact: the answer must be exactly these. includes: the answer must contain at least these.",
+  "scopes": {
+    "Q1": {
+      "about": "Things other things rely on",
+      "elements": [
+        "application component",
+        "application service",
+        "application interface",
+        "software system",
+        "container",
+        "component",
+        "infrastructure service",
+        "node",
+        "device",
+        "technology interface",
+        "api management",
+        "data product",
+        "data object",
+        "master data",
+        "reference data",
+        "data catalog",
+        "feature store",
+        "ml model",
+        "model registry",
+        "identity",
+        "entitlement",
+        "business service",
+        "business capability",
+        "external system"
+      ]
+    },
+    "Q2": {
+      "about": "Changes, and the things a change is made to",
+      "elements": [
+        "application change",
+        "deployment",
+        "release",
+        "application component",
+        "application service",
+        "application interface",
+        "data product",
+        "data object",
+        "infrastructure service",
+        "policy",
+        "standard",
+        "control",
+        "ml model"
+      ]
+    },
+    "Q5": {
+      "about": "Business and service elements on the path to customer value",
+      "elements": [
+        "business capability",
+        "business service",
+        "business process",
+        "value stream",
+        "value stream stage",
+        "application service",
+        "products and services",
+        "initiative",
+        "slo"
+      ]
+    },
+    "Q12": {
+      "about": "Things that can break",
+      "elements": [
+        "application service",
+        "application component",
+        "infrastructure service",
+        "node",
+        "device",
+        "slo",
+        "data product",
+        "ml model",
+        "api management",
+        "external system"
+      ]
+    },
+    "Q14": {
+      "about": "Business and application elements that run on the platform",
+      "elements": [
+        "business capability",
+        "business service",
+        "application service",
+        "application component",
+        "software system",
+        "container"
+      ]
+    },
+    "Q3": {
+      "about": "Things that should have an accountable owner",
+      "elements": [
+        "api management",
+        "apm",
+        "application component",
+        "application interface",
+        "application service",
+        "architecture standards",
+        "automated retraining pipeline",
+        "bounded context",
+        "business capability",
+        "business glossary",
+        "business process",
+        "business service",
+        "cloud data governance policies",
+        "compensating control",
+        "component",
+        "container",
+        "control",
+        "data access policies",
+        "data catalog",
+        "data object",
+        "data policies and standards",
+        "data policy",
+        "data product",
+        "data quality monitoring",
+        "data quality rules for cloud",
+        "data retention and archiving",
+        "data security policy",
+        "device",
+        "enterprise data model",
+        "error budget",
+        "external system",
+        "feature store",
+        "infrastructure service",
+        "initiative",
+        "key result",
+        "kpi",
+        "master data",
+        "ml model",
+        "model performance monitoring",
+        "model registry",
+        "model training pipeline",
+        "node",
+        "okr",
+        "pipeline pattern",
+        "policy",
+        "procedure",
+        "product strategy",
+        "products and services",
+        "reference data",
+        "risk",
+        "siem",
+        "sli",
+        "slo",
+        "soar",
+        "software system",
+        "standard",
+        "technology interface",
+        "value stream"
+      ]
+    },
+    "Q7": {
+      "about": "Changes, and the things a change is made to",
+      "elements": [
+        "application change",
+        "application component",
+        "application service",
+        "data object",
+        "data product",
+        "deployment",
+        "infrastructure service",
+        "ml model",
+        "release"
+      ]
+    },
+    "Q4": {
+      "about": "Things policies and controls apply to",
+      "elements": [
+        "data product",
+        "data object",
+        "master data",
+        "reference data",
+        "application interface",
+        "application component",
+        "infrastructure service",
+        "entitlement",
+        "products and services",
+        "change",
+        "ml model"
+      ]
+    },
+    "Q16": {
+      "about": "Data that retention, privacy or access rules bind",
+      "elements": [
+        "data object",
+        "data product",
+        "master data",
+        "reference data",
+        "feature store"
+      ]
+    },
+    "Q11": {
+      "about": "Controls",
+      "elements": [
+        "control",
+        "compensating control",
+        "mitigation action"
+      ]
+    },
+    "Q6": {
+      "about": "Things that use data",
+      "elements": [
+        "application component",
+        "application service",
+        "software system",
+        "ml model",
+        "model training pipeline",
+        "business process",
+        "business capability"
+      ]
+    },
+    "Q8": {
+      "about": "Models, pipelines and the data that feeds them",
+      "elements": [
+        "ml model",
+        "candidate model",
+        "model version",
+        "model training pipeline",
+        "automated retraining pipeline",
+        "feature store",
+        "data product"
+      ]
+    },
+    "Q10": {
+      "about": "Data",
+      "elements": [
+        "data product",
+        "data object",
+        "master data",
+        "reference data",
+        "feature store"
+      ]
+    },
+    "Q9": {
+      "about": "Data products",
+      "elements": [
+        "data product"
+      ]
+    },
+    "Q18": {
+      "about": "Effects and failures",
+      "elements": [
+        "customer impact",
+        "operational impact",
+        "regulatory impact",
+        "incident",
+        "service degradation",
+        "platform failure",
+        "model drift"
+      ]
+    },
+    "Q13": {
+      "about": "Incidents and failures",
+      "elements": [
+        "incident",
+        "model bias",
+        "model drift",
+        "platform failure",
+        "service degradation"
+      ]
+    },
+    "Q17": {
+      "about": "Measures",
+      "elements": [
+        "kpi",
+        "key result",
+        "okr",
+        "sli",
+        "dora metric",
+        "finops metric",
+        "measure"
+      ]
+    },
+    "Q15": {
+      "about": "Products, services and data",
+      "elements": [
+        "data product",
+        "data object",
+        "application service",
+        "application component",
+        "software system"
+      ]
+    }
+  },
+  "expected": {
+    "Q3": {
+      "mode": "exact",
+      "answers": {
+        "api management": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "A platform product."
+        },
+        "apm": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "Shared operational tooling."
+        },
+        "application component": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "The delivery team that builds and runs it."
+        },
+        "application interface": {
+          "answer": [
+            "product team",
+            "stream-aligned team"
+          ],
+          "why": "Owned with the service it exposes. A customer-facing interface is shared with the product team whose product it exposes."
+        },
+        "application service": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "The delivery team that runs it."
+        },
+        "architecture standards": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A named owner, such as a chief architect."
+        },
+        "automated retraining pipeline": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Owned with the model."
+        },
+        "bounded context": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "One team per bounded context."
+        },
+        "business capability": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A business leader owns each capability."
+        },
+        "business glossary": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Owned by data governance."
+        },
+        "business process": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A process owner."
+        },
+        "business service": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A business service owner."
+        },
+        "cloud data governance policies": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Data governance."
+        },
+        "compensating control": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A named control owner."
+        },
+        "component": {
+          "answer": [
+            "complicated-subsystem team",
+            "stream-aligned team"
+          ],
+          "why": "Usually the delivery team; specialist subsystems belong to a complicated-subsystem team."
+        },
+        "container": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Owned with its software system."
+        },
+        "control": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A named control owner."
+        },
+        "data access policies": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Data governance."
+        },
+        "data catalog": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "A platform product."
+        },
+        "data object": {
+          "answer": [
+            "data stewardship",
+            "stream-aligned team"
+          ],
+          "why": "Through the data product that holds it."
+        },
+        "data policies and standards": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Data governance."
+        },
+        "data policy": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Data policies are owned by data governance."
+        },
+        "data product": {
+          "answer": [
+            "data stewardship",
+            "stream-aligned team"
+          ],
+          "why": "Owned by its domain team; a steward is accountable for the data."
+        },
+        "data quality monitoring": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Owned by the team of the data product it watches."
+        },
+        "data quality rules for cloud": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Data governance."
+        },
+        "data retention and archiving": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Data governance."
+        },
+        "data security policy": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Data governance."
+        },
+        "device": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "Platform."
+        },
+        "enterprise data model": {
+          "answer": [
+            "data governance organisation"
+          ],
+          "why": "Owned by data governance."
+        },
+        "error budget": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Owned with its SLO."
+        },
+        "external system": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Supplied externally; internally, the team that integrates with it owns the relationship."
+        },
+        "feature store": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "A shared platform product."
+        },
+        "infrastructure service": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "Platform capabilities belong to the platform team."
+        },
+        "initiative": {
+          "answer": [
+            "product team"
+          ],
+          "why": "The product team that delivers it."
+        },
+        "key result": {
+          "answer": [
+            "product team"
+          ],
+          "why": "Owned with its OKR."
+        },
+        "kpi": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A business owner for the measure."
+        },
+        "master data": {
+          "answer": [
+            "data stewardship"
+          ],
+          "why": "Master data is stewarded."
+        },
+        "ml model": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "The team whose product uses it."
+        },
+        "model performance monitoring": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Owned with the model; SRE may operate it."
+        },
+        "model registry": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "A shared platform product."
+        },
+        "model training pipeline": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Owned with the model."
+        },
+        "node": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "Platform."
+        },
+        "okr": {
+          "answer": [
+            "product team"
+          ],
+          "why": "The team accountable for it."
+        },
+        "pipeline pattern": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "Golden-path templates are platform products."
+        },
+        "policy": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A named policy owner."
+        },
+        "procedure": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A named procedure owner."
+        },
+        "product strategy": {
+          "answer": [
+            "product team"
+          ],
+          "why": "The product team."
+        },
+        "products and services": {
+          "answer": [
+            "product team"
+          ],
+          "why": "The product team."
+        },
+        "reference data": {
+          "answer": [
+            "data stewardship"
+          ],
+          "why": "Reference data is stewarded."
+        },
+        "risk": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A named risk owner."
+        },
+        "siem": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "Shared operational tooling."
+        },
+        "sli": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Owned with its SLO."
+        },
+        "slo": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "Set and owned by the team that runs the service."
+        },
+        "soar": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "Shared operational tooling."
+        },
+        "software system": {
+          "answer": [
+            "stream-aligned team"
+          ],
+          "why": "The delivery team that runs it."
+        },
+        "standard": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A named standard owner."
+        },
+        "technology interface": {
+          "answer": [
+            "platform team"
+          ],
+          "why": "Platform."
+        },
+        "value stream": {
+          "answer": [
+            "business role"
+          ],
+          "why": "A value stream owner."
+        }
+      }
+    },
+    "Q1": {
+      "mode": "includes",
+      "answers": {
+        "api management": {
+          "answer": [
+            "application interface"
+          ],
+          "why": "APIs are published through it."
+        },
+        "application component": {
+          "answer": [
+            "application service"
+          ],
+          "why": "Services are realised by components."
+        },
+        "application interface": {
+          "answer": [
+            "application component"
+          ],
+          "why": "Callers depend on the interface."
+        },
+        "application service": {
+          "answer": [
+            "application interface",
+            "business service"
+          ],
+          "why": "Business services are realised by it; interfaces expose it."
+        },
+        "business capability": {
+          "answer": [
+            "product strategy",
+            "value stream stage"
+          ],
+          "why": "Value stream stages and strategy rely on capabilities."
+        },
+        "business service": {
+          "answer": [
+            "business process"
+          ],
+          "why": "Business processes use business services."
+        },
+        "component": {
+          "answer": [
+            "container"
+          ],
+          "why": "Containers are made of components."
+        },
+        "container": {
+          "answer": [
+            "application component"
+          ],
+          "why": "Components run in containers."
+        },
+        "data catalog": {
+          "answer": [],
+          "why": "Nothing recorded depends on the catalog; people and practices use it."
+        },
+        "data object": {
+          "answer": [
+            "application component",
+            "application service",
+            "data product"
+          ],
+          "why": "Products are built from it; applications manage and use it."
+        },
+        "data product": {
+          "answer": [
+            "application component",
+            "model training pipeline"
+          ],
+          "why": "Applications consume it; training pipelines are fed by it."
+        },
+        "device": {
+          "answer": [
+            "infrastructure service"
+          ],
+          "why": "Infrastructure runs on devices."
+        },
+        "entitlement": {
+          "answer": [
+            "application interface"
+          ],
+          "why": "Interfaces authorise through entitlements."
+        },
+        "external system": {
+          "answer": [
+            "software system"
+          ],
+          "why": "Systems that integrate with it."
+        },
+        "feature store": {
+          "answer": [
+            "application component",
+            "model training pipeline"
+          ],
+          "why": "Training and inference read features."
+        },
+        "identity": {
+          "answer": [
+            "entitlement"
+          ],
+          "why": "Entitlements are granted to identities."
+        },
+        "infrastructure service": {
+          "answer": [
+            "api management",
+            "application component",
+            "pipeline pattern"
+          ],
+          "why": "Everything that runs on the platform."
+        },
+        "master data": {
+          "answer": [
+            "application component",
+            "data product"
+          ],
+          "why": "Master data is used across products and applications."
+        },
+        "ml model": {
+          "answer": [
+            "application component"
+          ],
+          "why": "Applications call models."
+        },
+        "model registry": {
+          "answer": [
+            "ml model"
+          ],
+          "why": "Models are registered and promoted through it."
+        },
+        "node": {
+          "answer": [
+            "application interface",
+            "infrastructure service"
+          ],
+          "why": "Services and interfaces run on nodes."
+        },
+        "reference data": {
+          "answer": [
+            "application component",
+            "data product"
+          ],
+          "why": "Same as master data."
+        },
+        "software system": {
+          "answer": [
+            "business capability"
+          ],
+          "why": "Capabilities are realised by systems."
+        },
+        "technology interface": {
+          "answer": [
+            "application component"
+          ],
+          "why": "Applications call platform interfaces."
+        }
+      }
+    },
+    "Q2": {
+      "mode": "includes",
+      "answers": {
+        "application change": {
+          "answer": [
+            "application component",
+            "application service",
+            "business service",
+            "customer impact",
+            "data product",
+            "service degradation"
+          ],
+          "why": "Code and config changes reach components, the services they realise, the data they touch, and can degrade service for customers."
+        },
+        "application component": {
+          "answer": [
+            "application service",
+            "business service"
+          ],
+          "why": "Changing a component changes the services it realises."
+        },
+        "application interface": {
+          "answer": [
+            "application component"
+          ],
+          "why": "Callers of the interface."
+        },
+        "application service": {
+          "answer": [
+            "application interface",
+            "business service"
+          ],
+          "why": "Changing a service changes what is exposed and what it realises."
+        },
+        "control": {
+          "answer": [
+            "risk",
+            "risk exposure"
+          ],
+          "why": "Risks the control mitigates."
+        },
+        "data object": {
+          "answer": [
+            "application component",
+            "data product"
+          ],
+          "why": "Products and applications built on it."
+        },
+        "data product": {
+          "answer": [
+            "application component",
+            "ml model",
+            "model training pipeline"
+          ],
+          "why": "Consumers, and models trained on it."
+        },
+        "deployment": {
+          "answer": [
+            "release"
+          ],
+          "why": "A deployment leads to a release."
+        },
+        "infrastructure service": {
+          "answer": [
+            "application component",
+            "application service"
+          ],
+          "why": "Everything running on it."
+        },
+        "ml model": {
+          "answer": [
+            "application component"
+          ],
+          "why": "Applications that call it."
+        },
+        "policy": {
+          "answer": [
+            "application interface",
+            "control",
+            "data product"
+          ],
+          "why": "Controls that enforce it and what it governs."
+        },
+        "release": {
+          "answer": [
+            "application service"
+          ],
+          "why": "A release changes what users get from the service."
+        },
+        "standard": {
+          "answer": [
+            "pipeline pattern"
+          ],
+          "why": "Patterns that implement the standard."
+        }
+      }
+    },
+    "Q7": {
+      "mode": "exact",
+      "answers": {
+        "application change": {
+          "answer": [
+            "data stewardship",
+            "platform team",
+            "product team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "Owners of the changed components and services, and stewards of data products they affect. SRE is involved because a live system changes. The platform team owns a shared platform product the change reaches (feature store, model registry, data catalog or the SIEM that ingests its logs). The product team owns the product built on the affected service, or is informed by its SLO."
+        },
+        "application component": {
+          "answer": [
+            "platform team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "Its owner, and owners of what depends on it. SRE is involved because a live system changes. The platform team owns a shared platform product the change reaches (feature store, model registry, data catalog or the SIEM that ingests its logs)."
+        },
+        "application service": {
+          "answer": [
+            "product team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "Its owner, and owners of what depends on it. SRE is involved because a live system changes. The product team owns the product built on the affected service, or is informed by its SLO."
+        },
+        "data object": {
+          "answer": [
+            "data stewardship",
+            "platform team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "Through the data products that use it. The platform team owns a shared platform product the change reaches (feature store, model registry, data catalog or the SIEM that ingests its logs). Services that use the data are live, and SRE supports them."
+        },
+        "data product": {
+          "answer": [
+            "data stewardship",
+            "platform team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "Its owning team and steward, and teams that consume it. SRE is involved because a live system changes. The platform team owns a shared platform product the change reaches (feature store, model registry, data catalog or the SIEM that ingests its logs)."
+        },
+        "deployment": {
+          "answer": [
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "The owning delivery team. SRE is involved because a live system changes."
+        },
+        "infrastructure service": {
+          "answer": [
+            "platform team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "The platform team, and teams whose components run on it. SRE is involved because a live system changes."
+        },
+        "ml model": {
+          "answer": [
+            "platform team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "The owning team, and teams whose applications call it. SRE is involved because a live system changes. The platform team owns a shared platform product the change reaches (feature store, model registry, data catalog or the SIEM that ingests its logs)."
+        },
+        "release": {
+          "answer": [
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "The owning delivery team. SRE is involved because a live system changes."
+        }
+      }
+    },
+    "Q13": {
+      "mode": "exact",
+      "answers": {
+        "incident": {
+          "answer": [
+            "product team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "SRE runs the response, the service's owning team fixes it, the product team is informed through the breached SLO."
+        },
+        "model bias": {
+          "answer": [
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "The model's owning team. SRE supports the live model."
+        },
+        "model drift": {
+          "answer": [
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "The model's owning team retrains; SRE runs the monitoring."
+        },
+        "platform failure": {
+          "answer": [
+            "platform team",
+            "product team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "The platform team fixes it, SRE coordinates, and teams whose services run on it act on their side. The failure causes an incident whose breached SLO informs the product team, as for any incident."
+        },
+        "service degradation": {
+          "answer": [
+            "product team",
+            "sre",
+            "stream-aligned team"
+          ],
+          "why": "Same responders as an incident on that service, including the product team informed through the breached SLO."
+        }
+      }
+    }
+  },
+  "corrections": [
+    {
+      "id": "C1",
+      "question": "Q3",
+      "element": "application interface",
+      "change": "Also owned by the product team when it exposes a product."
+    },
+    {
+      "id": "C2",
+      "question": "Q1",
+      "element": "business service",
+      "change": "Expected business process, not products and services or business capability: those realise or are exposed through the service rather than depend on it."
+    },
+    {
+      "id": "C3",
+      "question": "Q1",
+      "element": "data catalog",
+      "change": "No must-include answer: the draft expected data objects, but data is registered in the catalog rather than depending on it."
+    },
+    {
+      "id": "C4",
+      "question": "Q1",
+      "element": "technology interface",
+      "change": "Dropped infrastructure service: it provides the interface rather than depending on it."
+    },
+    {
+      "id": "C5",
+      "question": "Q2, Q7",
+      "element": "change, change request",
+      "change": "Removed from scope: they are process records. Ask about the specific change, for example the application change."
+    },
+    {
+      "id": "C6",
+      "question": "Q13",
+      "element": "platform failure",
+      "change": "Product team added, consistent with incidents."
+    },
+    {
+      "id": "C7",
+      "question": "Q13",
+      "element": "model bias",
+      "change": "SRE added: the model is a live system (decision 3)."
+    },
+    {
+      "id": "C8",
+      "question": "Q7",
+      "element": "application change",
+      "change": "Platform team added: it owns a shared platform product the change reaches."
+    },
+    {
+      "id": "C8",
+      "question": "Q7",
+      "element": "application component",
+      "change": "Platform team added: it owns a shared platform product the change reaches."
+    },
+    {
+      "id": "C8",
+      "question": "Q7",
+      "element": "data object",
+      "change": "Platform team added: it owns a shared platform product the change reaches."
+    },
+    {
+      "id": "C8",
+      "question": "Q7",
+      "element": "data product",
+      "change": "Platform team added: it owns a shared platform product the change reaches."
+    },
+    {
+      "id": "C8",
+      "question": "Q7",
+      "element": "ml model",
+      "change": "Platform team added: it owns a shared platform product the change reaches."
+    },
+    {
+      "id": "C9",
+      "question": "Q7",
+      "element": "application change",
+      "change": "Product team added: its product is built on the affected service."
+    },
+    {
+      "id": "C9",
+      "question": "Q7",
+      "element": "application service",
+      "change": "Product team added: its product is built on the affected service."
+    },
+    {
+      "id": "C10",
+      "question": "Q7",
+      "element": "data object",
+      "change": "SRE added: live services use the data (decision 3)."
+    }
+  ]
+}

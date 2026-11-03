@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 GRAPH = ROOT / "c5_enterprise_architecture_knowledge_graph_v5_causal_temporal.json"
 VIEWER = ROOT / "index.html"
 TRAVERSALS = ROOT / "docs" / "question-traversals.md"
-IMPACT_VALUES = {"forward", "reverse", None}
+IMPACT_VALUES = {"forward", "reverse", "both", None}
 
 
 def check_ontology(data, errors):
@@ -34,7 +34,7 @@ def check_ontology(data, errors):
             errors.append(f"relation {label!r}: missing from {rel['family']}.relations")
         if rel.get("impact") not in IMPACT_VALUES:
             errors.append(
-                f"relation {label!r}: impact must be forward, reverse or null"
+                f"relation {label!r}: impact must be forward, reverse, both or null"
             )
         if not rel.get("definition"):
             errors.append(f"relation {label!r}: missing definition")
