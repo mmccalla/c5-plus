@@ -34,3 +34,9 @@ repos:
         language: system
         pass_filenames: false
         files: ^(c5_enterprise_architecture_knowledge_graph_v5_causal_temporal\.json|index\.html|docs/question-traversals\.md|scripts/validate_graph\.py)$
+      - id: check-questions
+        name: check question answers against the agreed expected answers
+        entry: node scripts/check_questions.js
+        language: system
+        pass_filenames: false
+        files: ^(c5_enterprise_architecture_knowledge_graph_v5_causal_temporal\.json|questions\.js|tests/expected-answers\.json|scripts/check_questions\.js)$
